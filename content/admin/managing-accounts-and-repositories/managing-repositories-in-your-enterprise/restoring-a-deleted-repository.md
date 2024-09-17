@@ -4,7 +4,6 @@ intro: You can restore deleted repositories to recover their contents.
 permissions: Enterprise owners can restore a deleted repository.
 versions:
   ghes: '*'
-  ghae: '*'
 topics:
   - Enterprise
   - Privacy
@@ -37,4 +36,4 @@ Restoring a repository will not restore release attachments or team permissions.
 
 ## Further reading
 
-- "[AUTOTITLE](/admin/user-management/managing-users-in-your-enterprise/placing-a-legal-hold-on-a-user-or-organization)"
+* "[AUTOTITLE](/admin/user-management/managing-users-in-your-enterprise/placing-a-legal-hold-on-a-user-or-organization)"

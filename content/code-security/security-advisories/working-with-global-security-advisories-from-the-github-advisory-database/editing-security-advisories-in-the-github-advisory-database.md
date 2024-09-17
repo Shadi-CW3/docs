@@ -10,7 +10,6 @@ versions:
   fpt: '*'
   ghec: '*'
   ghes: '*'
-  ghae: '*'
 type: how_to
 topics:
   - Security advisories
@@ -44,14 +43,14 @@ Only repository owners and administrators can edit repository-level security adv
 
 You can also open a pull request directly on an advisory file in the [github/advisory-database](https://github.com/github/advisory-database) repository. For more information, see the [contribution guidelines](https://github.com/github/advisory-database/blob/main/CONTRIBUTING.md).
 
-{% ifversion security-advisories-ghes-ghae %}
+{% ifversion security-advisories-ghes %}
 
-## Editing advisories from {% data variables.location.product_location %}
+## Editing advisories from {% data variables.product.prodname_ghe_server %}
 
-If you have {% data variables.product.prodname_github_connect %} enabled for {% data variables.location.product_location %}, you will be able to see advisories by adding `/advisories` to the instance url.
+If you have {% data variables.product.prodname_github_connect %} enabled on your instance, you will be able to see advisories by adding `/advisories` to the instance url.
 
 1. Navigate to `https://HOSTNAME/advisories`.
 1. Select the security advisory you would like to contribute to.
-1. On the right-hand side of the page, click the **Suggest improvements for this vulnerability on {% data variables.product.prodname_dotcom_the_website %}.** link. A new tab opens with the same security advisory on {% data variables.product.prodname_dotcom_the_website %}.
+1. On the right-hand side of the page, click the **Suggest improvements for this vulnerability on {% data variables.product.prodname_dotcom %}.** link. A new tab opens with the same security advisory on {% data variables.product.prodname_dotcom %}.
 1. Edit the advisory, following steps four through six in "[Editing advisories in the GitHub Advisory Database](#editing-advisories-in-the-github-advisory-database)" above.
 {% endif %}

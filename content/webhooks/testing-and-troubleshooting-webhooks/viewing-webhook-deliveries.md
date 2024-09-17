@@ -1,10 +1,10 @@
 ---
 title: Viewing webhook deliveries
+shortTitle: View deliveries
 intro: 'You can view details about webhook deliveries from the past {% data variables.webhooks.retention %} days.'
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - Webhooks
@@ -16,9 +16,9 @@ You can view details about webhook deliveries that occurred in the past {% data 
 
 For each webhook delivery, you can view:
 
-- the request headers and payload that {% data variables.product.company_short %} sent
-- the time at which the request was sent
-- the response that {% data variables.product.company_short %} received from your server
+* the request headers and payload that {% data variables.product.company_short %} sent
+* the time at which the request was sent
+* the response that {% data variables.product.company_short %} received from your server
 
 You can also redeliver recent webhook deliveries. For more information, see "[AUTOTITLE](/webhooks/testing-and-troubleshooting-webhooks/redelivering-webhooks)."
 
@@ -88,7 +88,7 @@ Only the owner of the sponsored account can view deliveries for sponsorship webh
 
 {% endif %}
 
-{% ifversion ghes or ghae or ghec %}
+{% ifversion ghes or ghec %}
 
 ## Viewing deliveries for global webhooks
 

@@ -14,9 +14,9 @@ redirect_from:
   - /enterprise/admin/user-management/configuring-git-large-file-storage-for-your-enterprise
   - /admin/user-management/configuring-git-large-file-storage-for-your-enterprise
   - /admin/user-management/managing-repositories-in-your-enterprise/configuring-git-large-file-storage-for-your-enterprise
+  - /admin/managing-accounts-and-repositories/managing-repositories-in-your-enterprise/migrating-to-internal-repositories
 versions:
   ghes: '*'
-  ghae: '*'
 type: how_to
 topics:
   - Git
@@ -39,7 +39,7 @@ For more information, see "[AUTOTITLE](/repositories/working-with-files/managing
 ## Configuring {% data variables.large_files.product_name_long %} for your enterprise
 
 {% data reusables.enterprise-accounts.access-enterprise %}
-{% ifversion ghes or ghae %}
+{% ifversion ghes %}
 {% data reusables.enterprise-accounts.policies-tab %}
 {% else %}
 {% data reusables.enterprise-accounts.settings-tab %}
@@ -150,4 +150,4 @@ Before migrating to a different {% data variables.large_files.product_name_long 
 
 ## Further reading
 
-- [{% data variables.large_files.product_name_long %} project site](https://git-lfs.com/)
+* [{% data variables.large_files.product_name_long %} project site](https://git-lfs.com/)

@@ -11,7 +11,6 @@ intro: 'You can configure Git to ignore files you don''t want to check in to {% 
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 ---
 ## Configuring ignored files for a single repository
@@ -57,7 +56,7 @@ Use your favorite text editor to open the file called `.git/info/exclude` within
 
 ## Further Reading
 
-- [Ignoring files](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#_ignoring) in the Git documentation
-- [.gitignore](https://git-scm.com/docs/gitignore) in the Git documentation
-- [A collection of useful _.gitignore_ templates](https://github.com/github/gitignore) in the github/gitignore repository
-- [gitignore.io](https://www.gitignore.io/) site
+* [Ignoring files](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#_ignoring) in the Git documentation
+* [.gitignore](https://git-scm.com/docs/gitignore) in the Git documentation
+* [A collection of useful _.gitignore_ templates](https://github.com/github/gitignore) in the github/gitignore repository
+* [gitignore.io](https://www.gitignore.io/) site

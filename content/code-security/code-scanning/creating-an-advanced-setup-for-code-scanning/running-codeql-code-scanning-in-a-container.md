@@ -12,7 +12,6 @@ redirect_from:
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 type: how_to
 topics:
@@ -25,14 +24,11 @@ topics:
   - Java
 ---
 
-
-{% data reusables.code-scanning.beta %}
-
 ## About {% data variables.product.prodname_code_scanning %} with a containerized build
 
 If you're configuring {% data variables.product.prodname_code_scanning %} for a compiled language, and you're building the code in a containerized environment, the analysis may fail with the error message "No source code was seen during the build." This indicates that {% data variables.product.prodname_codeql %} was unable to monitor your code as it was compiled.
 
-You must run {% data variables.product.prodname_codeql %} inside the container in which you build your code. This applies whether you are using the {% data variables.product.prodname_codeql_cli %} or {% data variables.product.prodname_actions %}. For the {% data variables.product.prodname_codeql_cli %}, see "[AUTOTITLE](/code-security/code-scanning/using-codeql-code-scanning-with-your-existing-ci-system/installing-codeql-cli-in-your-ci-system)" for more information. If you're using {% data variables.product.prodname_actions %}, configure your workflow to run all the actions in the same container. For more information, see "[Example workflow](#example-workflow)."
+You must run {% data variables.product.prodname_codeql %} inside the container in which you build your code. This applies whether you are using the {% data variables.product.prodname_codeql_cli %} or {% data variables.product.prodname_actions %}. For the {% data variables.product.prodname_codeql_cli %}, see "[AUTOTITLE](/code-security/code-scanning/integrating-with-code-scanning/using-code-scanning-with-your-existing-ci-system)" for more information. If you're using {% data variables.product.prodname_actions %}, configure your workflow to run all the actions in the same container. For more information, see "[Example workflow](#example-workflow)."
 
 {% note %}
 
@@ -44,9 +40,9 @@ You must run {% data variables.product.prodname_codeql %} inside the container i
 
 You may have difficulty running {% data variables.product.prodname_code_scanning %} if the container you're using is missing certain dependencies (for example, Git must be installed and added to the PATH variable). If you encounter dependency issues, review the list of software typically included on {% data variables.product.prodname_dotcom %}'s runner images. For more information, see the version-specific `readme` files in these locations:
 
-- Linux: https://github.com/actions/runner-images/tree/main/images/linux
-- macOS: https://github.com/actions/runner-images/tree/main/images/macos
-- Windows: https://github.com/actions/runner-images/tree/main/images/win
+* Linux: https://github.com/actions/runner-images/tree/main/images/ubuntu
+* macOS: https://github.com/actions/runner-images/tree/main/images/macos
+* Windows: https://github.com/actions/runner-images/tree/main/images/windows
 
 ## Example workflow
 

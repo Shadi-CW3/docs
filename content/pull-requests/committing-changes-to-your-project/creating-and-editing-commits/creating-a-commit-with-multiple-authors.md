@@ -1,6 +1,6 @@
 ---
 title: Creating a commit with multiple authors
-intro: 'You can attribute a commit to more than one author by adding one or more `Co-authored-by` trailers to the commit''s message. Co-authored commits are visible on {% data variables.product.product_name %}{% ifversion ghes or ghae %} and can be included in the profile contributions graph and the repository''s statistics{% endif %}.'
+intro: 'You can attribute a commit to more than one author by adding one or more `Co-authored-by` trailers to the commit''s message. Co-authored commits are visible on {% data variables.product.product_name %}{% ifversion ghes %} and can be included in the profile contributions graph and the repository''s statistics{% endif %}.'
 redirect_from:
   - /articles/creating-a-commit-with-multiple-authors
   - /github/committing-changes-to-your-project/creating-a-commit-with-multiple-authors
@@ -8,13 +8,12 @@ redirect_from:
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 shortTitle: With multiple authors
 ---
 ## Required co-author information
 
-Before you can add a co-author to a commit, you must know the appropriate email to use for each co-author. For the co-author's commit to count as a contribution, you must use the email associated with their account on {% ifversion ghae %}{% data variables.product.product_name %}{% else %}{% data variables.location.product_location %}{% endif %}.
+Before you can add a co-author to a commit, you must know the appropriate email to use for each co-author. For the co-author's commit to count as a contribution, you must use the email associated with their account on {% data variables.location.product_location %}.
 
 {% ifversion fpt or ghec %}
 
@@ -25,8 +24,8 @@ For more information, see "[AUTOTITLE](/account-and-profile/setting-up-and-manag
   {% tip %}
 
   **Tip:** You can help a co-author find their preferred email address by sharing this information:
-- To find your {% data variables.product.product_name %}-provided `no-reply` email, navigate to your email settings page under "Keep my email address private."
-- To find the email you used to configure Git on your computer, run `git config user.email` on the command line.
+* To find your {% data variables.product.product_name %}-provided `no-reply` email, navigate to your email settings page under "Keep my email address private."
+* To find the email you used to configure Git on your computer, run `git config user.email` on the command line.
 
   {% endtip %}
 
@@ -82,9 +81,9 @@ The new commit and message will appear on {% data variables.location.product_loc
 
 ## Further reading
 
-{% ifversion ghes or ghae %}
-- "[AUTOTITLE](/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile/viewing-contributions-on-your-profile)"
-- "[AUTOTITLE](/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile/why-are-my-contributions-not-showing-up-on-my-profile)"{% endif %}
-- "[AUTOTITLE](/repositories/viewing-activity-and-data-for-your-repository/viewing-a-projects-contributors)"
-- "[AUTOTITLE](/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/changing-a-commit-message)"
-- "[AUTOTITLE](/desktop/making-changes-in-a-branch/committing-and-reviewing-changes-to-your-project-in-github-desktop#4-write-a-commit-message-and-push-your-changes)" in the {% data variables.product.prodname_desktop %} documentation
+{% ifversion ghes %}
+* "[AUTOTITLE](/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile/viewing-contributions-on-your-profile)"
+* "[AUTOTITLE](/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile/why-are-my-contributions-not-showing-up-on-my-profile)"{% endif %}
+* "[AUTOTITLE](/repositories/viewing-activity-and-data-for-your-repository/viewing-a-projects-contributors)"
+* "[AUTOTITLE](/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/changing-a-commit-message)"
+* "[AUTOTITLE](/desktop/making-changes-in-a-branch/committing-and-reviewing-changes-to-your-project-in-github-desktop#4-write-a-commit-message-and-push-your-changes)" in the {% data variables.product.prodname_desktop %} documentation

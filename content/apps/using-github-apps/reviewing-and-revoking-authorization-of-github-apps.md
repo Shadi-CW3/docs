@@ -10,7 +10,6 @@ redirect_from:
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - Identity
@@ -37,4 +36,6 @@ The authorization can only be revoked by the person who authorized the {% data v
 
 ## Further reading
 
-- "[AUTOTITLE](/apps/oauth-apps/using-oauth-apps/reviewing-your-authorized-applications-oauth)"
+* "[AUTOTITLE](/apps/using-github-apps/reviewing-and-modifying-installed-github-apps)"
+* "[AUTOTITLE](/apps/oauth-apps/using-oauth-apps/reviewing-your-authorized-applications-oauth)"
+* "[AUTOTITLE](/apps/using-github-apps/internal-github-apps)"

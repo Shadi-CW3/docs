@@ -21,7 +21,6 @@ redirect_from:
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - Pull requests
@@ -87,8 +86,8 @@ You can open a new issue from a specific line or lines of code in a file or pull
 
 {% data reusables.repositories.navigate-to-repo %}
 1. Locate the code you want to reference in an issue:
-    - To open an issue about code in a file, navigate to the file.
-    - To open an issue about code in a pull request, navigate to the pull request and click {% octicon "diff" aria-hidden="true" %} **Files changed**. Then, browse to the file that contains the code you want included in your comment, and click **View**.
+    * To open an issue about code in a file, navigate to the file.
+    * To open an issue about code in a pull request, navigate to the pull request and click {% octicon "diff" aria-hidden="true" %} **Files changed**. Then, browse to the file that contains the code you want included in your comment, and click **View**.
 {% data reusables.repositories.choose-line-or-range %}
 1. To the left of the code range, click {% octicon "kebab-horizontal" aria-label="Code line X options" %}. In the dropdown menu, click **Reference in new issue**.
 
@@ -165,7 +164,7 @@ Query parameter | Example
 `labels` | `https://github.com/octo-org/octo-repo/issues/new?labels=help+wanted,bug` creates an issue with the labels "help wanted" and "bug".
 `milestone` | `https://github.com/octo-org/octo-repo/issues/new?milestone=testing+milestones` creates an issue with the milestone "testing milestones."
 `assignees` | `https://github.com/octo-org/octo-repo/issues/new?assignees=octocat` creates an issue and assigns it to @octocat.
-`projects` | `https://github.com/octo-org/octo-repo/issues/new?title=Bug+fix&projects=octo-org/1` creates an issue with the title "Bug fix" and adds it to the organization's project board 1. {% ifversion projects-v2 and projects-v1 %}{% ifversion projects-in-issue-forms %}{% else %}Only {% data variables.projects.projects_v1_boards %} can currently be specified in URL queries.{% endif %}{% endif %}
+`projects` | `https://github.com/octo-org/octo-repo/issues/new?title=Bug+fix&projects=octo-org/1` creates an issue with the title "Bug fix" and adds it to the organization's project 1. {% ifversion projects-v2 and projects-v1 %}{% ifversion projects-in-issue-forms %}{% else %}Only {% data variables.projects.projects_v1_boards %} can currently be specified in URL queries.{% endif %}{% endif %}
 `template` | `https://github.com/octo-org/octo-repo/issues/new?template=issue_template.md` creates an issue with a template in the issue body. The `template` query parameter works with templates stored in an `ISSUE_TEMPLATE` subdirectory within the root, `docs/` or `.github/` directory in a repository. For more information, see "[AUTOTITLE](/communities/using-templates-to-encourage-useful-issues-and-pull-requests)."
 
 {% ifversion fpt or ghec %}
@@ -184,4 +183,4 @@ If you're using issues to track and prioritize your work, you can use issues to 
 
 ## Further reading
 
-- "[AUTOTITLE](/get-started/writing-on-github)"
+* "[AUTOTITLE](/get-started/writing-on-github)"

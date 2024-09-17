@@ -2,7 +2,6 @@
 title: Creating a local environment
 shortTitle: Create a local environment
 intro: 'You can run the {% data variables.product.prodname_docs %} application locally on your computer.'
-product: '{% data reusables.contributing.product-note %}'
 versions:
   feature: 'contributing'
 ---
@@ -11,15 +10,15 @@ versions:
 
 The {% data variables.product.prodname_docs %} site was originally a Ruby on Rails web application. Some time later it was converted into a static site powered by [Jekyll](https://jekyllrb.com/). A few years after that it was migrated to [Nanoc](https://nanoc.app/), another Ruby static site generator.
 
-Today it's a dynamic Node.js webserver powered by Express, using [middleware](https://github.com/github/docs/blob/main/middleware/README.md) to support proper HTTP redirects, language header detection, and dynamic content generation to support the various flavors of {% data variables.product.company_short %}'s product documentation, like {% data variables.product.prodname_dotcom_the_website %} and {% data variables.product.prodname_ghe_server %}.
+Today it's a dynamic Node.js webserver powered by Express, using middleware to support proper HTTP redirects, language header detection, and dynamic content generation to support the various flavors of {% data variables.product.company_short %}'s product documentation, like {% data variables.product.prodname_dotcom_the_website %} and {% data variables.product.prodname_ghe_server %}.
 
 The tooling for this site has changed over the years, but many of the tried-and-true authoring conventions of the original Jekyll site have been preserved.
 
-- Content is written in Markdown files, which live in the `content` directory.
+* Content is written in Markdown files, which live in the `content` directory.
 <!-- - Content can use the [Liquid templating language](/contributing/syntax-and-versioning-for-github-docs/using-markdown-and-liquid-for-github-docs).-->
-- Files in the `data` directory are available to templates via the {% raw %}`{% data %}`{% endraw %} tag.
-- Markdown files can contain [frontmatter](https://jekyllrb.com/docs/front-matter).
-- The [`redirect_from`](https://github.com/jekyll/jekyll-redirect-from) Jekyll plugin behavior is supported.
+* Files in the `data` directory are available to templates via the {% raw %}`{% data %}`{% endraw %} tag.
+* Markdown files can contain [frontmatter](https://jekyllrb.com/docs/front-matter).
+* The [`redirect_from`](https://github.com/jekyll/jekyll-redirect-from) Jekyll plugin behavior is supported.
 
 ## Setting up your local environment
 
@@ -47,7 +46,6 @@ Once you've installed Node.js (which includes the popular `npm` package manager)
 git clone https://github.com/github/docs
 cd docs
 npm ci
-npm run build
 npm start
 ```
 
@@ -58,8 +56,8 @@ When you're ready to stop your local server, type <kbd>Ctrl</kbd>+<kbd>C</kbd> i
 {% note %}
 
 **Note:** You should typically only need to run `npm ci` and `npm run build` each time you pull the latest version of a branch.
- - `npm ci` does a clean install of dependencies, without updating the `package-lock.json` file.
- - `npm run build` creates static assets, such as JavaScript and CSS files.
+ * `npm ci` does a clean install of dependencies, without updating the `package-lock.json` file.
+ * `npm run build` creates static assets, such as JavaScript and CSS files.
 
 {% endnote %}
 
@@ -67,7 +65,7 @@ If you would like to read more about debugging and troubleshooting the {% data v
 
 ### Using browser shortcuts
 
-The [`script/bookmarklets`](https://github.com/github/docs/tree/main/script/bookmarklets) directory in the {% data variables.product.prodname_docs %} repository contains browser shortcuts that can help with reviewing {% data variables.product.company_short %} documentation. For more information, see the directory's [`README`](https://github.com/github/docs/tree/main/script/bookmarklets/README.md).
+The [`src/bookmarklets`](https://github.com/github/docs/tree/main/src/bookmarklets) directory in the {% data variables.product.prodname_docs %} repository contains browser shortcuts that can help with reviewing {% data variables.product.company_short %} documentation. For more information, see the directory's [`README`](https://github.com/github/docs/tree/main/src/bookmarklets/README.md).
 
 ### Enabling different languages
 
@@ -91,9 +89,7 @@ For more information about using a codespace for working on {% data variables.pr
 
 ## Further reading
 
-- [AUTOTITLE](/contributing/writing-for-github-docs/creating-reusable-content)
-- [Components](https://github.com/github/docs/blob/main/components/README.md)
-- [Data](https://github.com/github/docs/blob/main/data/README.md)
-- [Middleware](https://github.com/github/docs/blob/main/middleware/README.md)
-- [Scripts](https://github.com/github/docs/blob/main/script/README.md)
-- [Tests](https://github.com/github/docs/blob/main/tests/README.md)
+* [AUTOTITLE](/contributing/writing-for-github-docs/creating-reusable-content)
+* [Components](https://github.com/github/docs/blob/main/src/frame/components/README.md)
+* [Data](https://github.com/github/docs/blob/main/data/README.md)
+* [Tests](https://github.com/github/docs/blob/main/src/tests/README.md)

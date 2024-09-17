@@ -13,15 +13,6 @@ permissions:
   contents: write
   pull-requests: write
 
-# **IMPORTANT:** Do not change the FREEZE environment variable set here!
-# This workflow runs on a recurring basis. To temporarily disable it (e.g.,
-# during a docs deployment freeze), add an Actions Secret to the repo settings
-# called `FREEZE` with a value of `true`. To re-enable Audit Logs updates, simply
-# delete that Secret from the repo settings. The environment variable here
-# will duplicate that Secret's value for later evaluation.
-env:
-  FREEZE: ${{ secrets.FREEZE }}
-
 # This allows a subsequently queued workflow run to interrupt previous runs
 concurrency:
   group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
@@ -32,13 +23,8 @@ jobs:
     if: github.repository == 'github/docs-internal'
     runs-on: ubuntu-latest
     steps:
-      - if: ${{ env.FREEZE == 'true' }}
-        run: |
-          echo 'The repo is currently frozen! Exiting this workflow.'
-          exit 1 # prevents further steps from running
-
       - name: Checkout
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - uses: ./.github/actions/node-npm-setup
 
@@ -47,7 +33,7 @@ jobs:
           # need to use a token from a user with access to github/audit-log-allowlists for this step
           GITHUB_TOKEN: ${{ secrets.DOCS_BOT_PAT_WRITEORG_PROJECT }}
         run: |
-          src/audit-logs/scripts/sync.js
+          npm run audit-log-sync
 
       - name: Get the audit-log-allowlists SHA being synced
         id: audit-log-allowlists
@@ -69,7 +55,7 @@ jobs:
           changes=$(git diff --name-only | wc -l)
           untracked=$(git status --untracked-files --short | wc -l)
           if [[ $changes -eq 0 ]] && [[ $untracked -eq 0 ]]; then
-            echo "There are no changes to commit after running src/rest/scripts/update-files.js. Exiting..."
+            echo "There are no changes to commit or untracked files. Exiting..."
             exit 0
           fi
 
@@ -109,11 +95,8 @@ jobs:
           gh auth login --with-token <<< "${{ secrets.DOCS_BOT_PAT_WORKFLOW_READORG }}"
           gh pr merge --auto --delete-branch
 
-      - name: Send Slack notification if workflow fails
-        uses: someimportantcompany/github-actions-slack-message@1d367080235edfa53df415bd8e0bbab480f29bad
-        if: ${{ failure() && env.FREEZE != 'true' }}
+      - uses: ./.github/actions/slack-alert
+        if: ${{ failure() && github.event_name != 'workflow_dispatch' }}
         with:
-          channel: ${{ secrets.DOCS_ALERTS_SLACK_CHANNEL_ID }}
-          bot-token: ${{ secrets.SLACK_DOCS_BOT_TOKEN }}
-          color: failure
-          text: The last sync-audit-logs run for ${{github.repository}} failed. See https://github.com/${{github.repository}}/actions/workflows/sync-audit-logs.yml
+          slack_channel_id: ${{ secrets.DOCS_ALERTS_SLACK_CHANNEL_ID }}
+          slack_token: ${{ secrets.SLACK_DOCS_BOT_TOKEN }}

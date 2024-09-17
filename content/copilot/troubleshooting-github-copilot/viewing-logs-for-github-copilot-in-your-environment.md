@@ -25,13 +25,13 @@ The location of the log files depends on the JetBrains IDE you are using. For mo
 
 These steps describe how to view and collect the log files for the following JetBrains IDEs:
 
-- IntelliJ IDEA
-- Android Studio
-- GoLand
-- PhpStorm
-- PyCharm
-- RubyMine
-- WebStorm
+* IntelliJ IDEA
+* Android Studio
+* GoLand
+* PhpStorm
+* PyCharm
+* RubyMine
+* WebStorm
 
 The {% data variables.product.prodname_copilot%} extension logs to the IDEA log location for IntelliJ plugins.
 1. In your JetBrains IDE, open the **Help** menu.
@@ -49,7 +49,7 @@ For more information, see the [Locating IDE log files](https://intellij-support.
 
 ## Enabling debug mode
 
-If you find the log file doesn't contain enough information to resolve an issue, it may help to temporarily enable debug logging. This can be especially helpful for debugging network-related issues.
+If you find the log file doesn't contain enough information to resolve an issue, it may help to enable debug logging temporarily. This can be especially helpful for debugging network-related issues.
 
 1. In the menu bar, click **Help**, select **Diagnostic Tools**, and click **Debug Log Settings...**.
 
@@ -64,6 +64,22 @@ If you find the log file doesn't contain enough information to resolve an issue,
 1. Keep using your IDE until you encounter the issue again, then collect the log file as described in "[Collecting log files](#collecting-log-files)."
 1. When you have the information you need, disable debug mode by removing `#com.github.copilot:trace` from the "Custom Debug Log Configuration" window.
 
+## Viewing network connectivity diagnostics logs
+
+If you encounter problems connecting to {% data variables.product.prodname_copilot%} due to network restrictions, firewalls, or your proxy setup, use the following troubleshooting steps.
+
+1. In the menu bar, click **Tools**, select **{% data variables.product.prodname_copilot%}**, and click **Log Diagnostics**.
+1. The `idea.log` file should open in the JetBrains IDE with the diagnostics output. Alternatively, you can open the `idea.log` file in your preferred editor.
+1. Check the section on **Reachability** to determine if {% data variables.product.prodname_copilot%} can access the necessary services.
+
+## Troubleshooting certificate-related errors
+
+If you're using a custom certificate, ensure the certificate is installed correctly in the operating system, see "[AUTOTITLE](/copilot/troubleshooting-github-copilot/troubleshooting-network-errors-for-github-copilot)". Then use the following troubleshooting steps.
+
+1. In the menu bar, click **Tools**, select **{% data variables.product.prodname_copilot%}**, and click **Log CA Certificates**.
+1. The `idea.log` file should open in the JetBrains IDE with the trusted CA certificates logged in PEM format. You may need to refresh the `idea.log` file to view all of the output. Alternatively, you can open the `idea.log` file in your preferred editor.
+1. Check to see if the expected custom certificate is included in the certificate list output.
+
 {% endjetbrains %}
 
 {% visualstudio %}
@@ -71,13 +87,13 @@ If you find the log file doesn't contain enough information to resolve an issue,
 ## Viewing logs in {% data variables.product.prodname_vs %}
 
 The log files for the {% data variables.product.prodname_copilot%} extension are stored in the standard log location for {% data variables.product.prodname_vs %} extensions.
-1. Open the the **View** menu in {% data variables.product.prodname_vs %}.
+1. Open the **View** menu in {% data variables.product.prodname_vs %}.
 1. Click **Output**.
 1. On the right of the Output view pane, select **{% data variables.product.prodname_copilot%}** from the dropdown menu.
 
 ## Further reading
 
-- "[Log all activity to the log file for troubleshooting](https://learn.microsoft.com/en-us/visualstudio/ide/reference/log-devenv-exe?view=vs-2022)" in the {% data variables.product.prodname_vs %} documentation
+* "[Log all activity to the log file for troubleshooting](https://learn.microsoft.com/en-us/visualstudio/ide/reference/log-devenv-exe?view=vs-2022)" in the {% data variables.product.prodname_vs %} documentation
 
 {% endvisualstudio %}
 
@@ -93,10 +109,10 @@ The log files for the {% data variables.product.prodname_copilot%} extension are
 Alternatively, you can open the log folder for {% data variables.product.prodname_vscode %} extensions in your system's file explorer. This is useful if you need to forward the log files to the support team.
 
 1. Open the {% data variables.product.prodname_vscode_command_palette_shortname %}
-   - For Mac:
-      - Use: <kbd>Shift</kbd>+<kbd>Command</kbd>+<kbd>P</kbd>
-   - For Windows or Linux:
-      - Use: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
+   * For Mac:
+      * Use: <kbd>Shift</kbd>+<kbd>Command</kbd>+<kbd>P</kbd>
+   * For Windows or Linux:
+      * Use: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
 1. Type "Logs", and then select **Developer: Open Extension Logs Folder** from the list.
 
 ## Viewing network connectivity diagnostics logs
@@ -104,47 +120,22 @@ Alternatively, you can open the log folder for {% data variables.product.prodnam
 If you encounter problems connecting to {% data variables.product.prodname_copilot%} due to network restrictions, firewalls, or your proxy setup, use the following troubleshooting steps.
 
 1. Open the {% data variables.product.prodname_vscode_command_palette_shortname %}
-   - For Mac:
-      - Use: <kbd>Shift</kbd>+<kbd>Command</kbd>+<kbd>P</kbd>
-   - For Windows or Linux:
-      - Use: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
+   * For Mac:
+      * Use: <kbd>Shift</kbd>+<kbd>Command</kbd>+<kbd>P</kbd>
+   * For Windows or Linux:
+      * Use: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
 1. Type "Diagnostics", and then select **{% data variables.product.prodname_copilot%}: Collect Diagnostics** from the list. This opens a new editor with the relevant information that you can inspect yourself or share with the support team.
 1. Check the section on **Reachability** to determine if {% data variables.product.prodname_copilot%} can actually access the necessary services.
 
-{% note %}
-
-**Note:** If your error is related to certificates, it helps to check these logs for the `Custom Certificates:` line. If this line says `disabled`, you are not using {% data variables.product.prodname_copilot_for_business %}, so custom certificates are not supported. For more information, see "[AUTOTITLE](/copilot/overview-of-github-copilot/about-github-copilot-for-business)."
-
-{% endnote %}
-
-## Enabling debug mode
-
-If you find the log file doesn't contain enough information to resolve an issue, it may help to temporarily enable debug logging. This can be especially helpful for debugging network-related issues.
-
-1. Open the {% data variables.product.prodname_vscode_command_palette_shortname %} by pressing <kbd>Shift</kbd>+<kbd>Command</kbd>+<kbd>P</kbd> (Mac) / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> (Windows/Linux).
-1. Type `settings`, then click **Preferences: Open User Settings (JSON)**.
-1. In the JSON object, insert the following content as a top-level property, then save the file.
-
-   ```json copy
-   "github.copilot.advanced": {
-      "debug.overrideLogLevels": {
-         "*": "DEBUG"
-      }
-   },
-   ```
-
-1. Keep using your IDE until you encounter the issue again, then collect the log file as described in "[Viewing and collecting log files](#viewing-and-collecting-log-files)."
-1. When you have the information you need, disable debug mode by removing the content you added to your settings.
-
 ## Viewing Electron logs
 
-In rare cases, errors might not be propagated to the corresponding error handlers and are not logged in the regular locations. If you encounter errors and there is nothing in the logs, you may try to see the logs from the process running VS Code and the extension.
+In rare cases, errors might not be propagated to the corresponding error handlers and are not logged in the regular locations. If you encounter errors and there is nothing in the logs, you may try to see the logs from the process running {% data variables.product.prodname_vscode_shortname %} and the extension.
 
 1. Open the {% data variables.product.prodname_vscode_command_palette_shortname %}
-   - For Mac:
-      - Use: <kbd>Shift</kbd>+<kbd>Command</kbd>+<kbd>P</kbd>
-   - For Windows or Linux:
-      - Use <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
+   * For Mac:
+      * Use: <kbd>Shift</kbd>+<kbd>Command</kbd>+<kbd>P</kbd>
+   * For Windows or Linux:
+      * Use <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
 1. Type "Toggle", and then select **Developer: Toggle Developer Tools** from the list.
 1. In the Developer Tools window, select the **Console** tab to see any errors or warnings.
 
@@ -152,8 +143,8 @@ In rare cases, errors might not be propagated to the corresponding error handler
 
 ## Further reading
 
-- "[AUTOTITLE](/copilot/troubleshooting-github-copilot/troubleshooting-network-errors-for-github-copilot)"
-- "[Network Connections in {% data variables.product.prodname_vscode %}](https://code.visualstudio.com/docs/setup/network)" in the {% data variables.product.prodname_vscode %} documentation
+* "[AUTOTITLE](/copilot/troubleshooting-github-copilot/troubleshooting-network-errors-for-github-copilot)"
+* "[Network Connections in {% data variables.product.prodname_vscode %}](https://code.visualstudio.com/docs/setup/network)" in the {% data variables.product.prodname_vscode %} documentation
 
 {% endvscode %}
 

@@ -5,7 +5,6 @@ product: '{% data reusables.gated-features.code-scanning %}'
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 redirect_from:
   - /code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/about-code-scanning-alerts
@@ -16,14 +15,31 @@ topics:
   - CodeQL
 ---
 
-{% data reusables.code-scanning.beta %}
 {% data reusables.code-scanning.enterprise-enable-code-scanning %}
 
 ## About alerts from {% data variables.product.prodname_code_scanning %}
 
-You can configure {% data variables.product.prodname_code_scanning %} to check the code in a repository using the default {% data variables.product.prodname_codeql %} analysis, a third-party analysis, or multiple types of analysis. When the analysis is complete, the resulting alerts are displayed alongside each other in the security view of the repository. Results from third-party tools or from custom queries may not include all of the properties that you see for alerts detected by {% data variables.product.company_short %}'s default {% data variables.product.prodname_codeql %} analysis. For more information, see {% ifversion code-scanning-without-workflow %}"[AUTOTITLE](/code-security/code-scanning/enabling-code-scanning/configuring-default-setup-for-code-scanning)" and {% endif %}"[AUTOTITLE](/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/configuring-advanced-setup-for-code-scanning)."
+You can configure {% data variables.product.prodname_code_scanning %} to check the code in a repository using the default {% data variables.product.prodname_codeql %} analysis, a third-party analysis, or multiple types of analysis. When the analysis is complete, the resulting alerts are displayed alongside each other in the security view of the repository. Results from third-party tools or from custom queries may not include all of the properties that you see for alerts detected by {% data variables.product.company_short %}'s default {% data variables.product.prodname_codeql %} analysis. For more information, see "[AUTOTITLE](/code-security/code-scanning/enabling-code-scanning/configuring-default-setup-for-code-scanning)" and "[AUTOTITLE](/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/configuring-advanced-setup-for-code-scanning)."
 
 By default, {% data variables.product.prodname_code_scanning %} analyzes your code periodically on the default branch and during pull requests. For information about managing alerts on a pull request, see "[AUTOTITLE](/code-security/code-scanning/managing-code-scanning-alerts/triaging-code-scanning-alerts-in-pull-requests)."
+
+{% ifversion code-scanning-autofix %}
+
+You can use {% data variables.product.prodname_copilot_autofix %} to generate fixes automatically for {% data variables.product.prodname_code_scanning %} alerts from {% data variables.product.prodname_codeql %} analysis. For more information, see "[AUTOTITLE](/code-security/code-scanning/managing-code-scanning-alerts/managing-code-scanning-alerts-for-your-repository#generating-suggested-fixes-for-code-scanning-alerts)."
+
+{% endif %}
+
+{% ifversion copilot-chat-ghas-alerts %}
+
+With a {% data variables.product.prodname_copilot_enterprise %} license, you can also ask {% data variables.product.prodname_copilot_chat %} for help to better understand {% data variables.product.prodname_code_scanning %} alerts in repositories in your organization. For more information, see "[AUTOTITLE](/copilot/using-github-copilot/asking-github-copilot-questions-in-githubcom#asking-questions-about-alerts-from-github-advanced-security-features)."
+
+{% endif %}
+
+{% ifversion security-overview-org-codeql-pr-alerts %}
+
+For {% data variables.product.prodname_code_scanning %} alerts from {% data variables.product.prodname_codeql %} analysis, you can use security overview to see how {% data variables.product.prodname_codeql %} is performing in pull requests in repositories across your organization, and to identify repositories where you may need to take action. For more information, see "[AUTOTITLE](/code-security/security-overview/viewing-metrics-for-pull-request-alerts)."
+
+{% endif %}
 
 {% data reusables.code-scanning.audit-code-scanning-events %}
 
@@ -33,28 +49,11 @@ Each alert highlights a problem with the code and the name of the tool that iden
 
 {% data reusables.code-scanning.alert-default-branch %}
 
-{% ifversion fpt or ghec or ghes > 3.8 %}
 ![Screenshot showing the elements of a {% data variables.product.prodname_code_scanning %} alert, including the title of the alert and relevant lines of code at left and the severity level, affected branches, and weaknesses at right. ](/assets/images/help/repository/code-scanning-alert.png)
-{% else %}
-![Screenshot showing the elements of a {% data variables.product.prodname_code_scanning %} alert, including the title of the alert and relevant lines of code at left and the severity level, affected branches, and weaknesses at right.](/assets/images/enterprise/code-security/code-scanning-alert.png)
-{% endif %}
+
 If you configure {% data variables.product.prodname_code_scanning %} using {% data variables.product.prodname_codeql %}, you can also find data-flow problems in your code. Data-flow analysis finds potential security issues in code, such as: using data insecurely, passing dangerous arguments to functions, and leaking sensitive information.
 
 When {% data variables.product.prodname_code_scanning %} reports data-flow alerts, {% data variables.product.prodname_dotcom %} shows you how data moves through the code. {% data variables.product.prodname_code_scanning_caps %} allows you to identify the areas of your code that leak sensitive information, and that could be the entry point for attacks by malicious users.
-
-### About severity levels
-
-Alert severity levels may be `Error`, `Warning`, or `Note`.
-
-If {% data variables.product.prodname_code_scanning %} is enabled as a pull request check, the check will fail if it detects any results with a severity of `error`. You can specify which severity level of code scanning alerts causes a check failure. For more information, see "[AUTOTITLE](/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning#defining-the-severities-causing-pull-request-check-failure)."
-
-### About security severity levels
-
-{% data variables.product.prodname_code_scanning_caps %} displays security severity levels for alerts that are generated by security queries. Security severity levels can be `Critical`, `High`, `Medium`, or `Low`.
-
-To calculate the security severity of an alert, we use Common Vulnerability Scoring System (CVSS) data. CVSS is an open framework for communicating the characteristics and severity of software vulnerabilities, and is commonly used by other security products to score alerts. For more information about how severity levels are calculated, see [this blog post](https://github.blog/changelog/2021-07-19-codeql-code-scanning-new-severity-levels-for-security-alerts/).
-
-By default, any {% data variables.product.prodname_code_scanning %} results with a security severity of `Critical` or `High` will cause a check failure. You can specify which security severity level for {% data variables.product.prodname_code_scanning %} results should cause a check failure. For more information, see "[AUTOTITLE](/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning#defining-the-severities-causing-pull-request-check-failure)."
 
 ### About {% ifversion remove-code-scanning-configurations %}alerts from multiple configurations{% else %}analysis origins{% endif %}
 
@@ -82,10 +81,10 @@ If you use multiple configurations to analyze a file, any problems detected by t
 
 {% data variables.product.product_name %} assigns a category label to alerts that are not found in application code. The label relates to the location of the alert.
 
-- Generated: Code generated by the build process
-- Test: Test code
-- Library: Library or third-party code
-- Documentation: Documentation
+* Generated: Code generated by the build process
+* Test: Test code
+* Library: Library or third-party code
+* Documentation: Documentation
 
 {% data variables.product.prodname_code_scanning_caps %} categorizes files by file path. You cannot manually categorize source files.
 
@@ -99,49 +98,48 @@ When you click through to see details for the alert, you can see that the file p
 
 {% ifversion codeql-ml-queries %}
 
-## About experimental alerts
+{% note %}
 
-{% data reusables.code-scanning.beta-codeql-ml-queries %}
+**Note:** Experimental alerts for {% data variables.product.prodname_code_scanning %} were available a beta release for JavaScript using experimental technology in the {% data variables.product.prodname_codeql %} action. This feature was deprecated and sunset. For more information, see [{% data variables.product.prodname_codeql %} {% data variables.product.prodname_code_scanning %} deprecates ML-powered alerts](https://github.blog/changelog/2023-09-29-codeql-code-scanning-deprecates-ml-powered-alerts/).
 
-In repositories that run {% data variables.product.prodname_code_scanning %} using the {% data variables.product.prodname_codeql %} action, you may see some alerts that are marked as experimental. These are alerts that were found using a machine learning model to extend the capabilities of an existing {% data variables.product.prodname_codeql %} query.
-
-![Screenshot showing an alert for {% data variables.product.prodname_code_scanning %}. An "Experimental" label is displayed to the right of the title, which is appended with "(experimental)."](/assets/images/help/repository/code-scanning-experimental-alert-list.png)
-
-### Benefits of using machine learning models to extend queries
-
-Queries that use machine learning models are capable of finding vulnerabilities in code that was written using frameworks and libraries that the original query writer did not include.
-
-Each of the security queries for {% data variables.product.prodname_codeql %} identifies code that's vulnerable to a specific type of attack. Security researchers write the queries and include the most common frameworks and libraries. So each existing query finds vulnerable uses of common frameworks and libraries. However, developers use many different frameworks and libraries, and a manually maintained query cannot include them all. Consequently, manually maintained queries do not provide coverage for all frameworks and libraries.
-
-{% data variables.product.prodname_codeql %} uses a machine learning model to extend an existing security query to cover a wider range of frameworks and libraries. The machine learning model is trained to detect problems in code it's never seen before. Queries that use the model will find results for frameworks and libraries that are not described in the original query.
-
-### Alerts identified using machine learning
-
-Alerts found using a machine learning model are displayed with an "Experimental alerts" banner to show that the technology is under active development. These alerts have a higher rate of false positive results than the queries they are based on. The machine learning model will improve based on user actions such as marking a poor result as a false positive or fixing a good result.
-
-## Enabling experimental alerts
-
-The default {% data variables.product.prodname_codeql %} query suites do not include any queries that use machine learning to generate experimental alerts. To run machine learning queries during {% data variables.product.prodname_code_scanning %} you need to run the additional queries contained in one of the following query suites.
-
-{% data reusables.code-scanning.codeql-query-suites %}
-
-When you update your workflow to run an additional query suite this will increase the analysis time.
-
-``` yaml
-- uses: {% data reusables.actions.action-codeql-action-init %}
-  with:
-    # Run extended queries including queries using machine learning
-    queries: security-extended
-```
-
-For more information, see "[AUTOTITLE](/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning#using-queries-in-ql-packs)."
-
-## Disabling experimental alerts
-
-The simplest way to disable queries that use machine learning to generate experimental alerts is to stop running the `security-extended` or `security-and-quality` query suite. In the example above, you would comment out the `queries` line. If you need to continue to run the `security-extended` or `security-and-quality` suite and the machine learning queries are causing problems, then you can open a ticket with [{% data variables.product.company_short %} support](https://support.github.com/contact) with the following details.
-
-- Ticket title: "{% data variables.product.prodname_code_scanning %}: removal from experimental alerts beta"
-- Specify details of the repositories or organizations that are affected
-- Request an escalation to engineering
+{% endnote %}
 
 {% endif %}
+
+## About alert severity and security severity levels
+
+The severity level for a {% data variables.product.prodname_code_scanning %} alert indicates how much risk the problem adds to your codebase.
+
+* **Severity.** All {% data variables.product.prodname_code_scanning %} alerts have a level of `Error`, `Warning`, or `Note`.
+* **Security severity.** Each security alert found using {% data variables.product.prodname_codeql %} also has a security severity level of `Critical`, `High`, `Medium`, or `Low`.
+
+When an alert has a security severity level, {% data variables.product.prodname_code_scanning %} displays and uses this level in preference to the `severity`. Security severity levels follow the industry-standard Common Vulnerability Scoring System (CVSS) that is also used for advisories in the {% data variables.product.prodname_advisory_database %}.  For more information, see [CVSS: Qualitative Severity Rating Scale](https://www.first.org/cvss/v3.1/specification-document#Qualitative-Severity-Rating-Scale).
+
+### Pull request check failures for {% data variables.product.prodname_code_scanning %} alerts
+
+{% ifversion code-scanning-merge-protection-rulesets %}
+
+You can use rulesets to prevent pull requests from being merged when one of the following conditions is met:
+
+{% data reusables.code-scanning.merge-protection-rulesets-conditions %}
+
+For more information, see "[AUTOTITLE](/code-security/code-scanning/managing-your-code-scanning-configuration/set-code-scanning-merge-protection)." For more general information about rulesets, see "[AUTOTITLE](/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets)."
+
+{% else %}
+
+{% data reusables.code-scanning.pull-request-checks %}
+
+You can edit which severity and security severity alert levels cause a check failure. For more information, see "[AUTOTITLE](/code-security/code-scanning/managing-your-code-scanning-configuration/editing-your-configuration-of-default-setup#defining-the-alert-severities-that-cause-a-check-failure-for-a-pull-request)."
+
+{% endif %}
+
+### Calculation of security severity levels
+
+When a security query is added to the {% data variables.product.prodname_codeql %} Default or Extended query suite, the {% data variables.product.prodname_codeql %} engineering team calculates the security severity as follows.
+
+1. Search for all CVEs that are assigned one or more of the CWE tags associated with the new security query.
+1. Calculate the 75th percentile of the CVSS score for those CVEs.
+1. Define that score as the security severity for the query.
+1. When displaying alerts found by the query, translate the numerical scores to `Critical`, `High`, `Medium`, or `Low` using the CVSS definitions.
+
+For more information, see [{% data variables.product.prodname_codeql %} CWE coverage](https://codeql.github.com/codeql-query-help/codeql-cwe-coverage/) on the {% data variables.product.prodname_codeql %} documentation site.

@@ -1,7 +1,6 @@
 ---
 title: Troubleshooting your environment
 intro: "Learn about troubleshooting problems in your local environment and the {% data variables.product.prodname_docs %} staging platform."
-product: '{% data reusables.contributing.product-note %}'
 versions:
   feature: 'contributing'
 ---
@@ -34,7 +33,7 @@ git push
 
 ## Troubleshooting local server problems
 
-If you are running `script/server` and get a `Cannot find module` error, try the following command before restarting the server.
+If you are running `npm start` and get a `Cannot find module` error, try the following command before restarting the server.
 
 ```shell
 npm install
@@ -52,7 +51,7 @@ npm install
 If you are having trouble with the staging server, you should see more information about the error in your browser or on the command line if you run the site locally. Check out your branch locally and use the following command to launch the local server.
 
 ```shell
-script/server
+npm start
 ```
 
 When the server is running, navigate to the problematic article on `https://localhost:4000` in your browser. The staging server will just show an "Oops" error, but the local server should show a stack trace for debugging.
@@ -96,13 +95,13 @@ During development, you can visit any page on `http://localhost:4000` and add `?
 
 If your text or code example includes content between curly brackets (`{` and `}`), you need to wrap it between <code>&#123% raw %&#125;</code> and <code>&#123% raw %&#125;</code> tags to disable Liquid processing for that section. For example:
 
-- **Use**:
+* **Use**:
 
   <pre>
   GITHUB_TOKEN: &#123% raw %&#125;${% raw %}{{ secrets.GITHUB_TOKEN }}{% endraw %}&#123% endraw %&#125;
   </pre>
 
-- **Avoid**:
+* **Avoid**:
 
   <pre>
   GITHUB_TOKEN: ${% raw %}${{ secrets.GITHUB_TOKEN }}${% endraw %}

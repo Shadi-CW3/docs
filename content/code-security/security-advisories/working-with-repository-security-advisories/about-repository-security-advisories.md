@@ -1,6 +1,6 @@
 ---
 title: About repository security advisories
-intro: 'You can use repository security advisories to privately discuss, fix, and publish information about security vulnerabilities in your repository.'
+intro: 'You can use repository security advisories to privately discuss, fix, and publish information about security vulnerabilities in your public repository.'
 shortTitle: About repository security advisories
 redirect_from:
   - /articles/about-maintainer-security-advisories
@@ -38,7 +38,7 @@ With repository security advisories, you can:
 {% data reusables.repositories.security-advisories-republishing %}
 
 {% ifversion repository-security-advisories-API %}
-You can also use the REST API to create, list, and update repository security advisories. For more information, see "[AUTOTITLE](/rest/security-advisories/repository-advisories)" in the REST API documentation.
+You can also use the REST API to create, list, and update repository security advisories. For more information, see "[AUTOTITLE](/rest/security-advisories/repository-advisories)."
 {% endif %}
 
 You can give credit to individuals who contributed to a security advisory. For more information, see "[AUTOTITLE](/code-security/security-advisories/working-with-repository-security-advisories/editing-a-repository-security-advisory#about-credits-for-security-advisories)."

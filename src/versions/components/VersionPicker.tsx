@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { ArrowRightIcon, InfoIcon } from '@primer/octicons-react'
 
-import { useMainContext } from 'components/context/MainContext'
+import { useMainContext } from 'src/frame/components/context/MainContext'
 import { DEFAULT_VERSION, useVersion } from 'src/versions/components/useVersion'
 import { useTranslation } from 'src/languages/components/useTranslation'
 import { Picker } from 'src/tools/components/Picker'
@@ -15,21 +15,27 @@ type Props = {
 export const VersionPicker = ({ xs }: Props) => {
   const router = useRouter()
   const { currentVersion } = useVersion()
-  const { allVersions, page, enterpriseServerVersions } = useMainContext()
+  const mainContext = useMainContext()
+  // Use TypeScript's "not null assertion" because  mainContext.page` should
+  // will present in mainContext if it's gotten to the stage of React
+  // rendering.
+  const page = mainContext.page!
+  const { allVersions, enterpriseServerVersions } = mainContext
   const { t } = useTranslation(['pages', 'picker'])
-  const isSearchResultsPage = router.route === '/search' || router.route === '/[versionId]/search'
 
-  if (page.permalinks && page.permalinks.length < 1) {
+  if (page.applicableVersions && page.applicableVersions.length < 1) {
     return null
   }
 
-  const allLinks = (page.permalinks || []).map((permalink) => ({
-    text: allVersions[permalink.pageVersion].versionTitle,
-    selected: currentVersion === permalink.pageVersion,
-    href:
-      isSearchResultsPage && typeof router.query.query === 'string'
-        ? permalink.href + `?${new URLSearchParams({ query: router.query.query })}`
-        : permalink.href,
+  const versionToHref = (version: string) => {
+    const prefix = `/${router.locale}${version === DEFAULT_VERSION ? '' : `/${version}`}`
+    return prefix + router.asPath.replace(`/${currentVersion}`, '')
+  }
+
+  const allLinks = (page.applicableVersions || []).map((pageVersion) => ({
+    text: allVersions[pageVersion].versionTitle,
+    selected: currentVersion === pageVersion,
+    href: versionToHref(pageVersion),
     extra: {
       arrow: false,
       info: false,
@@ -37,8 +43,8 @@ export const VersionPicker = ({ xs }: Props) => {
     divider: false,
   }))
 
-  const hasEnterpriseVersions = (page.permalinks || []).some((permalink) =>
-    permalink.pageVersion.startsWith('enterprise-server'),
+  const hasEnterpriseVersions = (page.applicableVersions || []).some((pageVersion) =>
+    pageVersion.startsWith('enterprise-server'),
   )
 
   allLinks.push({

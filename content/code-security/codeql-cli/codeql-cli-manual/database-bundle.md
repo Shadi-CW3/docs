@@ -2,7 +2,6 @@
 title: database bundle
 versions: # DO NOT MANUALLY EDIT. CHANGES WILL BE OVERWRITTEN BY A 🤖
   fpt: '*'
-  ghae: '*'
   ghec: '*'
   ghes: '*'
 topics:
@@ -25,7 +24,7 @@ redirect_from:
 ## Synopsis
 
 ```shell copy
-codeql database bundle --output=<output> [--mode=<mode>] <options>... -- <database>
+codeql database bundle --output=<output> <options>... -- <database>
 ```
 
 ## Description
@@ -40,7 +39,7 @@ that results, logs, TRAP, or similar should be included.
 
 ### Primary Options
 
-#### `<database>` <!-- markdownlint-disable-line heading-increment -->
+#### `<database>`
 
 \[Mandatory] Path to the CodeQL database to bundle.
 
@@ -48,18 +47,30 @@ that results, logs, TRAP, or similar should be included.
 
 \[Mandatory] The output file, typically with the extension ".zip".
 
-#### `--include-results`
+#### `--[no-]include-diagnostics`
+
+Include diagnostics in the bundle.
+
+Available since `v2.16.0`.
+
+#### `--[no-]include-results`
 
 Include any precomputed query results in the bundle.
 
-#### `--include-temp`
+#### `--[no-]include-logs`
+
+Include the logs directory in the bundle.
+
+Available since `v2.17.6`.
+
+#### `--[no-]include-temp`
 
 Includes the "temp" directory, where any generated packs, queries, and
 suites are located.
 
 Available since `v2.13.3`.
 
-#### `--include-uncompressed-source`
+#### `--[no-]include-uncompressed-source`
 
 Include an uncompressed version of the source archive directory. This is
 necessary for legacy CodeQL plugins (like CodeQL for Eclipse).
@@ -98,17 +109,17 @@ If `--max-disk-cache` is not given, the evaluator will try hard to
 curtail disk cache usage if the free space on the file system drops
 below this percentage.
 
-#### `-m, --mode=<mode>`
+#### `--cache-cleanup=<mode>`
 
 Select how aggressively to trim the cache. Choices include:
 
-`brutal`: Remove the entire cache, trimming down to the state of a
+`clear`: Remove the entire cache, trimming down to the state of a
 freshly extracted dataset
 
-`normal` _(default)_: Trim everything except explicitly "cached"
+`trim` _(default)_: Trim everything except explicitly "cached"
 predicates.
 
-`light`: Simply make sure the defined size limits for the disk cache are
+`fit`: Simply make sure the defined size limits for the disk cache are
 observed, deleting as many intermediates as necessary.
 
 #### `--cleanup-upgrade-backups`
@@ -149,3 +160,13 @@ the running subcommand.
 
 (To write a log file with a name you have full control over, instead
 give `--log-to-stderr` and redirect stderr as desired.)
+
+#### `--common-caches=<dir>`
+
+\[Advanced] Controls the location of cached data on disk that will
+persist between several runs of the CLI, such as downloaded QL packs and
+compiled query plans. If not set explicitly, this defaults to a
+directory named `.codeql` in the user's home directory; it will be
+created if it doesn't already exist.
+
+Available since `v2.15.2`.

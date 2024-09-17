@@ -3,7 +3,7 @@ title: Using GitHub Code Search
 intro: "You can use suggestions, completions and saved searches in the upgraded search interface to quickly find what you are looking for across {% data variables.product.prodname_dotcom_the_website %}."
 allowTitleToDifferFromFilename: true
 versions:
-  feature: code-search-code-view
+  feature: code-search-upgrade
 topics:
   - GitHub search
 ---
@@ -45,8 +45,8 @@ For more information about the search syntax of code search, see "[AUTOTITLE](/s
 1. To finish creating your saved search, click **Create saved search**.
 1. To see your saved search, click the search bar. Your saved search will be in the "Saved queries" section. Clicking on a saved search entry will add the query to the search bar and filter the suggestions accordingly.
 1. To manage a saved search, type `saved:` in the search bar, then click {% octicon "plus-circle" aria-hidden="true" %} **Manage saved searches**.
-    - To edit a saved search, to the right of the search, click {% octicon "pencil" aria-label="The pencil icon" %}.
-    - To delete a saved search, to the right of the search, click {% octicon "trash" aria-label="The trash icon" %}.
+    * To edit a saved search, to the right of the search, click {% octicon "pencil" aria-label="The pencil icon" %}.
+    * To delete a saved search, to the right of the search, click {% octicon "trash" aria-label="The trash icon" %}.
 
 ## Using the search results view
 
@@ -56,8 +56,16 @@ On the search results view, you can navigate between different types of search r
 
 ## Using {% data variables.product.prodname_dotcom%} code search on {% data variables.product.prodname_mobile %}
 
-On {% data variables.product.prodname_mobile %}, you can navigate to a repository and use code search on the code in that repository. Code search on {% data variables.product.prodname_mobile %} uses the same syntax as code search on {% data variables.product.prodname_dotcom_the_website %}. For more information, see "[AUTOTITLE](/search-github/github-code-search/about-github-code-search#limitations)."
+{% ifversion global-code-search-mobile %}On {% data variables.product.prodname_mobile %}, you can use code search directly from the search bar in the home screen.{% else %} On {% data variables.product.prodname_mobile %}, you can navigate to a repository and use code search on the code in that repository.{% endif %} Code search on {% data variables.product.prodname_mobile %} uses the same syntax as code search on {% data variables.product.prodname_dotcom_the_website %}. For more information, see "[AUTOTITLE](/search-github/github-code-search/about-github-code-search#limitations)."
+
+{% ifversion global-code-search-mobile %}
+
+Once you start typing a search query, you will see a list of completions and suggestions that match your query. You can click on a suggestion to jump to a specific location. As you type more qualifiers, you will see more specific suggestions, such as code files you can jump to directly.
+
+{% else %}
 
 1. On {% data variables.product.prodname_mobile %}, navigate to the main page of a repository.
 1. Tap {% octicon "file-code" aria-hidden="true" %} **Code**, then tap the search bar.
 {% data reusables.search.type-code-search-query-step %}
+
+{% endif %}

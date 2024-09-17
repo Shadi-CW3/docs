@@ -6,7 +6,6 @@ versions:
   fpt: '*'
   ghes: '*'
   ghec: '*'
-  ghae: '*'
 ---
 
 ## About migrations
@@ -49,24 +48,20 @@ After you've identified your migration origin and destination, establish what da
 
 You should build a migration inventory with a list of all of the repositories in your migration origin(s) that you need to migrate. We recommend using a spreadsheet. As a starting point, you should record the following data for each repository:
 
-- Name
-- Owner: in {% data variables.product.prodname_dotcom %}, this would be an organization, but in other tools, there might be a different kind of owner
-- URL
-- Last updated timestamp
-- Number of pull requests (or equivalent in your migration origin)
-- Number of issues (or equivalent in your migration origin)
+* Name
+* Owner: in {% data variables.product.prodname_dotcom %}, this would be an organization, but in other tools, there might be a different kind of owner
+* URL
+* Last updated timestamp
+* Number of pull requests (or equivalent in your migration origin)
+* Number of issues (or equivalent in your migration origin)
 
 If you’re migrating from {% data variables.product.prodname_ghe_cloud %} or {% data variables.product.prodname_ghe_server %}, you can obtain this data with the `gh-repo-stats` extension for the {% data variables.product.prodname_cli %}. With just a few commands, `gh-repo-stats` will connect with your migration origin's API and create a CSV with all of the recommended fields. For more information, see the [mona-actions/gh-repo-stats](https://github.com/mona-actions/gh-repo-stats/) repository.
 
-{% note %}
+{% data reusables.enterprise-migration-tool.gh-repo-stats-not-supported %}
 
-**Note:** `gh-repo-stats` is a third-party open-source tool which is not supported by GitHub Support. If you need help with this tool, [open an issue](https://github.com/mona-actions/gh-repo-stats/issues) in its repository.
+If you’re migrating from Azure DevOps, we recommend the `inventory-report` command in the {% data variables.product.prodname_ado2gh_cli %}. The `inventory-report` command will connect with the Azure DevOps API, then build a simple CSV with some of the fields suggested above. For more information about how to install the {% data variables.product.prodname_ado2gh_cli %}, see "[AUTOTITLE](/migrations/using-github-enterprise-importer/migrating-from-azure-devops-to-github-enterprise-cloud/migrating-repositories-from-azure-devops-to-github-enterprise-cloud)."
 
-{% endnote %}
-
-If you’re migrating from Azure DevOps, we recommend the `inventory-report` command in the {% data variables.product.prodname_ado2gh_cli %}. The `inventory-report` command will connect with the Azure DevOps API, then build a simple CSV with some of the fields suggested above. For more information about how to install the {% data variables.product.prodname_ado2gh_cli %}, see "[AUTOTITLE]({% ifversion ghae %}/enterprise-cloud@latest{% endif %}/migrations/using-github-enterprise-importer/migrating-repositories-with-github-enterprise-importer/migrating-repositories-from-azure-devops-to-github-enterprise-cloud)."
-
-If you’re migrating from Bitbucket Server or Bitbucket Data Center, we recommend the `inventory-report` command in the {% data variables.product.prodname_bbs2gh_cli %}. The `inventory-report` command will use your Bitbucket instance's API to build a simple CSV. For more information about how to install the {% data variables.product.prodname_bbs2gh_cli %}, see "[AUTOTITLE]({% ifversion ghae %}/enterprise-cloud@latest{% endif %}/migrations/using-github-enterprise-importer/migrating-repositories-with-github-enterprise-importer/migrating-repositories-from-bitbucket-server-to-github-enterprise-cloud)."
+If you’re migrating from Bitbucket Server or Bitbucket Data Center, we recommend the `inventory-report` command in the {% data variables.product.prodname_bbs2gh_cli %}. The `inventory-report` command will use your Bitbucket instance's API to build a simple CSV. For more information about how to install the {% data variables.product.prodname_bbs2gh_cli %}, see "[AUTOTITLE](/migrations/using-github-enterprise-importer/migrating-from-bitbucket-server-to-github-enterprise-cloud/migrating-repositories-from-bitbucket-server-to-github-enterprise-cloud)."
 
 For other migration origins, create your migration inventory yourself. You could build the spreadsheet using the origin’s reporting tools, if available, or API, or you could create the inventory manually.
 
@@ -84,17 +79,17 @@ If you used `gh-repo-stats` to build your inventory, you’ll already have some 
 
 Next, follow the instructions below to add the following data to your migration inventory for each repository:
 
-- The size of the largest file (also known as a “blob”)
-- The total size of all files (“blobs”)
+* The size of the largest file (also known as a “blob”)
+* The total size of all files (“blobs”)
 
-If you’re using a version control system other than Git, or your files aren’t tracked with a version control system at all, first move the repositories to Git. For more information, see "[Source code and history migrations](#source-code-and-history-migrations)."
+If you’re using a version control system other than Git, or your files aren’t tracked with a version control system at all, first move the repositories to Git. For more information, see "[AUTOTITLE](/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github)."
 
 Then, use the open-source tool, `git-sizer`, to get this data for your repository.
 
 ### Prerequisites
 
 1. Install `git-sizer`. For more information, see the [github/git-sizer](https://github.com/github/git-sizer#getting-started) repository.
-1. To verify that that `git-sizer` is installed, run `git-sizer –version`. If you see output like `git-sizer release 1.5.0`, installation was successful.
+1. To verify that `git-sizer` is installed, run `git-sizer –version`. If you see output like `git-sizer release 1.5.0`, installation was successful.
 1. Install `jq`. For more information, see [Download jq](https://stedolan.github.io/jq/download/) in the `jq` documentation.
 1. To verify that `jq` is installed, run `jq –-version`. If you see output like `jq-1.6`, installation was successful.
 
@@ -103,7 +98,7 @@ Then, use the open-source tool, `git-sizer`, to get this data for your repositor
 1. To clone your repository from the migration origin, run `git clone --mirror`.
 1. Navigate to the directory where you cloned your repository.
 1. To get the size of the largest file in your repository in bytes, run `git-sizer --no-progress -j | jq ".max_blob_size"`.
-1. To get the total size of all files in your repository in bytes, run `git-sizer --no-progress -j | jq “.unique_blob_size”`.
+1. To get the total size of all files in your repository in bytes, run `git-sizer --no-progress -j | jq ".unique_blob_size"`.
 1. Add the values from the previous steps to your inventory.
 
 ## About migration types
@@ -155,10 +150,10 @@ We recommend that you minimize the number of organizations and structure them ac
 
 Before you continue planning, perform a dry run migration including all of your repositories. Comprehensive dry runs allow you to:
 
-- Verify that the tool you’ve chosen works for your repositories
-- Confirm that the tool meets your requirements
-- Understand exactly what data is migrated, and what data is not migrated
-- Understand how long your migration will take, to help you schedule your production migration
+* Verify that the tool you’ve chosen works for your repositories
+* Confirm that the tool meets your requirements
+* Understand exactly what data is migrated, and what data is not migrated
+* Understand how long your migration will take, to help you schedule your production migration
 
 There’s nothing unique about a dry run migration. Just run a normal migration, then delete the repository in the migration destination.
 
@@ -168,16 +163,16 @@ Migrating your repositories is only one step in a larger migration process. Ther
 
 The full list of steps required for your migration will depend on your unique circumstances, but there are some pre-migration steps that apply to all migrations:
 
-- Let your users know ahead of time about the upcoming migration and its timeline
-- Send reminders shortly before the migration takes place
-- Set up user accounts in {% data variables.product.prodname_dotcom %} for your team
-- Send instructions to your users for updating their local repositories to point to your new system
+* Let your users know ahead of time about the upcoming migration and its timeline
+* Send reminders shortly before the migration takes place
+* Set up user accounts in {% data variables.product.prodname_dotcom %} for your team
+* Send instructions to your users for updating their local repositories to point to your new system
 
 There are also post-migration steps that apply to all migrations:
 
-- Let your users know that the migration is finished
-- Link activity to users in your migration destination
-- Decommission your migration origin
+* Let your users know that the migration is finished
+* Link activity to users in your migration destination
+* Decommission your migration origin
 
 Here are some other steps you should consider when planning your migration.
 
@@ -205,8 +200,8 @@ For example, suppose @octocat created an issue on {% data variables.location.pro
 
 The way that attribution works differs between tools:
 
-- If you’re using `ghe-migrator`, `gl-exporter`, or `bbs-exporter`, you will decide how you want to attribute data ahead of time and include a mapping file when you import your data.
-- If you’re using {% data variables.product.prodname_importer_proper_name %}, data will be linked to placeholder identities called “mannequins”, and you can assign this history to real users after your data is migrated. For more information, see "[AUTOTITLE]({% ifversion ghae %}/free-pro-team@latest{% endif %}/migrations/using-github-enterprise-importer/completing-your-migration-with-github-enterprise-importer/reclaiming-mannequins-for-github-enterprise-importer)."
+* If you’re using `ghe-migrator`, `gl-exporter`, or `bbs-exporter`, you will decide how you want to attribute data ahead of time and include a mapping file when you import your data.
+* If you’re using {% data variables.product.prodname_importer_proper_name %}, data will be linked to placeholder identities called “mannequins”, and you can assign this history to real users after your data is migrated. For more information, see "[AUTOTITLE](/migrations/using-github-enterprise-importer/completing-your-migration-with-github-enterprise-importer/reclaiming-mannequins-for-github-enterprise-importer)."
 
 ### Managing teams and permissions
 

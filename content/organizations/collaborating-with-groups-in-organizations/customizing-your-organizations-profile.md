@@ -38,10 +38,14 @@ You can share information about how to engage with your organization by creating
 
 You can choose what information to include in your organization profile README. Here are some examples of information that may be helpful.
 
-- An "About" section that describes your organization
-- Guidance for getting help in the organization
+* An "About" section that describes your organization
+* Guidance for getting help in the organization
 
 You can format text and include emoji, images, and GIFs in your organization profile README by using {% data variables.product.company_short %} Flavored Markdown. For more information, see "[AUTOTITLE](/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github)."
+
+{% ifversion enterprise-readme %}
+If you manage multiple organizations with an enterprise account, you can help members learn about the different organizations in the enterprise by creating an enterprise README. For more information, see "[AUTOTITLE](/admin/managing-your-enterprise-account/creating-a-readme-for-an-enterprise)."
+{% endif %}
 
 ## Adding a public organization profile README
 
@@ -71,13 +75,13 @@ You can pin repositories that you want to feature, such as those that are freque
    ![Screenshot of an organization's profile page. In the left sidebar, a dropdown menu, labeled "View as: public" is outlined in dark orange.](/assets/images/help/organizations/org-profile-view.png)
 1. Navigate to the settings for pinned repositories.
 
-   - If you already have pinned repositories, in the "Pinned" section, click **Customize pins**.
+   * If you already have pinned repositories, in the "Pinned" section, click **Customize pins**.
 
    ![Screenshot of an organization's profile page. In the top-right corner of the "Pinned" section, "Customize pins" is outlined in dark orange.](/assets/images/help/organizations/customize-pins-link.png)
 
-   - If you haven't yet pinned any repositories, in the right sidebar, click **pin repositories**.
+   * If you haven't yet pinned any repositories, in the right sidebar, click **pin repositories**.
 
-   ![Screenshot of an organization's profile page. In the right sidebar, a link, labeled "pin repositories," is outlined in dark orange.](/assets/images/help/organizations/pin-repositories-link.png)
+   ![Screenshot of an organization's profile page. In the right sidebar, a link, labeled "pin repositories," is outlined in dark orange.](/assets/images/help/organizations/pin-repositories-org-link.png)
 
 1. In the "Edit pinned repositories" dialog box, select a combination of up to six public, {% ifversion not fpt %}private, or internal{% else %}or private{% endif %} repositories to display.
 1. Click **Save pins**.
@@ -102,3 +106,8 @@ You can replace the identicon with an image that represents your organization. T
 {% data reusables.profile.org_settings %}
 1. In the "Gravatar email (Private)" field, enter the email address associated with your Gravatar image.
 1. Click **Update profile**.
+
+## Further reading
+
+* "[AUTOTITLE](/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)"
+* "[AUTOTITLE](/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)"

@@ -12,7 +12,7 @@ import got from 'got'
  * We use this in CI to make sure the local development server works.
  * There are certain things that only work and happen when in
  * local dev, that don't make sense to test in regular end-to-end tests
- * such as `jest` rendering.
+ * such as `vitest` rendering.
  *
  * For engineers to test this locally do the following:
  *
@@ -23,10 +23,12 @@ import got from 'got'
 
 main()
 
-async function get(path) {
+async function get(path, options) {
   // By default, got() will use retries and follow redirects.
-  const response = await got(makeURL(path))
-  console.log(`GET ${path} => ${response.statusCode}`)
+  const t0 = new Date()
+  const response = await got(makeURL(path), options)
+  const took = new Date() - t0
+  console.log(`GET ${path} => ${response.statusCode} (${took}ms)`)
   return response
 }
 
@@ -44,16 +46,22 @@ async function main() {
   // In local development, it depends on proxying the search to prod
   // because if you haven't set up ELASTICSEARCH_URL.
   await testSiteSearch()
+
+  await testViewingPages()
+
+  // Next.js uses just-in-time compilation to compile pages on demand.
+  // But once the server is up it should *not crash* to request these things.
+  await testNextJsSpecialURLs()
 }
 
 async function testEditingPage() {
   const string = `Today's date is ${new Date().toString()}`
-  const filePath = 'content/get-started/quickstart/hello-world.md'
+  const filePath = 'content/get-started/start-your-journey/hello-world.md'
   const content = fs.readFileSync(filePath, 'utf-8')
   try {
     fs.appendFileSync(filePath, string, 'utf-8')
 
-    const res = await get('/get-started/quickstart/hello-world')
+    const res = await get('/get-started/start-your-journey/hello-world')
     if (!res.body.includes(string)) {
       throw new Error(`Couldn't find the string '${string}' in the response body`)
     }
@@ -65,7 +73,7 @@ async function testEditingPage() {
 async function testJSONParameters() {
   // currentVersion should be free-pro-team@latest
   {
-    const res = await get('/get-started/quickstart/hello-world?json=currentVersion')
+    const res = await get('/get-started/start-your-journey/hello-world?json=currentVersion')
     const info = JSON.parse(res.body)
     assert(info === 'free-pro-team@latest')
   }
@@ -131,5 +139,43 @@ async function testSiteSearch() {
     const $ = cheerio.load(res.body)
     assert(/0 Search results for "gobligook"/.test($('h1').text()))
     assert($('[data-testid="search-result"]').length === 0)
+  }
+  // Using the search API
+  {
+    const res = await get('/api/search?query=github')
+    const results = JSON.parse(res.body)
+    assert(results.meta)
+    assert(results.hits)
+  }
+  // Using the autocomplete search API
+  {
+    const res = await get('/api/search/autocomplete?query=gi')
+    const results = JSON.parse(res.body)
+    assert(results.meta)
+    assert(results.hits)
+  }
+}
+
+async function testViewingPages() {
+  // Getting a 404 page with an /en/ prefix should be a 404 HTML page
+  const res = await get('/en/never/heard/of', {
+    throwHttpErrors: false,
+  })
+  assert(res.statusCode === 404)
+  // console.log(res.body)
+  const $ = cheerio.load(res.body)
+  assert(/It looks like this page doesn't exist./.test($('article').text()))
+}
+
+async function testNextJsSpecialURLs() {
+  // _next/webpack-hmr
+  {
+    const res = await get('/_next/webpack-hmr')
+    assert(res.statusCode === 200)
+  }
+  // _next/static/webpack/HASH.webpack.hot-update.json
+  {
+    const res = await get('/_next/static/webpack/deadbeefdeadbeef.webpack.hot-update.json')
+    assert(res.statusCode === 200)
   }
 }

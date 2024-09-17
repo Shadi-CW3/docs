@@ -3,9 +3,9 @@ import markdownlintGitHub from '@github/markdownlint-github'
 
 import { codeFenceLineLength } from './code-fence-line-length.js'
 import { imageAltTextEndPunctuation } from './image-alt-text-end-punctuation.js'
-import { imageFileKebab } from './image-file-kebab.js'
+import { imageFileKebabCase } from './image-file-kebab-case.js'
 import { incorrectAltTextLength } from './image-alt-text-length.js'
-import { internalLinksLang } from './internal-links-lang.js'
+import { internalLinksNoLang } from './internal-links-no-lang.js'
 import { internalLinksSlash } from './internal-links-slash.js'
 import { imageAltTextExcludeStartWords } from './image-alt-text-exclude-start-words.js'
 import { listFirstWordCapitalization } from './list-first-word-capitalization.js'
@@ -22,7 +22,14 @@ import { hardcodedDataVariable } from './hardcoded-data-variable.js'
 import { githubOwnedActionReferences } from './github-owned-action-references.js'
 import { liquidQuotedConditionalArg } from './liquid-quoted-conditional-arg.js'
 import { liquidDataReferencesDefined, liquidDataTagFormat } from './liquid-data-tags.js'
-import { annotateFrontmatter } from './annotate-frontmatter.js'
+import { frontmatterSchema } from './frontmatter-schema.js'
+import { codeAnnotations } from './code-annotations.js'
+import { frontmatterLiquidSyntax, liquidSyntax } from './liquid-syntax.js'
+import { liquidIfTags, liquidIfVersionTags, liquidIfVersionVersions } from './liquid-versioning.js'
+import { raiReusableUsage } from './rai-reusable-usage.js'
+import { imageNoGif } from './image-no-gif.js'
+import { expiredContent, expiringSoon } from './expired-content.js'
+import { tableLiquidVersioning } from './table-liquid-versioning.js'
 
 const noDefaultAltText = markdownlintGitHub.find((elem) =>
   elem.names.includes('no-default-alt-text'),
@@ -38,9 +45,9 @@ export const gitHubDocsMarkdownlint = {
     noGenericLinkText, // markdownlint-github rule
     codeFenceLineLength,
     imageAltTextEndPunctuation,
-    imageFileKebab,
+    imageFileKebabCase,
     incorrectAltTextLength,
-    internalLinksLang,
+    internalLinksNoLang,
     internalLinksSlash,
     imageAltTextExcludeStartWords,
     listFirstWordCapitalization,
@@ -56,6 +63,17 @@ export const gitHubDocsMarkdownlint = {
     frontmatterHiddenDocs,
     frontmatterEarlyAccessReferences,
     frontmatterVideoTranscripts,
-    annotateFrontmatter,
+    frontmatterSchema,
+    codeAnnotations,
+    frontmatterLiquidSyntax,
+    liquidSyntax,
+    liquidIfTags,
+    liquidIfVersionTags,
+    liquidIfVersionVersions,
+    raiReusableUsage,
+    imageNoGif,
+    expiredContent,
+    expiringSoon,
+    tableLiquidVersioning,
   ],
 }

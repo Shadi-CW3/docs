@@ -5,7 +5,6 @@ product: '{% data reusables.gated-features.codeql %}'
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - Advanced Security
@@ -15,8 +14,6 @@ redirect_from:
   - /code-security/codeql-cli/exit-codes
   - /code-security/codeql-cli/codeql-cli-reference/exit-codes
 ---
-
-{% data reusables.codeql-cli.codeql-site-migration-note %}
 
 ## About exit codes
 

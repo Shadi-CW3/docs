@@ -3,11 +3,11 @@ import { filterTokens } from 'markdownlint-rule-helpers'
 import { addFixErrorDetail, getRange } from '../helpers/utils.js'
 
 export const internalLinksSlash = {
-  names: ['GHD006', 'internal-links-slash'],
+  names: ['GHD003', 'internal-links-slash'],
   description: 'Internal links must start with a /',
   tags: ['links', 'url'],
-  information: new URL('https://github.com/github/docs/blob/main/src/content-linter/README.md'),
-  function: function GHD006(params, onError) {
+  parser: 'markdownit',
+  function: (params, onError) => {
     filterTokens(params, 'inline', (token) => {
       for (const child of token.children) {
         if (child.type !== 'link_open') continue
@@ -27,6 +27,8 @@ export const internalLinksSlash = {
                 attr[1].startsWith(ignorePrefix),
               ),
           )
+          // We can ignore empty links because MD042 from markdownlint catches empty links
+          .filter((attr) => attr[1] !== '')
           // Get the link path from the attribute
           .map((attr) => attr[1])
 

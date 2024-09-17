@@ -1,8 +1,8 @@
-{% ifversion ghes > 3.9 %}
+{% ifversion ghes %}
 
 {% note %}
 
-The team discussions and team discussion comments endpoints will be deprecated in {% data variables.product.prodname_ghe_server %} 3.12 in favor of {% data variables.product.prodname_discussions %}. For more information about {% data variables.product.prodname_discussions %}, see "[AUTOTITLE](/discussions)."
+The team discussions and team discussion comments endpoints will be deprecated in {% data variables.product.prodname_ghe_server %} 3.13 in favor of {% data variables.product.prodname_discussions %}. For more information about {% data variables.product.prodname_discussions %}, see "[AUTOTITLE](/discussions)."
 
 {% endnote %}
 

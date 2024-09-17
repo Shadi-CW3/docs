@@ -13,6 +13,10 @@ topics:
   - Fundamentals
 ---
 
+{% data reusables.billing.us-sales-tax-note %} For more information about updating your billing information, see "[AUTOTITLE](/billing/managing-your-github-billing-settings/adding-or-editing-a-payment-method)."
+>
+>If you're exempt from sales tax, you will need to upload a sales tax exemption certificate to your account. See "[AUTOTITLE](/billing/managing-your-github-billing-settings/adding-a-sales-tax-certificate)."
+
 ## About billing on {% data variables.product.prodname_dotcom %}
 
 {% data variables.product.company_short %} bills separately for each account. This means that you will receive a separate bill for your personal account and for each organization or enterprise account you own. For more information about account types, see "[AUTOTITLE](/get-started/learning-about-github/types-of-github-accounts)."
@@ -111,9 +115,17 @@ Your plan may come with included amounts of usage-based products. For example, w
 
 You must manage billing settings, payment method, and paid features and products for each of your accounts separately. You can choose to pay monthly or yearly for each account. All subscriptions and usage-based billing associated with an account shares a billing date, payment method, and receipt.
 
-{% data reusables.dotcom_billing.payment-methods %} {% data reusables.dotcom_billing.same-payment-method %}
+{% ifversion fpt %}{% data reusables.dotcom_billing.payment-methods %} {% data reusables.dotcom_billing.same-payment-method %}
 
-{% ifversion fpt or ghec %}For qualifying usage-based services, you may choose to pay for the services from your {% data variables.product.prodname_dotcom %} account or from an Azure subscription. The terms of the billing method you choose will apply to services billed in this manner.{% endif %}
+For qualifying usage-based services, you may choose to pay for the services from your {% data variables.product.prodname_dotcom %} account or from an Azure subscription. The terms of the billing method you choose will apply to services billed in this manner.{% endif %}
+
+{% ifversion ghec %}
+
+{% data reusables.billing.usage-based-billing %}
+
+Payments can be made via credit card, PayPal, or Azure subscription. When you update the payment method for your account's plan, your new payment method is automatically added to your other subscriptions and usage-based billing.
+
+{% endif %}
 
 For more information, see "[AUTOTITLE](/billing/managing-your-github-billing-settings)."
 
@@ -122,8 +134,8 @@ For more information, see "[AUTOTITLE](/billing/managing-your-github-billing-set
 If you're an organization or enterprise owner, you can switch between settings for your different accounts using the context switcher in your settings.
 
 {% data reusables.user-settings.access_settings %}
-1. At the top of the page, to the right of your name, click **Switch to another account**.
+1. At the top of the page, to the right of your name, click **Switch settings context**.
 
-   ![Screenshot of the "Public profile" settings page for The Octocat. Next to the text "Your personal profile," a link, labeled "Switch to another account," is outlined in orange.](/assets/images/help/settings/context-switcher-button.png)
+   ![Screenshot of the "Public profile" settings page for The Octocat. Next to the text "Your personal profile," a link, labeled "Switch settings context," is outlined in orange.](/assets/images/help/settings/context-switcher-button.png)
 1. Start typing the name of the account you want to switch to, then click the name of the account.
 1. In the left sidebar, click **{% octicon "credit-card" aria-hidden="true" %} Billing and plans**.

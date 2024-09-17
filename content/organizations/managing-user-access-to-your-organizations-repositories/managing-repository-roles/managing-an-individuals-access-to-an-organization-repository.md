@@ -11,7 +11,6 @@ redirect_from:
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - Organizations
@@ -33,4 +32,4 @@ You can give a person access to a repository or change a person's level of acces
 ## Further reading
 
 {% ifversion fpt or ghec %}- "[AUTOTITLE](/communities/moderating-comments-and-conversations/limiting-interactions-in-your-repository)"{% endif %}
-- "[AUTOTITLE](/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization)"
+* "[AUTOTITLE](/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization)"

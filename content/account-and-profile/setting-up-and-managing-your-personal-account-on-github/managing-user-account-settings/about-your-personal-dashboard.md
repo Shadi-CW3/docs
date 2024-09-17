@@ -12,16 +12,11 @@ intro: 'You can visit your personal dashboard to keep track of issues and pull r
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - Accounts
 shortTitle: Your personal dashboard
 ---
-
-{% ifversion global-nav-update %}
-{% data reusables.navigation.global-nav-beta-note %}
-{% endif %}
 
 ## Accessing your personal dashboard
 
@@ -48,7 +43,7 @@ In the left sidebar of your dashboard, you can access the top repositories and t
 
 The list of top repositories is automatically generated, and can include any repository you have interacted with, whether it's owned directly by your account or not. Interactions include making commits and opening or commenting on issues and pull requests. The list of top repositories cannot be edited, but repositories will drop off the list 1 year after you last interacted with them.
 
-You can also find a list of your recently visited repositories, teams, and project boards when you click into the search bar at the top of any page on {% data variables.product.product_name %}.
+You can also find a list of your recently visited repositories, teams, and projects when you click into the search bar at the top of any page on {% data variables.product.product_name %}.
 
 ## Staying updated with activity from the community
 
@@ -64,33 +59,33 @@ The feed is designed to help you discover relevant content from projects you fol
 
 You can use the {% octicon "filter" aria-hidden="true" %} **Filter** dropdown in the upper right corner to filter the feed to show only the exact event types you'd like to see. For example, you'll see updates when someone you follow:
 
-- Stars a repository.
-- Follows another user.
-- Creates a public repository.
-- Opens an issue or pull request with `help wanted` or `good first issue` label on a repository you're watching.
-- Pushes commits to a repository you watch.
-- Forks a public repository.
-- Publishes a new release.
+* Stars a repository
+* Follows another user
+* Creates a public repository
+* Opens an issue or pull request with `help wanted` or `good first issue` label on a repository you're watching
+* Pushes commits to a repository you watch
+* Forks a public repository
+* Publishes a new release
 
 {% else %}
 The main section of your dashboard has two activity feeds:
 
-- Following: Activity by people you follow and from repositories you watch.
-- For you: Activity and recommendations based on your {% data variables.product.product_name %} network.
+* Following: Activity by people you follow and from repositories you watch.
+* For you: Activity and recommendations based on your {% data variables.product.product_name %} network.
 
 ### Following feed
 
 This feed shows activity from repositories and users you have shown a direct interest in, by following a user or watching a repository. For example, you'll see updates when a user you follow:
 
-- Stars a repository.
-- Follows another user.
-- Creates a public repository.
-- Opens an issue or pull request with "help wanted" or "good first issue" label on a repository you're watching.
-- Pushes commits to a repository you watch.
-- Forks a public repository.
-- Publishes a new release.
+* Stars a repository.
+* Follows another user.
+* Creates a public repository.
+* Opens an issue or pull request with "help wanted" or "good first issue" label on a repository you're watching.
+* Pushes commits to a repository you watch.
+* Forks a public repository.
+* Publishes a new release.
 
-For more information about following people and watching repositories, see "[AUTOTITLE](/get-started/exploring-projects-on-github/following-people)" and "[AUTOTITLE](/get-started/quickstart/be-social)."
+For more information about following people and starring repositories, see "[AUTOTITLE](/get-started/exploring-projects-on-github/following-people)" and "[AUTOTITLE](/get-started/exploring-projects-on-github/saving-repositories-with-stars)."
 
 ### For you feed
 
@@ -102,11 +97,11 @@ For more information about following people and watching repositories, see "[AUT
 
 This feed shows activity and recommendations based on your network on {% data variables.product.product_name %}. It's designed to provide updates that inspire you, keep you up-to-date, and help you find new communities you want to participate in. Your network includes:
 
-- Repositories you have starred
-- Repositories you've contributed to
-- Users you follow or sponsor
-- Users you've collaborated with
-- Organizations you follow
+* Repositories you have starred
+* Repositories you've contributed to
+* Users you follow or sponsor
+* Users you've collaborated with
+* Organizations you follow
 
 {% endif %}
 
@@ -116,4 +111,4 @@ In the "Explore repositories" section on the right side of your dashboard, you c
 
 ## Further reading
 
-- "[AUTOTITLE](/organizations/collaborating-with-groups-in-organizations/about-your-organization-dashboard)"
+* "[AUTOTITLE](/organizations/collaborating-with-groups-in-organizations/about-your-organization-dashboard)"

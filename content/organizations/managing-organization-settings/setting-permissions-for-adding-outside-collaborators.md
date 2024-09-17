@@ -7,13 +7,14 @@ redirect_from:
   - /github/setting-up-and-managing-organizations-and-teams/setting-permissions-for-adding-outside-collaborators
 versions:
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - Organizations
   - Teams
 shortTitle: Set collaborator policy
 ---
+
+{% data reusables.enterprise-managed.repo-collaborators-note %}
 
 {% data reusables.organizations.about-outside-collaborators %} For more information, see "[AUTOTITLE](/organizations/managing-user-access-to-your-organizations-repositories/managing-outside-collaborators/adding-outside-collaborators-to-repositories-in-your-organization)."
 

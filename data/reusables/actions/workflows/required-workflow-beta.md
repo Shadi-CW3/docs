@@ -1,5 +1,9 @@
 {% note %}
 
-**Note:** Required workflows for {% data variables.product.prodname_actions %} are in private beta and are not available for new sign ups.{% ifversion repo-rules-required-workflows %} On October 18th, 2023, you will no longer be able to access required workflows for {% data variables.product.prodname_actions %} and must use repository rulesets instead. You can read more about this change on the [{% data variables.product.company_short %} blog](https://github.blog/changelog/2023-08-02-github-actions-required-workflows-will-move-to-repository-rules/). For more information about repository rulesets, see "[AUTOTITLE](/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets#require-workflows-to-pass-before-merging)."{% endif %}
+**Note:** {% data variables.product.company_short %} no longer supports required workflows for {% data variables.product.prodname_actions %}. To require workflows to pass before merging, upgrade {% data variables.location.product_location %} to the latest version and use repository rulesets instead.
+
+For more information about upgrading {% data variables.location.product_location %}, see "[AUTOTITLE](/admin/overview/about-upgrades-to-new-releases)."
+
+For more information about repository rulesets, see "[AUTOTITLE](/enterprise-server@latest/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets#require-workflows-to-pass-before-merging)."
 
 {% endnote %}

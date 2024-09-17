@@ -49,9 +49,9 @@ You cannot comment on a pull request from {% data variables.product.prodname_des
 
 When you have checked out a pull request branch, you can use {% data variables.product.prodname_desktop %} and your local editor to view the contributor's changes or make further changes to the branch. For example, you can:
 
-- [Open the branch in your editor](#open-the-branch-in-your-editor)
-- [View the commit history](#view-the-commit-history)
-- [View and re-run checks](#view-and-re-run-checks)
+* [Open the branch in your editor](#open-the-branch-in-your-editor)
+* [View the commit history](#view-the-commit-history)
+* [View and re-run checks](#view-and-re-run-checks)
 
 ### Open the branch in your editor
 
@@ -60,7 +60,7 @@ If you want to look at changes in context or make additional updates to a pull r
 1. In the "{% data variables.product.prodname_desktop %}" menu bar, select **Repository**.
 1. Click **Open in EDITOR**.
 
-   ![Screenshot of a menu bar on a Mac. Under the open "Repository" dropdown menu, a cursor hovers over "Open in Visual Studio Code", highlighted in blue.](/assets/images/help/desktop/open-in-editor.png)
+   ![Screenshot of a menu bar on a Mac. Under the open "Repository" dropdown menu, a cursor hovers over "Open in {% data variables.product.prodname_vscode %}", highlighted in blue.](/assets/images/help/desktop/open-in-editor.png)
 
 For more information, see "[AUTOTITLE](/desktop/configuring-and-customizing-github-desktop/configuring-a-default-editor-in-github-desktop)."
 

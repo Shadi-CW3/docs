@@ -1,12 +1,15 @@
+### Standard {% data variables.product.prodname_dotcom %}-hosted runners for public repositories
+
+For public repositories, jobs using the workflow labels shown in the table below will run on virtual machines with the associated specifications. The use of these runners on public repositories is free and unlimited.
+
 <table style="width:100%">
 <thead>
   <tr>
-    <th scope="col" style="width:10%"><b>Virtual Machine</b></th>
-    <th scope="col" style="width:10%"><b>Processor (CPU)</b></th>
-    <th scope="col" style="width:10%"><b>Memory (RAM)</b></th>
-    <th scope="col" style="width:10%"><b>Storage (SSD)</b></th>
-    <th scope="col" style="width:20%"><b>OS (YAML workflow label)</b></th>
-    <th scope="col" style="width:40%"><b>Notes</b></th>
+    <th scope="col"><b>Virtual Machine</b></th>
+    <th scope="col"><b>Processor (CPU)</b></th>
+    <th scope="col"><b>Memory (RAM)</b></th>
+    <th scope="col"><b>Storage (SSD)</b></th>
+    <th scope="col"><b>Workflow label</b></th>
   </tr>
 </thead>
 <tbody>
@@ -15,19 +18,16 @@
 Linux
 </td>
 <td>
-2
+4
 </td>
 <td>
-7 GB
+16 GB
 </td>
 <td>
 14 GB
 </td>
 <td>
-<code>ubuntu-latest</code>, <code>ubuntu-22.04</code>, <code>ubuntu-20.04</code>
-</td>
-<td>
-The <code>ubuntu-latest</code> label currently uses the Ubuntu 22.04 runner image.
+<code><a href="https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md">ubuntu-latest</a></code>, <code><a href="https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md">ubuntu-24.04</a></code> [Beta], <code><a href="https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md">ubuntu-22.04</a></code>, <code><a href="https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2004-Readme.md">ubuntu-20.04</a></code>
 </td>
 </tr>
 <tr>
@@ -35,18 +35,15 @@ The <code>ubuntu-latest</code> label currently uses the Ubuntu 22.04 runner imag
 Windows
 </td>
 <td>
-2
+4
 </td>
-<td>7 GB
+<td>16 GB
 </td>
 <td>
 14 GB
 </td>
 <td>
-<code>windows-latest</code>, <code>windows-2022</code>, <code>windows-2019</code>
-</td>
-<td>
-The <code>windows-latest</code> label currently uses the Windows 2022 runner image.
+<code><a href="https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md">windows-latest</a></code>, <code><a href="https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md">windows-2022</a></code>, <code><a href="https://github.com/actions/runner-images/blob/main/images/windows/Windows2019-Readme.md">windows-2019</a></code>
 </td>
 </tr>
 <tr>
@@ -63,10 +60,7 @@ macOS
 14 GB
 </td>
 <td>
-<code>macos-latest</code>, <code>macos-12</code>, <code>macos-11</code>
-</td>
-<td>
-The <code>macos-latest</code> workflow label currently uses the macOS 12 runner image.
+<code><a href="https://github.com/actions/runner-images/blob/main/images/macos/macos-12-Readme.md">macos-12</a></code>
 </td>
 </tr>
 <tr>
@@ -83,23 +77,126 @@ macOS
 14 GB
 </td>
 <td>
-<code>macos-13</code> [Beta]
+<code><a href="https://github.com/actions/runner-images/blob/main/images/macos/macos-13-Readme.md">macos-13</a></code>
+</td>
+</tr>
+<tr>
+<td>
+macOS
 </td>
 <td>
-N/A
+3 (M1)
+</td>
+<td>
+7 GB
+</td>
+<td>
+14 GB
+</td>
+<td>
+<code><a href="https://github.com/actions/runner-images/blob/main/images/macos/macos-14-Readme.md">macos-latest</a></code> or <code><a href="https://github.com/actions/runner-images/blob/main/images/macos/macos-14-Readme.md">macos-14</a></code>
 </td>
 </tr>
 </tbody>
 </table>
 
-{% note %}
+### Standard {% data variables.product.prodname_dotcom %}-hosted runners for {% ifversion ghec %}internal and{% endif %} private repositories
 
-**Note:** The `-latest` runner images are the latest stable images that {% data variables.product.prodname_dotcom %} provides, and might not be the most recent version of the operating system available from the operating system vendor.
+For {% ifversion ghec %}internal and{% endif %} private repositories, jobs using the workflow labels shown in the table below will run on virtual machines with the associated specifications. These runners use your {% data variables.product.prodname_dotcom %} account's allotment of free minutes, and are then charged at the per minute rates. For more information, see "[AUTOTITLE](/billing/managing-billing-for-github-actions/about-billing-for-github-actions#per-minute-rates)."
 
-{% endnote %}
-
-{% warning %}
-
-**Warning:** Beta and Deprecated Images are provided "as-is", "with all faults" and "as available" and are excluded from the service level agreement and warranty. Beta Images may not be covered by customer support.
-
-{% endwarning %}
+<table style="width:100%">
+<thead>
+  <tr>
+    <th scope="col"><b>Virtual Machine</b></th>
+    <th scope="col"><b>Processor (CPU)</b></th>
+    <th scope="col"><b>Memory (RAM)</b></th>
+    <th scope="col"><b>Storage (SSD)</b></th>
+    <th scope="col"><b>Workflow label</b></th>
+  </tr>
+</thead>
+<tbody>
+<td>
+Linux
+</td>
+<td>
+2
+</td>
+<td>
+7 GB
+</td>
+<td>
+14 GB
+</td>
+<td>
+<code><a href="https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md">ubuntu-latest</a></code>, <code><a href="https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md">ubuntu-24.04</a></code> [Beta], <code><a href="https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md">ubuntu-22.04</a></code>, <code><a href="https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2004-Readme.md">ubuntu-20.04</a></code>
+</td>
+</tr>
+<tr>
+<td>
+Windows
+</td>
+<td>
+2
+</td>
+<td>7 GB
+</td>
+<td>
+14 GB
+</td>
+<td>
+<code><a href="https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md">windows-latest</a></code>, <code><a href="https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md">windows-2022</a></code>, <code><a href="https://github.com/actions/runner-images/blob/main/images/windows/Windows2019-Readme.md">windows-2019</a></code>
+</td>
+</tr>
+<tr>
+<td>
+macOS
+</td>
+<td>
+3
+</td>
+<td>
+14 GB
+</td>
+<td>
+14 GB
+</td>
+<td>
+<code><a href="https://github.com/actions/runner-images/blob/main/images/macos/macos-12-Readme.md">macos-12</a></code>
+</td>
+</tr>
+<tr>
+<td>
+macOS
+</td>
+<td>
+4
+</td>
+<td>
+14 GB
+</td>
+<td>
+14 GB
+</td>
+<td>
+<code><a href="https://github.com/actions/runner-images/blob/main/images/macos/macos-13-Readme.md">macos-13</a></code>
+</td>
+</tr>
+<tr>
+<td>
+macOS
+</td>
+<td>
+3 (M1)
+</td>
+<td>
+7 GB
+</td>
+<td>
+14 GB
+</td>
+<td>
+<code><a href="https://github.com/actions/runner-images/blob/main/images/macos/macos-14-Readme.md">macos-latest</a></code> or <code><a href="https://github.com/actions/runner-images/blob/main/images/macos/macos-14-Readme.md">macos-14</a></code>
+</td>
+</tr>
+</tbody>
+</table>

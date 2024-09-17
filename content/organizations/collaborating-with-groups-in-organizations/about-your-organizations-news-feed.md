@@ -9,7 +9,6 @@ redirect_from:
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - Organizations
@@ -30,8 +29,16 @@ An organization's news feed shows other people's activity on repositories owned 
 
 ## Accessing your organization's news feed
 
-1. {% data variables.product.signin_link %} to your account on {% ifversion ghae %}{% data variables.product.product_name %}{% else %}{% data variables.location.product_location %}{% endif %}.
+1. Sign in to your account on {% data variables.location.product_location %}.
 1. Open your {% data reusables.user-settings.personal_dashboard %}.
 1. In the upper-left corner of the page, select the dropdown menu that switches account context, then select an organization.
 
-   ![Screenshot of a user's dashboard page. In the top-left corner, a dropdown menu, labeled with @octocat and a downwards arrow, is outlined in dark orange.](/assets/images/help/organizations/account-context-switcher.png)
+{% ifversion global-nav-update %}
+
+   ![Screenshot of a user's dashboard page. In the top-left corner, a dropdown menu, labeled with "octocat" and a downwards arrow, is outlined in dark orange.](/assets/images/help/organizations/account-context-switcher-global-nav-update.png)
+
+{% else %}
+
+   ![Screenshot of a user's dashboard page. In the top-left corner, a dropdown menu, labeled with "octocat" and a downwards arrow, is outlined in dark orange.](/assets/images/help/organizations/account-context-switcher.png)
+
+{% endif %}

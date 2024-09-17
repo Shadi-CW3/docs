@@ -4,7 +4,6 @@ intro: 'You can set the default branch name for new repositories that you create
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - Accounts
@@ -31,4 +30,4 @@ When you create a new repository on {% data variables.location.product_location 
 
 ## Further reading
 
-- "[AUTOTITLE](/organizations/managing-organization-settings/managing-the-default-branch-name-for-repositories-in-your-organization)"
+* "[AUTOTITLE](/organizations/managing-organization-settings/managing-the-default-branch-name-for-repositories-in-your-organization)"

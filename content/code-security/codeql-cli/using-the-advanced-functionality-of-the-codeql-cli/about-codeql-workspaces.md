@@ -13,8 +13,6 @@ redirect_from:
   - /code-security/codeql-cli/codeql-cli-reference/about-codeql-workspaces
 ---
 
-{% data reusables.codeql-cli.codeql-site-migration-note %}
-
 ## About {% data variables.product.prodname_codeql %} workspaces
 
 {% data reusables.code-scanning.codeql-action-version-ghes %}
@@ -29,13 +27,13 @@ In most cases, you should store the {% data variables.product.prodname_codeql %}
 
 A {% data variables.product.prodname_codeql %} workspace is defined by a `codeql-workspace.yml` yaml file. This file contains a `provide` block, and optionally `ignore` and `registries` blocks.
 
-- The `provide` block contains a list of glob patterns that define the {% data variables.product.prodname_codeql %} packs that are available in the workspace.
+* The `provide` block contains a list of glob patterns that define the {% data variables.product.prodname_codeql %} packs that are available in the workspace.
 
-- The `ignore` block contains a list of glob patterns that define {% data variables.product.prodname_codeql %} packs that are not available in the workspace.
+* The `ignore` block contains a list of glob patterns that define {% data variables.product.prodname_codeql %} packs that are not available in the workspace.
 
-- The `registries` block contains a list of GHES URLs and package patterns that control which container registry is used for publishing {% data variables.product.prodname_codeql %} packs. For more information, see "[AUTOTITLE](/code-security/codeql-cli/using-the-advanced-functionality-of-the-codeql-cli/publishing-and-using-codeql-packs#working-with-codeql-packs-on-ghes)."
+* The `registries` block contains a list of GHES URLs and package patterns that control which container registry is used for publishing {% data variables.product.prodname_codeql %} packs. For more information, see "[AUTOTITLE](/code-security/codeql-cli/using-the-advanced-functionality-of-the-codeql-cli/publishing-and-using-codeql-packs#working-with-codeql-packs-on-ghes)."
 
-Each entry in the `provide` or `ignore` section must map to the location of a `qlpack.yml` file. All glob patterns are defined relative to the directory that contains the workspace file. For a list of patterns accepted in this file, see "[@actions/glob](https://github.com/actions/toolkit/tree/main/packages/glob#patterns) ."
+Each entry in the `provide` or `ignore` section must map to the location of a `qlpack.yml` file. All glob patterns are defined relative to the directory that contains the workspace file. For a list of patterns accepted in this file, see "[@actions/glob](https://github.com/actions/toolkit/tree/main/packages/glob#patterns)."
 
 For example, the following `codeql-workspace.yml` file defines a workspace that contains all the {% data variables.product.prodname_codeql %} packs recursively found in the `codeql-packs` directory, except for the packs in the `experimental` directory. The `registries` block specifies that `codeql/\*` packs should be downloaded from `https://ghcr.io/v2/`, which is {% data variables.product.prodname_dotcom %}’s default container registry. All other packs should be downloaded from and published to the registry at `GHE_HOSTNAME`.
 
@@ -61,9 +59,9 @@ Source dependencies are {% data variables.product.prodname_codeql %} packs that 
 
 This is particularly useful in the following situations:
 
-- One of the dependencies of the query pack you are running is not yet published. Resolving from source is the only way to reference that pack.
+* One of the dependencies of the query pack you are running is not yet published. Resolving from source is the only way to reference that pack.
 
-- You are making changes to multiple packs at the same time and want to test them together. Resolving from source ensures that you are using the version of the pack with your changes in it.
+* You are making changes to multiple packs at the same time and want to test them together. Resolving from source ensures that you are using the version of the pack with your changes in it.
 
 ## {% data variables.product.prodname_codeql %} workspaces and query resolution
 
@@ -111,3 +109,31 @@ dependencies:
 ```
 
 When you execute `codeql pack publish` from the query pack directory, the `codeql/cpp-all` dependency from the package cache and the `my-company/my-library` from the workspace are bundled with `my-company/my-queries` and published to the {% data variables.product.prodname_dotcom %} container registry.
+
+## Using `${workspace}` as a version range in `qlpack.yml` files
+
+{% data variables.product.prodname_codeql %} packs in a workspace can use the special `${workspace}`, `~${workspace}`, and `^${workspace}` version range placeholders. These placeholders indicate that this pack depends on the version of the specified pack that is currently in the workspace. This placeholder is typically used for dependencies inside of library packs to ensure that when they are published, the dependencies in their `qlpack.yml` file reflect the state of the workspace when they were published.
+
+### Example
+
+Consider the following two library packs in the same workspace:
+
+```yaml
+name: my-company/my-library
+library: true
+version: 1.2.3
+dependencies:
+  my-company/my-library2: ${workspace}
+```
+
+```yaml
+name: my-company/my-library2
+library: true
+version: 4.5.6
+```
+
+When `my-company/my-library` is published to the {% data variables.product.prodname_dotcom %} container registry, the version of the `my-company/my-library2` dependency in the published `qlpack.yml` file will be written as `4.5.6`.
+
+Similarly, if the dependency is `my-company/my-library2: ^${workspace}` in the source pack, and then the pack is published, the version of the `my-company/my-library2` dependency in the published `qlpack.yml` file will be written as `^4.5.6`, indicating that versions `>= 4.5.6` and `< 5.0.0` are all compatible with this library pack.
+
+If the dependency is `my-company/my-library2: ~${workspace}` in the source pack, and then the pack is published, the version of the `my-company/my-library2` dependency in the published `qlpack.yml` file will be written as `~4.5.6`, indicating that versions `>= 4.5.6` and `< 4.6.0` are all compatible with this library pack.

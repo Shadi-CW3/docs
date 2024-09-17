@@ -8,14 +8,12 @@ redirect_from:
 versions:
   ghec: '*'
   ghes: '*'
-  ghae: '*'
 topics:
   - Enterprise
 children:
   - /viewing-user-owned-repositories-in-your-enterprise
   - /accessing-user-owned-repositories-in-your-enterprise
   - /configuring-git-large-file-storage-for-your-enterprise
-  - /migrating-to-internal-repositories
   - /disabling-git-ssh-access-on-your-enterprise
   - /locking-a-repository
   - /restoring-a-deleted-repository

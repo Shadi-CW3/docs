@@ -9,7 +9,6 @@ redirect_from:
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - Pull requests
@@ -17,10 +16,6 @@ topics:
 shortTitle: View all your issues & PRs
 type: how_to
 ---
-
-{% ifversion global-nav-update %}
-{% data reusables.navigation.global-nav-beta-note %}
-{% endif %}
 
 Your issue and pull request dashboards are available at the top of any page. On each dashboard, you can filter the list to find issues or pull requests you created, that are assigned to you, or in which you're mentioned. You can also find pull requests that you've been asked to review.
 
@@ -39,4 +34,4 @@ Your issue and pull request dashboards are available at the top of any page. On 
 
 ## Further reading
 
-- "[AUTOTITLE](/account-and-profile/managing-subscriptions-and-notifications-on-github/managing-subscriptions-for-activity-on-github/viewing-your-subscriptions#reviewing-repositories-that-youre-watching)"
+* "[AUTOTITLE](/account-and-profile/managing-subscriptions-and-notifications-on-github/managing-subscriptions-for-activity-on-github/viewing-your-subscriptions#reviewing-repositories-that-youre-watching)"

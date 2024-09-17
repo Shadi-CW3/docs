@@ -1,7 +1,6 @@
 ---
 title: Using the content linter
 intro: 'You can use content linter to check your contributions for errors.'
-product: '{% data reusables.contributing.product-note %}'
 versions:
   feature: 'contributing'
 ---
@@ -18,11 +17,13 @@ The {% data variables.product.prodname_docs %} content linter will run automatic
 
 ### Automatically run the linter on pre-commit
 
-The content linter rules that are marked with a severity of `error` run on a pre-commit Git hook. For a list of the rules that will run on the pre-commit hook, see "[Errors](#errors)."
+When you are writing content locally and committing files using the command line, those staged files will automatically be linted by the content linter. Both warnings and errors are reported, but only errors will prevent your commit from completing.
 
-When you are writing content locally and commit files using the command line, those staged files will automatically be linted by the content linter. If any errors are reported, your commit will not complete. Fix the reported errors, and then commit your changes again. Any errors that are reported must be fixed to prevent introducing errors in the content that are in violation of the {% data variables.product.prodname_docs %} style guide.
+If any errors are reported, your commit will not complete. You will need to fix the reported errors, re-add the changed files, and commit your changes again. Any errors that are reported must be fixed to prevent introducing errors in the content that are in violation of the {% data variables.product.prodname_docs %} style guide. If any warnings are reported, you can optionally choose to fix them or not.
 
-If you are editing a file in the {% data variables.product.prodname_dotcom %} UI, you will not be able to automatically run the linter on a commit.
+When you are writing content locally, there are several rules that you can fix automatically using the command line. If you want to automatically fix errors that can be fixed, see "[Automatically fix errors that can be fixed](#automatically-fix-errors-that-can-be-fixed)."
+
+If you are editing a file in the {% data variables.product.prodname_dotcom %} UI, you will not be able to automatically fix errors or run the linter on a commit, but you will get a CI failure if the content violates any rules with a severity of `error`.
 
 ### Manually run the linter
 
@@ -46,8 +47,9 @@ npm run lint-content -- --errors
 
 Use the following command to run the linter locally on specific files or directories. Separate multiple paths with a space. You can include both files and directories in the same command.
 
-```shell
-npm run lint-content -- --paths content/FILENAME.md content/DIRECTORY
+```shell copy
+npm run lint-content -- \
+  --paths content/FILENAME.md content/DIRECTORY
 ```
 
 #### Automatically fix errors that can be fixed
@@ -63,7 +65,8 @@ npm run lint-content -- --fix
 Run this command to fix specific files or directories:
 
 ```shell
-npm run lint-content -- --fix --paths content/FILENAME.md content/DIRECTORY
+npm run lint-content -- \
+  --fix --paths content/FILENAME.md content/DIRECTORY
 ```
 
 #### Run a specific set of linter rules
@@ -73,13 +76,16 @@ Use the following command to run one or more specific linter rules. These exampl
 Run the specified linter rules on all staged and changed files:
 
 ```shell
-npm run lint-content -- --rules heading-increment code-fence-line-length
+npm run lint-content -- \
+  --rules heading-increment code-fence-line-length
 ```
 
 Run the specified linter rules on specific files or directories:
 
 ```shell
-npm run lint-content -- --rules heading-increment code-fence-line-length --path content/FILENAME.md content/DIRECTORY
+npm run lint-content -- \
+  --rules heading-increment code-fence-line-length \
+  --path content/FILENAME.md content/DIRECTORY
 ```
 
 #### Bypass the commit hook
@@ -100,72 +106,74 @@ npm run lint-content -- --help
 
 Each rule is configured in a file in [`src/content-linter/style`](https://github.com/github/docs/tree/main/src/content-linter/style), which is where the severities of rules are defined.
 
-### Errors
+Errors must be addressed before merging your changes to the `main` branch. Warnings should be addressed but do not prevent a change from being merged into the `main` branch. Most rules will eventually be promoted to errors, once the content no longer has warning violations.
 
-These rules must be fixed before merging content into the `main` branch.
+{% data reusables.contributing.content-linter-rules %}
 
-| **Rule ID** | **Description** |
-|---|---|
-| [MD004](https://github.com/DavidAnson/markdownlint/blob/main/doc/md004.md) | Unordered list style must be a dash. |
-| [MD011](https://github.com/DavidAnson/markdownlint/blob/main/doc/md011.md) | Make sure that link syntax is not reversed. |
-| [MD012](https://github.com/DavidAnson/markdownlint/blob/main/doc/md012.md) | No unnecessary blank lines. |
-| [MD014](https://github.com/DavidAnson/markdownlint/blob/main/doc/md014.md) | Dollar signs should not be used before commands without showing output. |
-| [MD018](https://github.com/DavidAnson/markdownlint/blob/main/doc/md018.md) | Must have one space after a hash style heading. |
-| [MD019](https://github.com/DavidAnson/markdownlint/blob/main/doc/md019.md) | Must not have spaces after a hash style heading. |
-| [MD022](https://github.com/DavidAnson/markdownlint/blob/main/doc/md022.md) | Headings must be surrounded by a blank line. |
-| [MD023](https://github.com/DavidAnson/markdownlint/blob/main/doc/md023.md) | Headings must start at the beginning of the line. |
-| [MD027](https://github.com/DavidAnson/markdownlint/blob/main/doc/md027.md) | Catches multiple spaces after blockquote symbol. |
-| [MD029](https://github.com/DavidAnson/markdownlint/blob/main/doc/md029.md) | All ordered lists should be prefixed with `1.`. |
-| [MD030](https://github.com/DavidAnson/markdownlint/blob/main/doc/md030.md) | Only allow one space after list markers. |
-| [MD037](https://github.com/DavidAnson/markdownlint/blob/main/doc/md037.md) | Remove extra spacing inside emphasis markers. |
-| [MD039](https://github.com/DavidAnson/markdownlint/blob/main/doc/md039.md) | Remove spacing around image text. |
-| [MD042](https://github.com/DavidAnson/markdownlint/blob/main/doc/md042.md) | Do not allow empty links. |
-| [MD050](https://github.com/DavidAnson/markdownlint/blob/main/doc/md050.md) | All strong styling should use asterisks. |
-| [GHD002](https://github.com/github/docs/blob/main/src/content-linter/lib/linting-rules/image-alt-text-end-punctuation.js) | Images alternate text should end with a punctuation. |
-| [GHD005](https://github.com/github/docs/blob/main/src/content-linter/lib/linting-rules/internal-links-lang.js) | Internal links must not have a hardcoded language code. |
-| [GHD006](https://github.com/github/docs/blob/main/src/content-linter/lib/linting-rules/image-file-kebab.js) | Image file names should be lowercase kebab case. |
+### Syntax for linting rules
 
-### Warnings
+Some linting rules return warnings or errors based on HTML comments that you can add to articles.
 
-These rules should be fixed before merging content into the `main` branch, but they won't prevent committing changes to your local branch.
+#### Syntax for expiring and expired content
 
-| **Rule ID** | **Description** |
-|---|---|
-| [MD001](https://github.com/DavidAnson/markdownlint/blob/main/doc/md001.md) | Header levels can only increments by one level at a time. |
-| [MD002](https://github.com/DavidAnson/markdownlint/blob/main/doc/md002.md) | Ensure that headings start with an H2 heading. |
-| [MD009](https://github.com/DavidAnson/markdownlint/blob/main/doc/md009.md) | No unnecessary whitespace from the end of the line. |
-| [MD031](https://github.com/DavidAnson/markdownlint/blob/main/doc/md031.md) | Fenced code blocks must be surrounded by blank lines. |
-| [MD040](https://github.com/DavidAnson/markdownlint/blob/main/doc/md040.md) | Code fences must have a language specified. |
-| [MD047](https://github.com/DavidAnson/markdownlint/blob/main/doc/md047.md) | All files should end with a new line character. |
-| [MD049](https://github.com/DavidAnson/markdownlint/blob/main/doc/md049.md) | All emphasis styling should use underscores. |
-| [GHD001](https://github.com/github/docs/blob/main/src/content-linter/lib/linting-rules/code-fence-line-length.js) | Code fence content should be 60 lines or less in length. |
-| [GHD003](https://github.com/github/docs/blob/main/src/content-linter/lib/linting-rules/image-alt-text-length.js) | Images alternate text should be between 40-150 characters. |
-| [GHD004](https://github.com/github/docs/blob/main/src/content-linter/lib/linting-rules/internal-links-slash.js) | Internal links must start with a `/`. |
+Rules `GHD038` and `GHD039` check for content that has been manually given an expiration date. Fourteen days before the specified date, the content linter will return a warning that the content is expiring soon. Starting on the specified date, the content linter will return an error and flag the content for remediation.
+
+You can add an expiration date to content by wrapping it in HTML tags that contain an expiration date in the format: `<!-- expires yyyy-mm-dd --> <!-- end expires yyyy-mm-dd -->`
+
+**Use:**
+
+```markdown
+This content does not expire.
+<!-- expires 2022-01-28 -->
+This content expires on January 28, 2022.
+<!-- end expires 2022-01-28 -->
+This content also does not expire.
+```
+
+Note, if you are placing the expired tags in an HTML `table` element, make sure the tag goes around the entire row and not just the cell. For example:
+
+```html
+<!-- expires 2024-06-28 -->
+<tr>
+<td>
+macOS
+</td>
+<td>
+The <code>macos-11</code> label has been deprecated and will no longer be available after 28 June 2024.
+</td>
+</tr>
+<!-- end expires 2024-06-28 -->
+```
 
 ## Suppressing linter rules
 
-Rarely, you may need to document something that violates one or more linter rules. In these cases, you can suppress rules by adding a comment to the Markdown file. You can disable all rules or specific rules. Always try to limit as few rules as possible.
+Rarely, you may need to document something that violates one or more linter rules. In these cases, you can suppress rules by adding a comment to the Markdown file. You can disable all rules or specific rules. Always try to limit as few rules as possible. You can disable a rule for an entire file, for a section of a Markdown file, a specific line, or the next line.
 
+For example, if you are writing an article that includes the regular expression `(^|/)[Cc]+odespace/` that checks for reversed link syntax, it will trigger the `MD011` rule that checks for reversed links. You can disable the rule `MD011` on that specific line by adding the following comment.
+
+```text
+(^|/)[Cc]+odespace/ <!-- markdownlint-disable-line MD011 -->
+```
+
+If the line you're trying to ignore is in a code block, you can ignore the code block by surrounding it with the following comments.
+
+````text
 <!-- markdownlint-disable MD011 -->
-For example, if you are writing an article that includes a regular expression such as <code>(^|/)[Cc]+odespace/</code>, you can suppress the `MD011` rule that checks for reversed link syntax by adding the following comment.
-
-<pre>
-&lt;!-- markdownlint-disable MD011 --&gt;
+```
 (^|/)[Cc]+odespace/
-&lt;!-- markdownlint-enable MD011 --&gt;
-</pre>
-
+```
 <!-- markdownlint-enable MD011 -->
+````
 
 You can use these comments to enable or disable rules.
 
 | Comment | Effect |
 | :-- | :-- |
-| <pre>&lt;!-- markdownlint-disable --&gt;</pre> | Disable all rules |
-| <pre>&lt;!-- markdownlint-enable --&gt;</pre> | Enable all rules |
-| <pre>&lt;!-- markdownlint-disable-line --&gt;</pre> | Disable all rules for the current line |
-| <pre>&lt;!-- markdownlint-disable-next-line --&gt;</pre> | Disable all rules for the next line |
-| <pre>&lt;!-- markdownlint-disable RULE-ONE RULE-TWO --&gt;</pre> | Disable one or more rules by name |
-| <pre>&lt;!-- markdownlint-enable RULE-ONE RULE-TWO --&gt;</pre> | Enable one or more rules by name |
-| <pre>&lt;!-- markdownlint-disable-line RULE-NAME --&gt;</pre> | Disable one or more rules by name for the current line |
-| <pre>&lt;!-- markdownlint-disable-next-line RULE-NAME --&gt;</pre> | Disable one or more rules by name for the next line |
+| `<!-- markdownlint-disable -->`<!-- markdownlint-restore --> | Disable all rules |
+| `<!-- markdownlint-enable -->`<!-- markdownlint-restore -->| Enable all rules |
+| `<!-- markdownlint-disable-line -->`<!-- markdownlint-restore --> | Disable all rules for the current line |
+| `<!-- markdownlint-disable-next-line -->`<!-- markdownlint-restore --> | Disable all rules for the next line |
+| `<!-- markdownlint-disable RULE-ONE RULE-TWO -->`|<!-- markdownlint-restore --> | Disable one or more rules by name |
+| `<!-- markdownlint-enable RULE-ONE RULE-TWO -->`<!-- markdownlint-restore --> | Enable one or more rules by name |
+| `<!-- markdownlint-disable-line RULE-NAME -->`<!-- markdownlint-restore --> | Disable one or more rules by name for the current line |
+| `<!-- markdownlint-disable-next-line RULE-NAME -->`<!-- markdownlint-restore --> | Disable one or more rules by name for the next line |

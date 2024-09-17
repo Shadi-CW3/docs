@@ -21,14 +21,13 @@ featuredLinks:
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - Webhooks
 children:
   - /about-webhooks
+  - /types-of-webhooks
   - /webhook-events-and-payloads
-  - /about-webhooks-for-repositories
   - /using-webhooks
   - /testing-and-troubleshooting-webhooks
 changelog:

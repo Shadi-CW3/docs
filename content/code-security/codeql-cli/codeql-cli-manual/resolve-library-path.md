@@ -2,7 +2,6 @@
 title: resolve library-path
 versions: # DO NOT MANUALLY EDIT. CHANGES WILL BE OVERWRITTEN BY A 🤖
   fpt: '*'
-  ghae: '*'
   ghec: '*'
   ghes: '*'
 topics:
@@ -50,7 +49,7 @@ change without much notice as the QL language ecosystem evolves.**
 
 ### Primary Options
 
-#### `--[no-]find-extractors` <!-- markdownlint-disable-line heading-increment -->
+#### `--[no-]find-extractors`
 
 \[Advanced] Include in the output a summary of `extractor` fields from
 the QL packs that the query depends on. This is used only for a few rare
@@ -224,3 +223,13 @@ the running subcommand.
 
 (To write a log file with a name you have full control over, instead
 give `--log-to-stderr` and redirect stderr as desired.)
+
+#### `--common-caches=<dir>`
+
+\[Advanced] Controls the location of cached data on disk that will
+persist between several runs of the CLI, such as downloaded QL packs and
+compiled query plans. If not set explicitly, this defaults to a
+directory named `.codeql` in the user's home directory; it will be
+created if it doesn't already exist.
+
+Available since `v2.15.2`.

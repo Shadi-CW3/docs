@@ -1,16 +1,16 @@
-import { addError, forEachInlineChild } from 'markdownlint-rule-helpers'
+import { addError } from 'markdownlint-rule-helpers'
 
 import { liquid } from '#src/content-render/index.js'
 import { allVersions } from '#src/versions/lib/all-versions.js'
-import { getRange } from '../helpers/utils.js'
+import { forEachInlineChild, getRange } from '../helpers/utils.js'
 
 export const incorrectAltTextLength = {
-  names: ['GHD003', 'incorrect-alt-text-length'],
+  names: ['GHD033', 'incorrect-alt-text-length'],
   description: 'Images alternate text should be between 40-150 characters',
   tags: ['accessibility', 'images'],
+  parser: 'markdownit',
   asynchronous: true,
-  information: new URL('https://github.com/github/docs/blob/main/src/content-linter/README.md'),
-  function: function GHD003(params, onError) {
+  function: (params, onError) => {
     forEachInlineChild(params, 'image', async function forToken(token) {
       let renderedString = token.content
 

@@ -5,7 +5,6 @@ intro: 'Follow these best practices to improve security and performance when usi
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - Webhooks
@@ -51,7 +50,17 @@ There are multiple webhook event types, and many events can have multiple action
 
 If your server goes down, you should redeliver missed webhooks once your server is back up. For more information, see "[AUTOTITLE](/webhooks/testing-and-troubleshooting-webhooks/redelivering-webhooks)."
 
+## Use the `X-GitHub-Delivery` header
+
+In a replay attack, a bad actor intercepts a webhook delivery and re-sends the delivery. To protect against replay attacks, you can use the `X-GitHub-Delivery` header to ensure that each delivery is unique per event.
+
+{% note %}
+
+**Note**: If you request a redelivery, the `X-GitHub-Delivery` header will be the same as in the original delivery.
+
+{% endnote %}
+
 ## Further reading
 
-- "[AUTOTITLE](/rest/guides/best-practices-for-integrators)"
-- "[AUTOTITLE](/apps/creating-github-apps/about-creating-github-apps/best-practices-for-creating-a-github-app)"
+* "[AUTOTITLE](/rest/guides/best-practices-for-integrators)"
+* "[AUTOTITLE](/apps/creating-github-apps/about-creating-github-apps/best-practices-for-creating-a-github-app)"

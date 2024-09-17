@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
-import Cookies from 'components/lib/cookies'
+import Cookies from 'src/frame/components/lib/cookies'
 import { parseUserAgent } from './user-agent'
+import { Router } from 'next/router'
+import { isLoggedIn } from 'src/frame/components/hooks/useHasAccount'
 
 const COOKIE_NAME = '_docs-events'
 
@@ -16,7 +18,7 @@ let scrollPosition = 0
 let scrollDirection = 1
 let scrollFlipCount = 0
 let maxScrollY = 0
-
+let previousPath: string | undefined
 let hoveredUrls = new Set()
 
 function resetPageParams() {
@@ -26,10 +28,12 @@ function resetPageParams() {
   scrollDirection = 1
   scrollFlipCount = 0
   maxScrollY = 0
+  // Don't reset previousPath
   hoveredUrls = new Set()
 }
 
 // Temporary polyfill for crypto.randomUUID()
+// Necessary for localhost development (doesn't have https://)
 function uuidv4(): string {
   try {
     return crypto.randomUUID()
@@ -90,6 +94,7 @@ type SendEventProps = {
   [EventType.link]: {
     link_url: string
     link_samesite?: boolean
+    link_samepage?: boolean
     link_container?: string
   }
   [EventType.page]: {}
@@ -114,6 +119,8 @@ type SendEventProps = {
     survey_vote: boolean
     survey_comment?: string
     survey_email?: string
+    survey_rating?: number
+    survey_comment_language?: string
   }
 }
 
@@ -142,11 +149,12 @@ export function sendEvent<T extends EventType>({
       page_event_id: pageEventId,
 
       // Content information
-      path: location.pathname,
-      hostname: location.hostname,
-      referrer: document.referrer,
-      search: location.search,
-      href: location.href,
+      referrer: getReferrer(document.referrer),
+      href: location.href, // full URL
+      hostname: location.hostname, // origin without protocol or port
+      path: location.pathname, // path without search or host
+      search: location.search, // also known as query string
+      hash: location.hash, // also known as anchor
       path_language: getMetaContent('path-language'),
       path_version: getMetaContent('path-version'),
       path_product: getMetaContent('path-product'),
@@ -154,6 +162,7 @@ export function sendEvent<T extends EventType>({
       page_document_type: getMetaContent('page-document-type'),
       page_type: getMetaContent('page-type'),
       status: Number(getMetaContent('status') || 0),
+      is_logged_in: isLoggedIn(),
 
       // Device information
       // os, os_version, browser, browser_version:
@@ -188,11 +197,25 @@ export function sendEvent<T extends EventType>({
   return body
 }
 
+// Sometimes using the back button means the internal referrer path is not there,
+// So this fills it in with a JavaScript variable
+function getReferrer(documentReferrer: string) {
+  if (!previousPath) return documentReferrer
+  try {
+    // new URL() throws an error if not a valid URL
+    const referrerUrl = new URL(documentReferrer)
+    if (!referrerUrl.pathname || referrerUrl.pathname === '/') {
+      return referrerUrl.origin + previousPath
+    }
+  } catch (e) {}
+  return documentReferrer
+}
+
 function getColorModePreference() {
-  // color mode is set as attributes on <body>, we'll use that information
+  // color mode is set as attributes on <html>, we'll use that information
   // along with media query checking rather than parsing the cookie value
   // set by github.com
-  let color_mode_preference = document.querySelector('body')?.dataset.colorMode
+  let color_mode_preference = document.querySelector('html')?.dataset.colorMode
 
   if (color_mode_preference === 'auto') {
     if (window.matchMedia('(prefers-color-scheme: light)').matches) {
@@ -278,21 +301,51 @@ function initPageAndExitEvent() {
   })
 
   // Client-side routing
-  const pushState = history.pushState
-  history.pushState = function (state, title, url) {
+  Router.events.on('routeChangeStart', async (url) => {
     // Don't trigger page events on query string or hash changes
-    const newPath = url?.toString().replace(location.origin, '').split('?')[0]
-    const shouldSendEvents = newPath !== location.pathname
+    previousPath = location.pathname // pathname set to "prior" url, arg "upcoming" url
+    const newPath = url?.toString().split('?')[0].split('#')[0]
+    const shouldSendEvents = newPath !== previousPath
     if (shouldSendEvents) {
       sendExit()
-    }
-    const result = pushState.call(history, state, title, url)
-    if (shouldSendEvents) {
-      sendPage()
+      await waitForPageReady()
       resetPageParams()
+      sendPage()
     }
-    return result
-  }
+  })
+}
+
+// We want to wait for the DOM to mutate the <meta> tags
+// as well as finish routeChangeComplete (location.pathname)
+// before sending the page event in order to get accurate data
+async function waitForPageReady() {
+  const route = new Promise((resolve) => {
+    const handler = () => {
+      Router.events.off('routeChangeComplete', handler)
+      setTimeout(() => resolve(true))
+    }
+    Router.events.on('routeChangeComplete', handler)
+  })
+  const mutate = new Promise((resolve) => {
+    const observer = new MutationObserver((mutations) => {
+      const metaMutated = mutations.find(
+        (mutation) =>
+          mutation.target?.nodeName === 'META' ||
+          Array.from(mutation.addedNodes).find((node) => node.nodeName === 'META') ||
+          Array.from(mutation.removedNodes).find((node) => node.nodeName === 'META'),
+      )
+      if (metaMutated) {
+        observer.disconnect()
+        setTimeout(() => resolve(true))
+      }
+    })
+    observer.observe(document.getElementsByTagName('head')[0], {
+      subtree: true,
+      childList: true,
+      attributes: true,
+    })
+  })
+  return Promise.all([route, mutate])
 }
 
 function initClipboardEvent() {
@@ -322,14 +375,27 @@ function initLinkEvent() {
     const link = target.closest('a[href]') as HTMLAnchorElement
     if (!link) return
     const sameSite = link.origin === location.origin
-    const container = ['header', 'nav', 'article', 'toc', 'footer'].find((name) =>
-      target.closest(`[data-container="${name}"]`),
-    )
+    const container = target.closest(`[data-container]`) as HTMLElement | null
     sendEvent({
       type: EventType.link,
       link_url: link.href,
       link_samesite: sameSite,
-      link_container: container,
+      link_samepage: sameSite && link.pathname === location.pathname,
+      link_container: container?.dataset.container,
+    })
+  })
+
+  // Add tracking for scroll to top button
+  document.documentElement.addEventListener('click', (evt) => {
+    const target = evt.target as HTMLElement
+    if (!target.closest('.ghd-scroll-to-top')) return
+    const url = window.location.href.split('#')[0] // Remove hash
+    sendEvent({
+      type: EventType.link,
+      link_url: `${url}#scroll-to-top`,
+      link_samesite: true,
+      link_samepage: true,
+      link_container: 'static',
     })
   })
 }
@@ -364,7 +430,7 @@ function initHoverEvent() {
   })
 
   // Doesn't matter which link you hovered on that triggered a timer,
-  // you're clearly not hovering over it any more.
+  // you're clearly not hovering over it anymore.
   document.documentElement.addEventListener('mouseout', () => {
     if (timer) {
       window.clearTimeout(timer)

@@ -17,12 +17,12 @@ import chalk from 'chalk'
 import yaml from 'js-yaml'
 
 import { updateInternalLinks } from '#src/links/lib/update-internal-links.js'
-import frontmatter from '../../../lib/read-frontmatter.js'
-import walkFiles from '../../../script/helpers/walk-files.js'
+import frontmatter from '#src/frame/lib/read-frontmatter.js'
+import walkFiles from '#src/workflows/walk-files.js'
 
 program
   .description('Update internal links in content files')
-  .option('--silent', 'The opposite of verbose')
+  .option('--verbose', 'Enable additional logging')
   .option('--debug', "Don't hide any errors")
   .option('--dry-run', "Don't actually write changes to disk")
   .option('--dont-set-autotitle', "Do NOT transform the link text to 'AUTOTITLE' (if applicable)")
@@ -55,7 +55,7 @@ async function main(files, opts) {
         !(
           file.startsWith('content') ||
           file.startsWith('data') ||
-          file.startsWith('tests/fixtures')
+          file.startsWith('src/fixtures/fixtures')
         )
       ) {
         throw new Error(`${file} must be a content or data filepath`)
@@ -77,7 +77,7 @@ async function main(files, opts) {
       throw new Error(`No files found in ${files}`)
     }
 
-    const verbose = !opts.silent
+    const { verbose } = opts
 
     if (verbose) {
       console.log(chalk.bold(`Updating internal links in ${actualFiles.length} found files...`))

@@ -3,8 +3,8 @@ import { Flash } from '@primer/react'
 import { useRouter } from 'next/router'
 
 import { DEFAULT_VERSION, useVersion } from 'src/versions/components/useVersion'
-import { Link } from 'components/Link'
-import { useMainContext } from 'components/context/MainContext'
+import { Link } from 'src/frame/components/Link'
+import { useMainContext } from 'src/frame/components/context/MainContext'
 import { useTranslation } from 'src/languages/components/useTranslation'
 
 const restRepoDisplayPages = [
@@ -34,7 +34,7 @@ const restRepoCategoryExceptionsTitles = {
 
 export const RestBanner = () => {
   const router = useRouter()
-  const { t } = useTranslation('products')
+  const { t } = useTranslation('rest')
   // Having a productId === 'rest' and no router.query.category would mean a product landing page like http://docs.github.com/en/rest?apiVersion=2022-08-09
   const isRestPage = router.query.productId === 'rest' || router.query.category
   const restPage = router.query.category as string
@@ -50,13 +50,13 @@ export const RestBanner = () => {
     bannerText = t('rest.banner.api_versioned')
     versionWithApiVersion = currentVersion
   } else {
-    if (currentVersionObj.shortName === 'ghes') {
+    if (currentVersionObj.isGHES) {
       // If this is a GHES release with no REST versions,
       // find out if any GHES releases contain REST versioning yet.
       const firstGhesReleaseWithApiVersions = Object.values(allVersions)
         .reverse()
         .find((v) => {
-          return v.shortName === 'ghes' && v.apiVersions.length
+          return v.isGHES && v.apiVersions.length
         })
 
       if (firstGhesReleaseWithApiVersions) {

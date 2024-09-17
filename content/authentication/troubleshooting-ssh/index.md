@@ -7,7 +7,6 @@ redirect_from:
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - SSH
@@ -22,9 +21,8 @@ children:
   - /error-permission-to-userrepo-denied-to-other-user
   - /error-permission-to-userrepo-denied-to-userother-repo
   - /error-agent-admitted-failure-to-sign
-  - /error-ssh-add-illegal-option----k
+  - /error-ssh-add-illegal-option----apple-use-keychain
   - /error-ssl-certificate-problem-verify-that-the-ca-cert-is-ok
   - /error-unknown-key-type
   - /error-were-doing-an-ssh-key-audit
 ---
-

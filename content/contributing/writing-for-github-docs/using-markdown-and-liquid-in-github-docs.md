@@ -2,7 +2,6 @@
 title: Using Markdown and Liquid in GitHub Docs
 shortTitle: Markdown and Liquid # Max 31 characters
 intro: 'You can use Markdown and Liquid to format content, create reusable content, and write content for different versions on {% data variables.product.prodname_docs %}.'
-product: '{% data reusables.contributing.product-note %}'
 versions:
   feature: 'contributing'
 redirect_from:
@@ -21,8 +20,8 @@ The content on this site uses Markdown rendering powered by [`/src/content-rende
 
 In a list item, the general rules for additional content after the first paragraph are:
 
-- Images and subsequent paragraphs should each be on their own line and separated by a blank line.
-- All subsequent lines in a list item must match up with the first text after the list marker.
+* Images and subsequent paragraphs should each be on their own line and separated by a blank line.
+* All subsequent lines in a list item must match up with the first text after the list marker.
 
 ### Example usage of a list
 
@@ -31,7 +30,7 @@ This example shows the correct way to align list items with multiple paragraphs 
 ```markdown
 1. Under your repository name, click **Actions**.
 
-   ![Screenshot of the tabs for the "github/docs" repository. The "Actions" tab is highlighted with an orange outline.](/assets/images/help/repository/actions-tab.png)
+   ![Screenshot of the tabs for the "github/docs" repository. The "Actions" tab is highlighted with an orange outline.](/assets/images/help/repository/actions-tab-global-nav-update.png)
 
    This is another paragraph in the list.
 
@@ -44,43 +43,45 @@ This content is displayed on the {% data variables.product.prodname_docs %} site
 
 1. Under your repository name, click **Actions**.
 
-   ![Screenshot of the tabs for the "github/docs" repository. The "Actions" tab is highlighted with an orange outline.](/assets/images/help/repository/actions-tab.png)
+   ![Screenshot of the tabs for the "github/docs" repository. The "Actions" tab is highlighted with an orange outline.](/assets/images/help/repository/actions-tab-global-nav-update.png)
 
    This is another paragraph in the list.
 1. This is the next item.
 
-## Callout tags
+## Alerts
 
-Callouts highlight important information that users need to know. We use standard formatting and colors for different types of callouts: notes, warnings, and danger notices. Use Liquid tags before and after the text you’d like included in the callout box.
+Alerts highlight important information that users need to know. We use standard formatting and colors for four different types of Alerts: Note, Tip, Warning, and Caution.
 
-For information on when to use callout tags, see "[AUTOTITLE](/contributing/style-guide-and-content-model/style-guide#callouts)."
+For information on when to use alerts, and how to format them in Markdown, see "[AUTOTITLE](/contributing/style-guide-and-content-model/style-guide#alerts)."
 
-### Example usage of a callout
+### Examples of alerts
 
 ```markdown
-{% raw %}{% note %}
-
-**Note:** Owners and administrators can add outside collaborators to a repository.
-
-{% endnote %}{% endraw %}
+> [!NOTE] Keep this in mind.
 ```
 
-### Example callout rendered on {% data variables.product.prodname_docs %}
+```markdown
+> [!NOTE]
+> Generally alerts should be short.
+>
+> But occasionally may require more than one paragraph
+```
 
-{% note %}
+### Example alerts rendered on {% data variables.product.prodname_docs %}
 
-**Note:** Owners and administrators can add outside collaborators to a repository.
-
-{% endnote %}
+> [!NOTE]
+> Generally alerts should be short.
+>
+> But occasionally may require more than one paragraph
 
 ## Code sample syntax highlighting
 
-To render syntax highlighting in command line instructions and code samples, we use triple backticks followed by the language of the sample. For a list of all supported languages, see [`code-languages.yml`](https://github.com/github/docs/blob/main/data/variables/code-languages.yml).
+To render syntax highlighting in command line instructions and code samples, we use triple backticks followed by the language of the sample. For a list of all supported languages, see [`code-languages.yml`](https://github.com/github/docs/blob/main/data/code-languages.yml).
 
 ### Example usage of code syntax highlighting
 
     ```bash
-    git init YOUR_REPOSITORY
+    git init YOUR-REPOSITORY
     ```
 
 Within the code sample syntax, use all uppercase text to indicate placeholder text or content that varies for each user, such as a user or repository name. By default, codeblocks will escape the content within the triple backticks. If you need to write sample code that parses the content (for example, to italicize text within `<em>` tags instead of passing the tags through literally), wrap the codeblock in `<pre>` tags.
@@ -133,11 +134,11 @@ Code annotations only work in articles with the `layout: inline` frontmatter pro
         steps:
           - run: gh pr comment $PR_URL --body "Welcome to the repository!"
             env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               PR_URL: ${{ github.event.pull_request.html_url }}
     ```
 
-For an example of an article that uses code annotations on {% data variables.product.prodname_docs %}, see "[AUTOTITLE](/actions/examples/using-scripts-to-test-your-code-on-a-runner)."
+For an example of an article that uses code annotations on {% data variables.product.prodname_docs %}, see "[AUTOTITLE](/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions)."
 
 ## Octicons
 
@@ -145,9 +146,9 @@ Octicons are icons used across {% data variables.product.prodname_dotcom %}’s 
 
 If you're referencing an Octicon that appears in the UI, identify whether the Octicon is the entire label of the UI element (for example, a button that is labeled only with "+") or whether it's only decorative, in addition to another label (for example, a button is labeled "+ Add message").
 
- - If the Octicon is the entire label, use your browser's developer tools to inspect the Octicon and determine what screen reader users will hear instead. Then, use that text for the `aria-label` (for example, `{% octicon "plus" aria-label="Add file" %}`). Occasionally, in the UI, the Octicon itself will not have an `aria-label`, but a surrounding element such as a `<summary>` or `<div>` tag will.
-   - Some Octicons used as labels have dynamic `aria-label` elements that change based on the state of the UI element or a user input. For example, when someone has two security policies-`Policy A` and `Policy B`-their UI will show two trash Octicons labelled `{% octicon "trash" aria-label="Delete Policy A" %}` and `{% octicon "trash" aria-label="Delete Policy B" %}`. For dynamic `aria-label` elements, since we can't document the exact `aria-label` that people will encounter, describe the Octicon and a placeholder example of the label (for example, `"{% octicon "trash" aria-label="The trash icon, labelled 'Delete YOUR-POLICY-NAME'." %}"`). This will help people identify both the Octicon and how it is labelled, and give context for collaborating with people who are visually describing the Octicon.
- - If the Octicon is decorative, it's likely hidden to screen readers with the `aria-hidden=true` attribute. If so, for consistency with the product, use `aria-hidden="true"` in the Liquid syntax for the Octicon in the docs as well (for example, `"{% octicon "plus" aria-hidden="true" %} Add message"`).
+ * If the Octicon is the entire label, use your browser's developer tools to inspect the Octicon and determine what screen reader users will hear instead. Then, use that text for the `aria-label` (for example, `{% raw %}{% octicon "plus" aria-label="Add file" %}{% endraw %}`). Occasionally, in the UI, the Octicon itself will not have an `aria-label`, but a surrounding element such as a `<summary>` or `<div>` tag will.
+   * Some Octicons used as labels have dynamic `aria-label` elements that change based on the state of the UI element or a user input. For example, when someone has two security policies-`Policy A` and `Policy B`-their UI will show two trash Octicons labelled `{% raw %}{% octicon "trash" aria-label="Delete Policy A" %}{% endraw %}` and `{% raw %}{% octicon "trash" aria-label="Delete Policy B" %}{% endraw %}`. For dynamic `aria-label` elements, since we can't document the exact `aria-label` that people will encounter, describe the Octicon and a placeholder example of the label (for example, `"{% raw %}{% octicon "trash" aria-label="The trash icon, labelled 'Delete YOUR-POLICY-NAME'." %}{% endraw %}"`). This will help people identify both the Octicon and how it is labelled, and give context for collaborating with people who are visually describing the Octicon.
+ * If the Octicon is decorative, it's likely hidden to screen readers with the `aria-hidden=true` attribute. If so, for consistency with the product, use `aria-hidden="true"` in the Liquid syntax for the Octicon in the docs as well (for example, `"{% raw %}{% octicon "plus" aria-hidden="true" %} Add message"{% endraw %}`).
 
 If you're using the Octicon in another way, such as using the "check" and "x" icons to reflect binary values in tables, use the `aria-label` to describe the meaning of the Octicon, not its visual characteristics. For example, if you're using a "x" icon in the "Supported" column of a table, use "Not supported" as the `aria-label`. For more information, see "[AUTOTITLE](/contributing/style-guide-and-content-model/style-guide#tables)."
 
@@ -194,7 +195,7 @@ You can define a default platform in an article's YAML frontmatter. For more inf
 
 ## Tool tags
 
-We occasionally need to write documentation that has different instructions for different tools. For example, the {% data variables.product.prodname_dotcom %} UI, {% data variables.product.prodname_cli %}, {% data variables.product.prodname_desktop %}, {% data variables.product.prodname_github_codespaces %}, and Visual Studio Code might be able to accomplish the same task using different steps. We use tool tags to control what information is displayed for each tool.
+We occasionally need to write documentation that has different instructions for different tools. For example, the {% data variables.product.prodname_dotcom %} UI, {% data variables.product.prodname_cli %}, {% data variables.product.prodname_desktop %}, {% data variables.product.prodname_github_codespaces %}, and {% data variables.product.prodname_vscode %} might be able to accomplish the same task using different steps. We use tool tags to control what information is displayed for each tool.
 
 {% data variables.product.prodname_docs %} maintains tool tags for {% data variables.product.prodname_dotcom %} products and selected third-party extensions. See the [`all-tools.js`](https://github.com/github/docs/blob/main/src/tools/lib/all-tools.js) object in the `github/docs` repository for a list of all supported tools.
 
@@ -308,12 +309,14 @@ For longer strings, we use reusables, and for shorter strings, we use variables.
 
 ## Table pipes
 
-Every row of a table in the {% data variables.product.prodname_docs %} must start and end with a pipe, `|`.
+Every row of a table in the {% data variables.product.prodname_docs %} must start and end with a pipe, `|`, even rows that contain only Liquid versioning.
 
 ```markdown
 | Where is the table located? | Does every row end with a pipe? |
 | --- | --- |
+| {% raw %}{% ifversion some-cool-feature %}{% endraw %} |
 | GitHub Docs | Yes |
+| {% raw %}{% endif %}{% endraw %} |
 ```
 
 ## Table row headers
@@ -399,17 +402,17 @@ Because the site is dynamic, it does not build HTML files for each different ver
 
 For example, an article that is available in currently supported versions will have permalink URLs like the following:
 
-- `/en/get-started/quickstart/set-up-git`
-- `/en/enterprise-cloud@latest/get-started/quickstart/set-up-git`
-- `/en/enterprise-server@3.10/get-started/quickstart/set-up-git`
-- `/en/enterprise-server@3.9/get-started/quickstart/set-up-git`
-- `/en/enterprise-server@3.8/get-started/quickstart/set-up-git`
-- `/en/enterprise-server@3.7/get-started/quickstart/set-up-git`
-- `/en/enterprise-server@3.6/get-started/quickstart/set-up-git`
+* `/en/get-started/getting-started-with-git/set-up-git`
+* `/en/enterprise-cloud@latest/get-started/getting-started-with-git/set-up-git`
+* `/en/enterprise-server@3.10/get-started/getting-started-with-git/set-up-git`
+* `/en/enterprise-server@3.9/get-started/getting-started-with-git/set-up-git`
+* `/en/enterprise-server@3.8/get-started/getting-started-with-git/set-up-git`
+* `/en/enterprise-server@3.7/get-started/getting-started-with-git/set-up-git`
+* `/en/enterprise-server@3.6/get-started/getting-started-with-git/set-up-git`
 
 An article that is not available in {% data variables.product.prodname_ghe_server %} will have just one permalink:
 
-- `/en/get-started/quickstart/set-up-git`
+* `/en/get-started/getting-started-with-git/set-up-git`
 
 {% note %}
 
@@ -423,9 +426,9 @@ When linking to another {% data variables.product.prodname_docs %} page, use sta
 
 #### Example usage of internal links with AUTOTITLE
 
-- `For more information, see "[AUTOTITLE](/path/to/page)."`
-- `For more information, see "[AUTOTITLE](/path/to/page#section-link)."`
-- `For more information, see the TOOLNAME documentation in "[AUTOTITLE](/path/to/page?tool=TOOLNAME)."`
+* `For more information, see "[AUTOTITLE](/path/to/page)."`
+* `For more information, see "[AUTOTITLE](/path/to/page#section-link)."`
+* `For more information, see the TOOLNAME documentation in "[AUTOTITLE](/path/to/page?tool=TOOLNAME)."`
 
 {% note %}
 
@@ -437,8 +440,8 @@ When linking to another {% data variables.product.prodname_docs %} page, use sta
 
 Sometimes you may want to link from an article to the same article in a different product version. For example:
 
-- You mention some functionality that is not available for free, pro, or team plans and you want to link to the {% data variables.product.prodname_ghe_cloud %} version of the same page.
-- The {% data variables.product.prodname_ghe_server %} version of an article describes a feature that shipped with that version, but site administrators can upgrade to the latest version of the feature that's in use on {% data variables.product.prodname_ghe_cloud %}.
+* You mention some functionality that is not available for free, pro, or team plans and you want to link to the {% data variables.product.prodname_ghe_cloud %} version of the same page.
+* The {% data variables.product.prodname_ghe_server %} version of an article describes a feature that shipped with that version, but site administrators can upgrade to the latest version of the feature that's in use on {% data variables.product.prodname_ghe_cloud %}.
 
 You can link directly to a different version of the page using the `currentArticle` property. This means that the link will continue to work directly even if the article URL changes.
 

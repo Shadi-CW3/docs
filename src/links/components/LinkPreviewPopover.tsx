@@ -33,7 +33,7 @@ let currentlyOpen: HTMLLinkElement | null = null
 // inserted into the visible DOM. So before that, as a `div` element,
 // its `offsetHeight` and `.getBoundingClientRect().height` are always 0.
 // We *could* "change our mind" and wait till it's been inserted and then
-// change accoding to the popover's true height. But this can cause a flicker.
+// change according to the popover's true height. But this can cause a flicker.
 const BOUNDING_TOP_MARGIN = 300
 
 // All links that should have a hover card also get a
@@ -43,6 +43,10 @@ const BOUNDING_TOP_MARGIN = 300
 // Note; at the moment this value is duplicated in the Playwright
 // tests because of trying to extract the value of `aria-describedby`.
 const DESCRIBEDBY_ELEMENT_ID = 'popover-describedby'
+
+// used to identify the first focusable element in the hover card
+const FIRST_LINK_ID = '_hc_first_focusable'
+const TITLE_ID = '_hc_title'
 
 type Info = {
   product: string
@@ -63,6 +67,22 @@ function getOrCreatePopoverGlobal() {
     wrapper.style.display = 'none'
     wrapper.style.outline = 'none'
     wrapper.style.zIndex = `100`
+
+    // Semantics for the hovercard so SR users are aware they're about to be
+    // focus trapped
+    wrapper.setAttribute('role', 'dialog')
+    wrapper.setAttribute('aria-modal', 'true')
+    wrapper.setAttribute('aria-label', 'user hovercard')
+    wrapper.setAttribute('aria-labelledby', TITLE_ID)
+
+    // this extra element and its event listener are used to help us direct
+    // where focus should go when entering a hover card; see `bottomBumper` for
+    // its counterpart
+    const topBumper = document.createElement('span')
+    topBumper.setAttribute('tabindex', '0')
+    topBumper.setAttribute('aria-hidden', 'true')
+    wrapper.appendChild(topBumper)
+
     const inner = document.createElement('div')
     // Note that this is lacking the 'Popover-message--bottom-left'
     // or 'Popover-message--top-right`. These get set later when we
@@ -76,9 +96,15 @@ function getOrCreatePopoverGlobal() {
     product.classList.add('product')
     product.classList.add('f6')
     product.classList.add('color-fg-muted')
+
     const headingLink = document.createElement('a')
+    headingLink.style.textDecoration = 'underline'
     headingLink.href = ''
+    // the id is necessary since we're intercepting natural focus order,
+    // so when focus enters the topBumper, we'll manually move it to the link
+    headingLink.id = FIRST_LINK_ID
     product.appendChild(headingLink)
+
     inner.appendChild(product)
 
     const title = document.createElement('h4')
@@ -87,6 +113,8 @@ function getOrCreatePopoverGlobal() {
     title.classList.add('my-1')
     const titleLink = document.createElement('a')
     titleLink.href = ''
+    titleLink.id = TITLE_ID
+
     title.appendChild(titleLink)
     inner.appendChild(title)
 
@@ -104,6 +132,15 @@ function getOrCreatePopoverGlobal() {
     inner.appendChild(anchor)
 
     wrapper.appendChild(inner)
+
+    // this extra element and its event listener are used to help us direct
+    // where focus should go when reaching the end of a hover card;
+    // see `topBumper` for its counterpart
+    const bottomBumper = document.createElement('span')
+    bottomBumper.setAttribute('aria-hidden', 'true')
+    bottomBumper.setAttribute('tabindex', '0')
+    wrapper.appendChild(bottomBumper)
+
     document.body.appendChild(wrapper)
 
     wrapper.addEventListener('mouseover', () => {
@@ -124,7 +161,44 @@ function getOrCreatePopoverGlobal() {
     })
 
     popoverGlobal = wrapper
+
+    // The top bumper simply moves focus into either:
+    // (a) the first focusable element in the hover card, or
+    // (b) if traversing in reverse, the last focusable element
+    topBumper.addEventListener('keyup', (event) => {
+      if (event.key === 'Tab' && event.shiftKey) titleLink.focus()
+      else if (event.key === 'Tab') headingLink.focus()
+    })
+
+    // The bottom bumper is more complex and handled via handleBottomBumper()
+    bottomBumper.addEventListener('keyup', (event) => {
+      handleBottomBumper(titleLink, headingLink, event)
+    })
+    bottomBumper.addEventListener('focus', () => {
+      handleBottomBumper(headingLink)
+    })
   }
+
+  // When the bottom bumper receives focus, it could be via one of two events:
+  // (a) a keyboard event, or (b) a focus event. This function essentially
+  // "de-bounces" the resulting behavior.
+  function handleBottomBumper(
+    primaryFocus: HTMLAnchorElement,
+    loopAroundFocus?: HTMLAnchorElement,
+    event?: KeyboardEvent,
+  ) {
+    // If we got here via keyboard events, we just need to determine if we
+    // should loops around to the top of the hover card or traverse in reverse
+    // the final part of the conditional essentially defaults the focus
+    if (event && event.key === 'Tab' && event.shiftKey) {
+      primaryFocus.focus()
+    } else if (event && event.key === 'Tab' && loopAroundFocus) {
+      loopAroundFocus.focus()
+    } else if (!event) {
+      primaryFocus.focus()
+    }
+  }
+
   return popoverGlobal
 }
 
@@ -168,7 +242,12 @@ function popoverWrap(element: HTMLLinkElement, filledCallback?: (popover: HTMLDi
     element.href.startsWith(`${window.location.href.split('#')[0]}#`)
   ) {
     const domID = element.href.split('#')[1]
-    const domElement = document.querySelector(`#${domID}`)
+    // The reason we're using `getElementById(...)` instead of
+    // `querySelector(#...)` is because `getElementById(...)` will not
+    // throw a DOMException if the ID starts with a number.
+    // For example, `document.getElementById('123-thing')` will work, but
+    // `document.querySelector('#123-thing')` will throw a DOMException.
+    const domElement = document.getElementById(domID)
     if (domElement && domElement.textContent) {
       anchor = domElement.textContent
       // Headings will have the `#` character to the right which is to
@@ -229,7 +308,13 @@ function fillPopover(
         // All a.href attributes are always full absolute URLs, as a string.
         // We assume that the "product landing page" is the first
         // portion of all links.
-        productHeadLink.href = linkURL.pathname.split('/').slice(0, 3).join('/')
+        const regex = /^\/(?<lang>\w{2}\/)?(?<version>[\w-]+@[\w-.]+\/)?(?<product>[\w-]+\/)?/
+        const match = regex.exec(linkURL.pathname)
+        if (match?.groups) {
+          const { lang, version, product } = match.groups
+          const productURL = [lang, version, product].map((n) => n || '').join('')
+          productHeadLink.href = `${linkURL.origin}/${productURL}`
+        }
         productHead.style.display = 'block'
       }
     } else {
@@ -431,8 +516,10 @@ export function LinkPreviewPopover() {
         const target = event.currentTarget as HTMLLinkElement
         popoverShow(target, (popover) => {
           const productHeadingLink = popover.querySelector<HTMLParagraphElement>('.product a')
-          if (productHeadingLink) {
-            productHeadingLink.focus()
+          const first = document.getElementById(FIRST_LINK_ID)
+
+          if (productHeadingLink && first) {
+            first.focus()
             lastFocussedLink = target
           }
         })

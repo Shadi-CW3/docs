@@ -2,7 +2,6 @@
 title: execute query-server2
 versions: # DO NOT MANUALLY EDIT. CHANGES WILL BE OVERWRITTEN BY A 🤖
   fpt: '*'
-  ghae: '*'
   ghec: '*'
   ghes: '*'
 topics:
@@ -43,7 +42,7 @@ Available since `v2.10.11`.
 
 ### Primary Options
 
-#### `--[no-]tuple-counting` <!-- markdownlint-disable-line heading-increment -->
+#### `--[no-]tuple-counting`
 
 \[Advanced] Display tuple counts for each evaluation step in the query
 evaluator logs. If the `--evaluator-log` option is provided, tuple
@@ -204,3 +203,13 @@ the running subcommand.
 
 (To write a log file with a name you have full control over, instead
 give `--log-to-stderr` and redirect stderr as desired.)
+
+#### `--common-caches=<dir>`
+
+\[Advanced] Controls the location of cached data on disk that will
+persist between several runs of the CLI, such as downloaded QL packs and
+compiled query plans. If not set explicitly, this defaults to a
+directory named `.codeql` in the user's home directory; it will be
+created if it doesn't already exist.
+
+Available since `v2.15.2`.

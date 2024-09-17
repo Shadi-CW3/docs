@@ -159,7 +159,7 @@ You can use `>`, `>=`, `<`, and `<=` to compare number, date, and iteration fiel
 | <code>field:&gt;<em>VALUE</em></code>  | **priority:&gt;1** will show items with a priority greater than 1.
 | <code>field:&gt;=<em>VALUE</em></code> | **date:&gt;=2022-06-01** will show items with a date of "2022-06-01" or later.
 | <code>field:&lt;<em>VALUE</em></code>  | **iteration:<"Iteration 5"** will show items with an iteration before "Iteration 5."
-| <code>field:&gt;=<em>VALUE</em></code> | **points:&lt;=10** will show items with 10 or less points.
+| <code>field:&lt;=<em>VALUE</em></code> | **points:&lt;=10** will show items with 10 or less points.
 
 You can also use `..` to filter for an inclusive range. When working with a range, `*` can be supplied as a wildcard operator.
 
@@ -168,7 +168,7 @@ You can also use `..` to filter for an inclusive range. When working with a rang
 | <code>field:<em>VALUE</em>..<em>VALUE</em></code> | **priority:1..3** will show items with a priority of 1, 2, or 3.
 |                                                   | **date:2022-01-01..2022-12-31** will show items from the year 2022.
 |                                                   | **points:\*..10** will show items with an points value of anything up to and including 10.
-|                                                   | **iteration:"Iteration 1".."Iteration 4"** will show items in "Iteration 1", "Iteration 2", "Iteration 3", and "Iteration 4."
+|                                                   | **iteration:"Iteration 1..Iteration 4"** will show items in "Iteration 1", "Iteration 2", "Iteration 3", and "Iteration 4."
 
 ## Filtering assignees and reviewers using keywords
 

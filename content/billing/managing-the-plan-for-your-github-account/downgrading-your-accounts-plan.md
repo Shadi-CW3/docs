@@ -1,6 +1,6 @@
 ---
 title: Downgrading your account's plan
-intro: 'You can downgrade the plan for any type of account on {% data variables.location.product_location %} at any time.'
+intro: 'You can downgrade the plan for any type of account on {% data variables.product.prodname_dotcom %} at any time.'
 redirect_from:
   - /github/setting-up-and-managing-billing-and-payments-on-github/downgrading-your-github-subscription
   - /articles/downgrading-your-personal-account-s-billing-plan
@@ -79,9 +79,9 @@ Downgrading from {% data variables.product.prodname_ghe_cloud %} disables any SA
 ## Removing paid seats from your organization
 
 To reduce the number of paid seats your organization uses, you can remove members from your organization or convert members to outside collaborators and give them access to only public repositories. For more information, see:
-- "[AUTOTITLE](/organizations/managing-membership-in-your-organization/removing-a-member-from-your-organization)"
-- "[AUTOTITLE](/organizations/managing-user-access-to-your-organizations-repositories/managing-outside-collaborators/converting-an-organization-member-to-an-outside-collaborator)"
-- "[AUTOTITLE](/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository)"
+* "[AUTOTITLE](/organizations/managing-membership-in-your-organization/removing-a-member-from-your-organization)"
+* "[AUTOTITLE](/organizations/managing-user-access-to-your-organizations-repositories/managing-outside-collaborators/converting-an-organization-member-to-an-outside-collaborator)"
+* "[AUTOTITLE](/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/managing-an-individuals-access-to-an-organization-repository)"
 
 {% data reusables.organizations.billing-settings %}
 1. Under "Current plan", next to your current plan, select the **Edit** dropdown menu, then click **Remove seats**.
@@ -94,9 +94,9 @@ To reduce the number of paid seats your organization uses, you can remove member
 
 Enterprise accounts are only available with {% data variables.product.prodname_enterprise %}, so it's not possible to downgrade an enterprise account to another plan.
 
-To downgrade the plan of an individual organization within the enterprise account, you must remove the organization from the enterprise account. Removing an organization from an enterprise automatically downgrades the organization to {% data variables.product.prodname_free_team %}. For more information, see "[AUTOTITLE](/admin/user-management/managing-organizations-in-your-enterprise/removing-organizations-from-your-enterprise)."
+If you want to stop paying for {% data variables.product.prodname_enterprise %} altogether and your company pays via invoice, contact {% data variables.contact.contact_enterprise_sales %}. If your company pays for {% data variables.product.prodname_enterprise %} by credit card or PayPal, an enterprise owner can delete the enterprise account. For more information, see "[AUTOTITLE](/admin/managing-your-enterprise-account/deleting-an-enterprise-account)."
 
-If you want to stop paying for {% data variables.product.prodname_enterprise %} altogether and your company pays via invoice, contact {% data variables.contact.contact_enterprise_sales %}. If your company pays for {% data variables.product.prodname_enterprise %} by credit card or PayPal, an enterprise owner can delete the enterprise account. For more information, see "[AUTOTITLE](/admin/overview/deleting-an-enterprise-account)."
+To downgrade the plan of an individual organization within the enterprise account, you must remove the organization from the enterprise account. Removing an organization from an enterprise automatically downgrades the organization to {% data variables.product.prodname_free_team %}. For more information, see "[AUTOTITLE](/admin/user-management/managing-organizations-in-your-enterprise/removing-organizations-from-your-enterprise)."
 
 ## Removing paid seats for your enterprise account
 
@@ -116,7 +116,7 @@ If you want to stop paying for {% data variables.product.prodname_enterprise %} 
 
 ## Further reading
 
-- "[AUTOTITLE](/get-started/learning-about-github/githubs-plans)"
-- "[AUTOTITLE](/billing/managing-the-plan-for-your-github-account/how-does-upgrading-or-downgrading-affect-the-billing-process)"
-- "[AUTOTITLE](/billing/managing-your-github-billing-settings/about-billing-on-github)."
-- "[AUTOTITLE](/billing/managing-the-plan-for-your-github-account/about-per-user-pricing)"
+* "[AUTOTITLE](/get-started/learning-about-github/githubs-plans)"
+* "[AUTOTITLE](/billing/managing-the-plan-for-your-github-account/how-does-upgrading-or-downgrading-affect-the-billing-process)"
+* "[AUTOTITLE](/billing/managing-your-github-billing-settings/about-billing-on-github)."
+* "[AUTOTITLE](/billing/managing-the-plan-for-your-github-account/about-per-user-pricing)"

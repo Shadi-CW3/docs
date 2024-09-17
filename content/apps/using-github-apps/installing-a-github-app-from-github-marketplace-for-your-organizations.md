@@ -44,9 +44,15 @@ Organization owners can install {% data variables.product.prodname_github_apps %
 
 For enterprises that pay by credit card, enterprise owners who are also organization owners can install {% data variables.product.prodname_github_apps %} on organizations within their enterprise.
 
-Admins of repositories that are owned by an organization can also install {% data variables.product.prodname_github_apps %} on the organization if they only grant the app access to repositories that they are an admin of and if the app does not request any organization resources. Organization owners can prevent outside collaborators who are repository admins from installing {% data variables.product.prodname_github_apps %}.
+Admins of repositories that are owned by an organization can also install {% data variables.product.prodname_github_apps %} on the organization if they only grant the app access to repositories that they are an admin of and if the app does not request any organization permissions or the "repository administration" permission. Organization owners can prevent outside collaborators who are repository admins from installing {% data variables.product.prodname_github_apps %}.
 
 The "app manager" role in an organization does not give a person the ability to install a {% data variables.product.prodname_github_app %} in the organization. For more information, see "[AUTOTITLE](/apps/maintaining-github-apps/about-github-app-managers)."
+
+{% ifversion ghec %}
+
+For enterprise managed user accounts, only enterprise owners can purchase and install a paid {% data variables.product.prodname_github_app %} for an organization in the enterprise. Enterprise members cannot purchase a paid {% data variables.product.prodname_github_app %}. Organization owners with an enterprise managed user account can still install a free {% data variables.product.prodname_github_app %}.
+
+{% endif %}
 
 ## Installing a {% data variables.product.prodname_github_app %} in your organization
 
@@ -65,5 +71,5 @@ The "app manager" role in an organization does not give a person the ability to 
 
 ## Further reading
 
-- "[AUTOTITLE](/billing/managing-your-github-billing-settings/adding-or-editing-a-payment-method)"
-- "[AUTOTITLE](/apps/using-github-apps/installing-an-app-in-your-personal-account)"
+* "[AUTOTITLE](/billing/managing-your-github-billing-settings/adding-or-editing-a-payment-method)"
+* "[AUTOTITLE](/apps/using-github-apps/installing-an-app-in-your-personal-account)"

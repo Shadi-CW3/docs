@@ -1,6 +1,6 @@
 import { languageKeys } from '#src/languages/lib/languages.js'
 import { allVersionKeys } from '#src/versions/lib/all-versions.js'
-import { productIds } from '../../../lib/all-products.js'
+import { productIds } from '#src/products/lib/all-products.js'
 import { allTools } from '#src/tools/lib/all-tools.js'
 
 const versionPattern = '^\\d+(\\.\\d+)?(\\.\\d+)?$' // eslint-disable-line
@@ -39,29 +39,33 @@ const context = {
     },
 
     // Content information
-    path: {
+    referrer: {
       type: 'string',
-      description: 'The browser value of `location.pathname`.',
+      description: 'The browser value of `document.referrer`.',
       format: 'uri-reference',
+    },
+    href: {
+      type: 'string',
+      description: 'The browser value of `location.href`.',
+      format: 'uri',
     },
     hostname: {
       type: 'string',
       description: 'The browser value of `location.hostname.`',
       format: 'uri-reference',
     },
-    referrer: {
+    path: {
       type: 'string',
-      description: 'The browser value of `document.referrer`.',
+      description: 'The browser value of `location.pathname`.',
       format: 'uri-reference',
     },
     search: {
       type: 'string',
       description: 'The browser value of `location.search`.',
     },
-    href: {
+    hash: {
       type: 'string',
-      description: 'The browser value of `location.href`.',
-      format: 'uri',
+      description: 'The browser value of `location.hash`.',
     },
     path_language: {
       type: 'string',
@@ -90,13 +94,17 @@ const context = {
     page_type: {
       type: 'string',
       description: 'Optional page type from the content frontmatter.',
-      enum: ['overview', 'quick_start', 'tutorial', 'how_to', 'reference'], // frontmatter.js
+      enum: ['overview', 'quick_start', 'tutorial', 'how_to', 'reference', 'rai'], // frontmatter.js
     },
     status: {
       type: 'number',
       description: 'The HTTP response status code of the main page HTML.',
       minimum: 0,
       maximum: 999,
+    },
+    is_logged_in: {
+      type: 'boolean',
+      description: 'Anonymous -- whether the user has github.com cookies set.',
     },
 
     // Device information
@@ -249,10 +257,25 @@ const link = {
       type: 'boolean',
       description: 'If the link stays on docs.github.com.',
     },
+    link_samepage: {
+      type: 'boolean',
+      description: 'If the link stays on the same page (hash link).',
+    },
     link_container: {
       type: 'string',
-      enum: ['header', 'nav', 'article', 'toc', 'footer'],
-      description: 'The part of the page whwere the user clicked the link.',
+      enum: [
+        'header',
+        'nav',
+        'breadcrumbs',
+        'title',
+        'lead',
+        'notifications',
+        'article',
+        'toc',
+        'footer',
+        'static',
+      ],
+      description: 'The part of the page where the user clicked the link.',
     },
   },
 }
@@ -366,6 +389,16 @@ const survey = {
       format: 'email',
       description: "The user's email address, if the user provided and consented.",
     },
+    survey_rating: {
+      type: 'number',
+      description:
+        'The computed rating of the quality of the survey comment. Used for spam filtering and quality control.',
+    },
+    survey_comment_language: {
+      type: 'string',
+      description:
+        'The guessed language of the survey comment. The guessed language is very inaccurate when the string contains fewer than 3 or 4 words.',
+    },
   },
 }
 
@@ -385,7 +418,6 @@ const experiment = {
     },
     experiment_variation: {
       type: 'string',
-      enum: ['control', 'treatment'],
       description: 'The variation this user we bucketed in, such as control or treatment.',
     },
     experiment_success: {

@@ -1,11 +1,10 @@
 import { addFixErrorDetail, getRange, filterTokensByOrder } from '../helpers/utils.js'
 
 export const listFirstWordCapitalization = {
-  names: ['GHD011', 'list-first-word-capitalization'],
-  description: 'First word of list item should be capitalized.',
+  names: ['GHD034', 'list-first-word-capitalization'],
+  description: 'First word of list item should be capitalized',
   tags: ['ul', 'ol'],
-  information: new URL('https://github.com/github/docs/blob/main/src/content-linter/README.md'),
-  function: function GHD011(params, onError) {
+  function: (params, onError) => {
     // We're going to look for a sequence of 3 tokens. If the markdown
     // is a really small string, it might not even have that many tokens
     // in it. Can bail early.
@@ -33,10 +32,12 @@ export const listFirstWordCapitalization = {
       const content = token.content.trim()
       const firstWord = content.trim().split(' ')[0]
 
-      // Liquid is considered a text node but we don't want to capitalize it
-      if (/^[{%|{{]/.test(content)) return
+      // If the first character in the first word is not an alphanumeric,
+      // don't bother. For example `"ubunut-latest"` or `{% data ... %}`.
+      if (/^[^a-z]/i.test(firstWord)) return
       // If the first letter is capitalized, it's not an error
-      if (/[A-Z]/.test(firstWord[0])) return
+      // And any special characters (like @) that can't be capitalized
+      if (/[A-Z@]/.test(firstWord[0])) return
       // There are items that start with a number or words that contain numbers
       // e.g., x64
       if (/\d/.test(firstWord)) return

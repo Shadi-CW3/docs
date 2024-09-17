@@ -6,7 +6,6 @@ product: '{% data reusables.gated-features.pages %}'
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 redirect_from:
   - /github/setting-up-and-managing-organizations-and-teams/disabling-publication-of-github-pages-sites-for-your-organization
@@ -43,4 +42,4 @@ If you disallow publication of {% data variables.product.prodname_pages %} sites
 
 ## Further reading
 
-- "[AUTOTITLE](/pages/getting-started-with-github-pages/about-github-pages)"
+* "[AUTOTITLE](/pages/getting-started-with-github-pages/about-github-pages)"

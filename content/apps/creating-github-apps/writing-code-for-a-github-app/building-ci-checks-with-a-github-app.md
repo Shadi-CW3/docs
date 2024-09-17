@@ -11,7 +11,6 @@ redirect_from:
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - GitHub Apps
@@ -26,8 +25,8 @@ This tutorial uses Ruby, but you can use any programming language that you can r
 
 This tutorial is broken into two parts:
 
-- In part one, you'll learn how to set up the framework for a CI server using {% data variables.product.prodname_dotcom %}'s REST API, create new check runs for CI tests when a repository receives newly pushed commits, and re-run check runs when a user requests that action on {% data variables.product.prodname_dotcom %}.
-- In part two, you'll add functionality to your CI test, by adding a linter test to your CI server. You'll also create annotations that are displayed in the **Checks** and **Files Changed** tab of a pull request, and automatically fix linter recommendations by exposing a "Fix this" button in the **Checks** tab of the pull request.
+* In part one, you'll learn how to set up the framework for a CI server using {% data variables.product.prodname_dotcom %}'s REST API, create new check runs for CI tests when a repository receives newly pushed commits, and re-run check runs when a user requests that action on {% data variables.product.prodname_dotcom %}.
+* In part two, you'll add functionality to your CI test, by adding a linter test to your CI server. You'll also create annotations that are displayed in the **Checks** and **Files Changed** tab of a pull request, and automatically fix linter recommendations by exposing a "Fix this" button in the **Checks** tab of the pull request.
 
 ### About continuous integration (CI)
 
@@ -41,15 +40,15 @@ A CI server hosts code that runs CI tests such as code linters (which check styl
 
 Checks include check runs, check suites, and commit statuses.
 
-- A _check run_ is an individual CI test that runs on a commit.
-- A _check suite_ is a group of check runs.
-- A _commit status_ marks the state of a commit, for example `error`, `failure`, `pending`, or `success`, and is visible in a pull request on {% data variables.product.prodname_dotcom %}. Both check suites and check runs contain commit statuses.
+* A _check run_ is an individual CI test that runs on a commit.
+* A _check suite_ is a group of check runs.
+* A _commit status_ marks the state of a commit, for example `error`, `failure`, `pending`, or `success`, and is visible in a pull request on {% data variables.product.prodname_dotcom %}. Both check suites and check runs contain commit statuses.
 
 {% data variables.product.prodname_dotcom %} automatically creates `check_suite` events for new code commits in a repository using the default flow, although you can change the default settings. For more information, see "[AUTOTITLE](/rest/checks/suites#update-repository-preferences-for-check-suites)." Here's how the default flow works:
 
 1. When someone pushes code to the repository, {% data variables.product.prodname_dotcom %} automatically sends the `check_suite` event with an action of `requested` to all {% data variables.product.prodname_github_apps %} installed on the repository that have the `checks:write` permission. This event lets the apps know that code was pushed to the repository, and that {% data variables.product.prodname_dotcom %} has automatically created a new check suite.
 1. When your app receives this event, it can add check runs to that suite.
-1. Your check runs can include annotations that are displayed on specific lines of code. Annotations are visible in the **Checks** tab. When you create an annotation for a file that is part of the pull request, the annotations are also shown in the **Files changed** tab. For more information, see the `annotations` object in the "[AUTOTITLE](/rest/checks/runs#create-a-check-run)" documentation.
+1. Your check runs can include annotations that are displayed on specific lines of code. Annotations are visible in the **Checks** tab. When you create an annotation for a file that is part of the pull request, the annotations are also shown in the **Files changed** tab. For more information, see the `annotations` object in "[AUTOTITLE](/rest/checks/runs#create-a-check-run)."
 
 For more information about checks, see "[AUTOTITLE](/rest/checks)" and "[AUTOTITLE](/rest/guides/using-the-rest-api-to-interact-with-checks)."
 
@@ -59,9 +58,9 @@ This tutorial assumes you have a basic understanding of the [Ruby programming la
 
 Before you get started, you may want to familiarize yourself with the following concepts:
 
-- [{% data variables.product.prodname_github_apps %}](/apps)
-- [Webhooks](/webhooks-and-events/webhooks/about-webhooks)
-- [REST API checks endpoints](/rest/checks)
+* [{% data variables.product.prodname_github_apps %}](/apps)
+* [Webhooks](/webhooks-and-events/webhooks/about-webhooks)
+* [REST API checks endpoints](/rest/checks)
 
 Checks are also available to use with the GraphQL API, but this tutorial focuses on the REST API. For more information about the GraphQL objects, see [Check Suite](/graphql/reference/objects#checksuite) and [Check Run](/graphql/reference/objects#checkrun) in the GraphQL documentation.
 
@@ -69,9 +68,9 @@ Checks are also available to use with the GraphQL API, but this tutorial focuses
 
 The following sections will lead you through setting up the following components:
 
-- A repository to store the code for your app.
-- A way to receive webhooks locally.
-- A {% data variables.product.prodname_github_app %} that is subscribed to "Check suite" and "Check run" webhook events, has write permission for checks, and uses a webhook URL that you can receive locally.
+* A repository to store the code for your app.
+* A way to receive webhooks locally.
+* A {% data variables.product.prodname_github_app %} that is subscribed to "Check suite" and "Check run" webhook events, has write permission for checks, and uses a webhook URL that you can receive locally.
 
 ### Create a repository to store code for your {% data variables.product.prodname_github_app %}
 
@@ -135,10 +134,10 @@ We recommend leaving this terminal window open and keeping Smee connected while 
 
 For this tutorial, you must register a {% data variables.product.prodname_github_app %} that:
 
-- Has webhooks active
-- Uses a webhook URL that you can receive locally
-- Has the "Checks" repository permission
-- Subscribes to the "Check suite" and "Check run" webhook events
+* Has webhooks active
+* Uses a webhook URL that you can receive locally
+* Has the "Checks" repository permission
+* Subscribes to the "Check suite" and "Check run" webhook events
 
 The following steps will guide you through configuring a {% data variables.product.prodname_github_app %} with these settings. For more information about {% data variables.product.prodname_github_app %} settings, see "[AUTOTITLE](/apps/creating-github-apps/creating-github-apps/creating-a-github-app)."
 
@@ -166,7 +165,7 @@ Make sure that you are on a secure machine before performing these steps, since 
 1. In your terminal, navigate to the directory where your clone is stored.
 1. Create a file called `.env` at the top level of this directory.
 1. Add `.env` to your `.gitignore` file. This will prevent you from accidentally committing your app's credentials.
-1. Add the following contents to your `.env` file. {% ifversion ghes or ghae %}Replace `YOUR_HOSTNAME` with the name of {% data variables.location.product_location %}. You will update the other values in a later step.{% else %}You will update the values in a later step.{% endif %}
+1. Add the following contents to your `.env` file. {% ifversion ghes %}Replace `YOUR_HOSTNAME` with the name of {% data variables.location.product_location %}. You will update the other values in a later step.{% else %}You will update the values in a later step.{% endif %}
 
    ```shell copy
    GITHUB_APP_IDENTIFIER="YOUR_APP_ID"
@@ -191,7 +190,7 @@ Make sure that you are on a secure machine before performing these steps, since 
    ...
    HkVN9...
    ...
-   -----END DSA PRIVATE KEY-----"
+   -----END RSA PRIVATE KEY-----"
    ```
 
 ## Add code for your {% data variables.product.prodname_github_app %}
@@ -288,7 +287,7 @@ class GHAapp < Sinatra::Application
     # Instantiate an Octokit client authenticated as a GitHub App.
     # GitHub App authentication requires that you construct a
     # JWT (https://jwt.io/introduction/) signed with the app's private key,
-    # so GitHub can be sure that it came from the app an not altererd by
+    # so GitHub can be sure that it came from the app and not altered by
     # a malicious third party.
     def authenticate_app
       payload = {
@@ -359,12 +358,12 @@ Open the `server.rb` file in a text editor. You'll see comments throughout the f
 
 Below the list of required files, the first code you'll see is the `class GHApp < Sinatra::Application` declaration. You'll write all of the code for your {% data variables.product.prodname_github_app %} inside this class. The following sections explain in detail what the code does inside this class.
 
-- [Set the port](#set-the-port)
-- [Read the environment variables](#read-the-environment-variables)
-- [Turn on logging](#turn-on-logging)
-- [Define a `before` filter](#define-a-before-filter)
-- [Define the route handler](#define-a-route-handler)
-- [Define the helper methods](#define-the-helper-methods)
+* [Set the port](#set-the-port)
+* [Read the environment variables](#read-the-environment-variables)
+* [Turn on logging](#turn-on-logging)
+* [Define a `before` filter](#define-a-before-filter)
+* [Define the route handler](#define-a-route-handler)
+* [Define the helper methods](#define-the-helper-methods)
 
 #### Set the port
 
@@ -459,16 +458,16 @@ To make API calls, you'll be using the Octokit library. Doing anything interesti
 
 {% data variables.product.prodname_github_apps %} have three methods of authentication:
 
-- Authenticating as a {% data variables.product.prodname_github_app %} using a [JSON Web Token (JWT)](https://jwt.io/introduction).
-- Authenticating as a specific installation of a {% data variables.product.prodname_github_app %} using an installation access token.
-- Authenticating on behalf of a user. This tutorial won't use this method of authentication.
+* Authenticating as a {% data variables.product.prodname_github_app %} using a [JSON Web Token (JWT)](https://jwt.io/introduction).
+* Authenticating as a specific installation of a {% data variables.product.prodname_github_app %} using an installation access token.
+* Authenticating on behalf of a user. This tutorial won't use this method of authentication.
 
 You'll learn about authenticating as an installation in the next section, "[Authenticating as an installation](#authenticating-as-an-installation)."
 
 Authenticating as a {% data variables.product.prodname_github_app %} lets you do a couple of things:
 
- - You can retrieve high-level management information about your {% data variables.product.prodname_github_app %}.
- - You can request access tokens for an installation of the app.
+ * You can retrieve high-level management information about your {% data variables.product.prodname_github_app %}.
+ * You can request access tokens for an installation of the app.
 
 For example, you would authenticate as a {% data variables.product.prodname_github_app %} to retrieve a list of the accounts (organization and personal) that have installed your app. But this authentication method doesn't allow you to do much with the API. To access a repository's data and perform operations on behalf of the installation, you need to authenticate as an installation. To do that, you'll need to authenticate as a {% data variables.product.prodname_github_app %} first to request an installation access token. For more information, see "[AUTOTITLE](/apps/creating-github-apps/authenticating-with-a-github-app/about-authentication-with-a-github-app)."
 
@@ -522,8 +521,8 @@ The `create_app_installation_access_token` Octokit method creates an installatio
 
 This method accepts two arguments:
 
-- Installation (integer): The ID of a {% data variables.product.prodname_github_app %} installation
-- Options (hash, defaults to `{}`): A customizable set of options
+* Installation (integer): The ID of a {% data variables.product.prodname_github_app %} installation
+* Options (hash, defaults to `{}`): A customizable set of options
 
 Any time a {% data variables.product.prodname_github_app %} receives a webhook, it includes an `installation` object with an `id`. Using the client authenticated as a {% data variables.product.prodname_github_app %}, you pass this ID to the `create_app_installation_access_token` method to generate an access token for each installation. Since you're not passing any options to the method, the options default to an empty hash. The response for `create_app_installation_access_token` includes two fields: `token` and `expired_at`. The template code selects the token in the response and initializes an installation client.
 
@@ -596,7 +595,7 @@ If you're wondering where the terminal output above is coming from, it's written
 
 In this part, you will add the code necessary to receive `check_suite` webhook events, and create and update check runs. You'll also learn how to create check runs when a check was re-requested on {% data variables.product.prodname_dotcom %}. At the end of this section, you'll be able to view the check run you created in a {% data variables.product.prodname_dotcom %} pull request.
 
-Your check run will not perform any checks on the code in this section. You'll add that functionality in "[Part 2: Creating the Octo RuboCop CI test](#part-2-creating-the-octo-rubocop-ci-test)."
+Your check run will not perform any checks on the code in this section. You'll add that functionality in "[Part 2: Creating a CI test](#part-2-creating-a-ci-test)."
 
 You should already have a Smee channel configured that is forwarding webhook payloads to your local server. Your server should be running and connected to the {% data variables.product.prodname_github_app %} you registered and installed on a test repository.
 
@@ -662,7 +661,7 @@ In the code block that starts with `helpers do`, where it says `# ADD CREATE_CHE
     end
 ```
 
-This code calls the "[AUTOTITLE](/rest/checks#create-a-check-run)" endpoint using the Octokit [create_check_run method](https://msp-greg.github.io/octokit/Octokit/Client/Checks.html#create_check_run-instance_method).
+This code calls the `POST /repos/{owner}/{repo}/check-runs` endpoint using the Octokit [create_check_run method](https://msp-greg.github.io/octokit/Octokit/Client/Checks.html#create_check_run-instance_method). For more information about the endpoint, see "[AUTOTITLE](/rest/checks/runs#create-a-check-run)."
 
 To create a check run, only two input parameters are required: `name` and `head_sha`. In this code, we name the check run "Octo RuboCop," because we'll use RuboCop to implement the CI test later in the tutorial. But you can choose any name you'd like for the check run. For more information about RuboCop, see the [RuboCop documentation](https://docs.rubocop.org/rubocop/index.html).
 
@@ -715,7 +714,7 @@ In the code block that starts with `post '/event_handler' do`, where it says `# 
 
 Next you'll write the `initiate_check_run` method, which is where you'll update the check run status and prepare to kick off your CI test.
 
-In this section, you're not going to kick off the CI test yet, but you'll walk through how to update the status of the check run from `queued` to `pending` and then from `pending` to `completed` to see the overall flow of a check run. In "[Part 2: Creating the Octo RuboCop CI test](#part-2-creating-the-octo-rubocop-ci-test)," you'll add the code that actually performs the CI test.
+In this section, you're not going to kick off the CI test yet, but you'll walk through how to update the status of the check run from `queued` to `pending` and then from `pending` to `completed` to see the overall flow of a check run. In "[Part 2: Creating a CI test](#part-2-creating-a-ci-test)," you'll add the code that actually performs the CI test.
 
 Let's create the `initiate_check_run` method and update the status of the check run.
 
@@ -749,7 +748,7 @@ In the code block that starts with `helpers do`, where it says `# ADD INITIATE_C
     end
 ```
 
-The code above calls the "[Update a check run](/rest/checks#update-a-check-run)" endpoint using the [`update_check_run` Octokit method](https://msp-greg.github.io/octokit/Octokit/Client/Checks.html#update_check_run-instance_method), and updates the check run that you already created.
+The code above calls the `PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}` endpoint using the [`update_check_run` Octokit method](https://msp-greg.github.io/octokit/Octokit/Client/Checks.html#update_check_run-instance_method), and updates the check run that you already created. For more information about the endpoint, see "[AUTOTITLE](/rest/checks/runs#update-a-check-run)."
 
 Here's what this code is doing. First, it updates the check run's status to `in_progress` and implicitly sets the `started_at` time to the current time. In Part 2 of this tutorial, you'll add code that kicks off a real CI test under `***** RUN A CI TEST *****`. For now, you'll leave that section as a placeholder, so the code that follows it will just simulate that the CI process succeeds and all tests pass. Finally, the code updates the status of the check run again to `completed`.
 
@@ -779,9 +778,9 @@ RuboCop is a Ruby code linter and formatter. It checks Ruby code to ensure that 
 
 RuboCop has three primary functions:
 
-- Linting to check code style
-- Code formatting
-- Replaces the native Ruby linting capabilities using `ruby -w`
+* Linting to check code style
+* Code formatting
+* Replaces the native Ruby linting capabilities using `ruby -w`
 
 Your app will run RuboCop on the CI server, and create check runs (CI tests in this case) that report the results that RuboCop reports to {% data variables.product.prodname_dotcom %}.
 
@@ -794,7 +793,7 @@ To take advantage of requested actions, app developers can create buttons in the
 These are the steps you'll complete in this section:
 
 1. [Add a Ruby file](#step-21-add-a-ruby-file)
-1. [Clone the repository](#step-22-clone-the-repository)
+1. [Allow RuboCop to clone the test repository](#step-22-allow-rubocop-to-clone-the-test-repository)
 1. [Run RuboCop](#step-23-run-rubocop)
 1. [Collect RuboCop errors](#step-24-collect-rubocop-errors)
 1. [Update the check run with CI test results](#step-25-update-the-check-run-with-ci-test-results)
@@ -862,7 +861,7 @@ To clone a repository, the code will use your {% data variables.product.prodname
 git clone https://x-access-token:TOKEN@github.com/OWNER/REPO.git
 ```
 
-The command above clones a repository over HTTP. It requires the full repository name, which includes the repository owner (user or organization) and the repository name. For example, the [octocat Hello-World](https://github.com/octocat/Hello-World) repository has a full name of `octocat/hello-world`.
+The command above clones a repository over HTTPS. It requires the full repository name, which includes the repository owner (user or organization) and the repository name. For example, the [octocat Hello-World](https://github.com/octocat/Hello-World) repository has a full name of `octocat/hello-world`.
 
 Open your `server.rb` file. In the code block that starts with `helpers do`, where it says `# ADD CLONE_REPOSITORY HELPER METHOD HERE #`, add the following code:
 
@@ -885,7 +884,7 @@ Open your `server.rb` file. In the code block that starts with `helpers do`, whe
 
 The code above uses the `ruby-git` gem to clone the repository using the app's installation token. It clones the code in the same directory as `server.rb`. To run Git commands in the repository, the code needs to change into the repository directory. Before changing directories, the code stores the current working directory in a variable (`pwd`) to remember where to return before exiting the `clone_repository` method.
 
-From the repository directory, this code fetches and merges the latest changes (`@git.pull`), and checks out the specifig Git ref (`@git.checkout(ref)`). The code to do all of this fits nicely into its own method. To perform these operations, the method needs the name and full name of the repository and the ref to checkout. The ref can be a commit SHA, branch, or tag. When it's done, the code changes the directory back to the original working directory (`pwd`).
+From the repository directory, this code fetches and merges the latest changes (`@git.pull`), and checks out the specific Git ref (`@git.checkout(ref)`). The code to do all of this fits nicely into its own method. To perform these operations, the method needs the name and full name of the repository and the ref to checkout. The ref can be a commit SHA, branch, or tag. When it's done, the code changes the directory back to the original working directory (`pwd`).
 
 Now you've got a method that clones a repository and checks out a ref. Next, you need to add code to get the required input parameters and call the new `clone_repository` method.
 
@@ -905,7 +904,7 @@ The code above gets the full repository name and the head SHA of the commit from
 
 ## Step 2.3. Run RuboCop
 
-So far, your code clones the repository and creates check runs using your CI server. Now you'll get into the details of the [RuboCop linter](https://docs.rubocop.org/rubocop/usage/basic_usage.html#code-style-checker) and [checks annotations](/rest/checks#create-a-check-run).
+So far, your code clones the repository and creates check runs using your CI server. Now you'll get into the details of the [RuboCop linter](https://docs.rubocop.org/rubocop/usage/basic_usage.html#code-style-checker) and [checks annotations](/rest/checks/runs#create-a-check-run).
 
 First, you'll add code to run RuboCop and save the style code errors in JSON format.
 
@@ -998,7 +997,7 @@ The following steps will show you how to test that the code works and view the e
 
 The `@output` variable contains the parsed JSON results of the RuboCop report. As shown in the example output in the previous step, the results contain a `summary` section that your code can use to quickly determine if there are any errors. The following code will set the check run conclusion to `success` when there are no reported errors. RuboCop reports errors for each file in the `files` array, so if there are errors, you'll need to extract some data from the file object.
 
-The REST API endpoints to manage check runs allow you to create annotations for specific lines of code. When you create or update a check run, you can add annotations. In this tutorial you will update the check run with annotations, using the "[Update a check run](/rest/checks/runs#update-a-check-run)" endpoint.
+The REST API endpoints to manage check runs allow you to create annotations for specific lines of code. When you create or update a check run, you can add annotations. In this tutorial you will update the check run with annotations, using the `PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}` endpoint. For more information about the endpoint, see "[AUTOTITLE](/rest/checks/runs#update-a-check-run)."
 
 The API limits the number of annotations to a maximum of 50 per request. To create more than 50 annotations, you will have to make multiple requests to the "Update a check run" endpoint. For example, to create 105 annotations you would need to make three separate requests to the API. The first two requests would each have 50 annotations, and the third request would include the five remaining annotations. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run.
 
@@ -1149,7 +1148,7 @@ So far you've created a CI test. In this section, you'll add one more feature th
 
 The RuboCop tool offers the `--auto-correct` command-line option to automatically fix the errors it finds. For more information, see "[Autocorrecting offenses](https://docs.rubocop.org/rubocop/usage/basic_usage.html#autocorrecting-offenses)" in the RuboCop documentation. When you use the `--auto-correct` feature, the updates are applied to the local files on the server. You'll need to push the changes to {% data variables.product.prodname_dotcom %} after RuboCop makes the fixes.
 
-To push to a repository, your app must have write permissions for "Contents" in a repository. You already set that permission to **Read & write** back in "[Step 2.2. Cloning the repository](#step-22-clone-the-repository)."
+To push to a repository, your app must have write permissions for "Contents" in a repository. You already set that permission to **Read & write** back in "[Step 2.2. Allow RuboCop to clone the test repository](#step-22-allow-rubocop-to-clone-the-test-repository)."
 
 To commit files, Git must know which username and email address to associate with the commit. Next you'll add environment variables to store the name and email address that your app will use when it makes Git commits.
 
@@ -1165,7 +1164,7 @@ Next you'll need to add code to read the environment variables and set the Git c
 
 When someone clicks the "Fix this" button, your app receives the [check run webhook](/webhooks-and-events/webhooks/webhook-events-and-payloads#check_run) with the `requested_action` action type.
 
-In "[Step 1.3. Updating a check run](#step-13-updating-a-check-run)" you updated the `event_handler` in your `server.rb` file to look for actions in the `check_run` event. You already have a case statement to handle the `created` and `rerequested` action types:
+In "[Step 1.3. Update a check run](#step-13-update-a-check-run)" you updated the `event_handler` in your `server.rb` file to look for actions in the `check_run` event. You already have a case statement to handle the `created` and `rerequested` action types:
 
 ```ruby
 when 'check_run'
@@ -1225,7 +1224,7 @@ In the code block that starts with `helpers do`, where it says `# ADD TAKE_REQUE
     end
 ```
 
-The code above clones a repository, just like the code you added in "[Step 2.2. Clone the repository](#step-22-clone-the-repository)." An `if` statement checks that the requested action's identifier matches the RuboCop button identifier (`fix_rubocop_notices`). When they match, the code clones the repository, sets the Git username and email, and runs RuboCop with the option `--auto-correct`. The `--auto-correct` option applies the changes to the local CI server files automatically.
+The code above clones a repository, just like the code you added in "[Step 2.2. Allow RuboCop to clone the test repository](#step-22-allow-rubocop-to-clone-the-test-repository)." An `if` statement checks that the requested action's identifier matches the RuboCop button identifier (`fix_rubocop_notices`). When they match, the code clones the repository, sets the Git username and email, and runs RuboCop with the option `--auto-correct`. The `--auto-correct` option applies the changes to the local CI server files automatically.
 
 The files are changed locally, but you'll still need to push them to {% data variables.product.prodname_dotcom %}. You'll use the `ruby-git` gem to commit all of the files. Git has a single command that stages all modified or deleted files and commits them: `git commit -a`. To do the same thing using `ruby-git`, the code above uses the `commit_all` method. Then the code pushes the committed files to {% data variables.product.prodname_dotcom %} using the installation token, using the same authentication method as the Git `clone` command. Finally, it removes the repository directory to ensure the working directory is prepared for the next event.
 
@@ -1510,7 +1509,7 @@ class GHAapp < Sinatra::Application
     # Instantiate an Octokit client authenticated as a GitHub App.
     # GitHub App authentication requires that you construct a
     # JWT (https://jwt.io/introduction/) signed with the app's private key,
-    # so GitHub can be sure that it came from the app an not altererd by
+    # so GitHub can be sure that it came from the app and not altered by
     # a malicious third party.
     def authenticate_app
       payload = {

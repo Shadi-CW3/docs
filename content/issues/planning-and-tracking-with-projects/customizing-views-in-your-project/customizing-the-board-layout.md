@@ -44,13 +44,11 @@ In the board layout, you choose any single select or iteration field for your co
 1. Click {% octicon "columns" aria-hidden="true" %} **Column field**.
 1. Click the field you want to use.
 
-Alternatively, open the project command palette by pressing {% data variables.projects.command-palette-shortcut %} and start typing "Column field by."
-
 {% ifversion projects-v2-column-visibility %}
 
 ## Showing and hiding columns in board layout
 
-In the board layout, you can can choose which columns to display. The available columns are made up of the contents of your selected column field.
+In the board layout, you can choose which columns to display. The available columns are made up of the contents of your selected column field.
 
 1. In the board layout, scroll to the right of your columns, and click {% octicon "plus" aria-label="Add a new column to the board" %}.
 

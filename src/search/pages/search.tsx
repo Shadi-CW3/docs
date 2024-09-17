@@ -1,21 +1,29 @@
 import type { GetServerSideProps } from 'next'
 
-import { MainContextT, MainContext, getMainContext } from 'components/context/MainContext'
-import { DefaultLayout } from 'components/DefaultLayout'
+import {
+  MainContextT,
+  MainContext,
+  getMainContext,
+  addUINamespaces,
+} from 'src/frame/components/context/MainContext'
+import { DefaultLayout } from 'src/frame/components/DefaultLayout'
 import type { SearchT } from 'src/search/components/types'
+import { SearchContext, SearchContextT } from 'src/search/components/context/SearchContext'
 import { Search } from 'src/search/components/index'
 
 type Props = {
   mainContext: MainContextT
-  search: SearchT
+  searchContext: SearchContextT
 }
 
-export default function Page({ mainContext, search }: Props) {
+export default function Page({ mainContext, searchContext }: Props) {
   return (
     <MainContext.Provider value={mainContext}>
-      <DefaultLayout>
-        <Search search={search} />
-      </DefaultLayout>
+      <SearchContext.Provider value={searchContext}>
+        <DefaultLayout>
+          <Search />
+        </DefaultLayout>
+      </SearchContext.Provider>
     </MainContext.Provider>
   )
 }
@@ -24,19 +32,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
   const req = context.req as any
   const res = context.res as any
 
-  const version = req.context.currentVersion
-
-  const searchVersion = req.context.searchVersions[Array.isArray(version) ? version[0] : version]
-  if (!searchVersion) {
-    // E.g. someone loaded `/en/enterprisy-server@2.99/search`
-    // That's going to 404 in the XHR later but it simply shouldn't be
-    // a valid starting page.
-    return {
-      notFound: true,
-    }
-  }
-
   const mainContext = await getMainContext(req, res)
+  addUINamespaces(req, mainContext.data.ui, ['search_results'])
 
   if (!req.context.search) {
     // This should have been done by the middleware.
@@ -65,13 +62,17 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
     search.results = {
       meta: req.context.search.results.meta,
       hits: req.context.search.results.hits,
+      // Use `null` instead of `undefined` for JSON serialization.
+      // The only reason it would ever not be truthy is if the aggregates
+      // functionality is not enabled for this version.
+      aggregations: req.context.search.results.aggregations || null,
     }
   }
 
   return {
     props: {
       mainContext,
-      search,
+      searchContext: { search },
     },
   }
 }

@@ -59,7 +59,7 @@ You must have a linked SAML identity. To create a linked identity, you must auth
 
 {% endnote %}
 
-### Enabling team synchronization for Azure AD
+### Enabling team synchronization for Entra ID
 
 {% data reusables.identity-and-permissions.team-sync-azure-permissions %}
 
@@ -97,6 +97,8 @@ For help on provisioning users that have missing a missing SCIM linked identity,
 {% ifversion team-sync-manage-org-invites %}
 
 ## Managing whether team sync can re-invite non-members to your organization
+
+{% data reusables.saml.team-sync-pending-invites %}
 
 {% data reusables.profile.access_org %}
 {% data reusables.profile.org_settings %}

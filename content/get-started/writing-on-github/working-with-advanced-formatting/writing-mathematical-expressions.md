@@ -12,12 +12,12 @@ To enable clear communication of mathematical expressions, {% data variables.pro
 
 {% data variables.product.company_short %}'s math rendering capability uses MathJax; an open source, JavaScript-based display engine. MathJax supports a wide range of LaTeX macros, and several useful accessibility extensions. For more information, see [the MathJax documentation](http://docs.mathjax.org/en/latest/input/tex/index.html#tex-and-latex-support) and [the MathJax Accessibility Extensions Documentation](https://mathjax.github.io/MathJax-a11y/docs/#reader-guide).
 
-Mathematical expressions rendering is available in {% data variables.product.prodname_github_issues %}, {% data variables.product.prodname_discussions %}, pull requests, {% ifversion fpt or ghec or ghes > 3.6 or ghae > 3.6 %}wikis, {% endif %}and Markdown files.
+Mathematical expressions rendering is available in {% data variables.product.prodname_github_issues %}, {% data variables.product.prodname_discussions %}, pull requests, wikis, and Markdown files.
 
 ## Writing inline expressions
 
 {% ifversion math-backtick-syntax %}
-There are two options for delimiting a math expression inline with your text. You can either surround the expression with dollar symbols (`$`), or start the expression with <code>$\`</code> and end it with <code>\`$</code>. The latter syntax is useful when the expression you are writing contains characters that overlap with markdown syntax. For more information, see "[Basic writing and formatting syntax](/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)."
+There are two options for delimiting a math expression inline with your text. You can either surround the expression with dollar symbols (`$`), or start the expression with <code>$\`</code> and end it with <code>\`$</code>. The latter syntax is useful when the expression you are writing contains characters that overlap with markdown syntax. For more information, see "[AUTOTITLE](/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)."
 {% else %}
 To include a math expression inline within your text, delimit the expression with dollar symbols `$`.
 {% endif %}
@@ -66,15 +66,15 @@ Alternatively, you can use the <code>\`\`\`math</code> code block syntax to disp
 
 To display a dollar sign as a character in the same line as a mathematical expression, you need to escape the non-delimiter `$` to ensure the line renders correctly.
 
-- Within a math expression, add a `\` symbol before the explicit `$`.
+* Within a math expression, add a `\` symbol before the explicit `$`.
 
   ```text
-  This expression uses `\$` to display a dollar sign: $\sqrt{\$4}$
+  This expression uses `\$` to display a dollar sign: $`\sqrt{\$4}`$
   ```
 
   ![Screenshot of rendered Markdown showing how a backslash before a dollar sign displays the sign as part of a mathematical expression.](/assets/images/help/writing/dollar-sign-within-math-expression.png)
 
-- Outside a math expression, but on the same line, use span tags around the explicit `$`.
+* Outside a math expression, but on the same line, use span tags around the explicit `$`.
 
   ```text
   To split <span>$</span>100 in half, we calculate $100/2$
@@ -84,6 +84,6 @@ To display a dollar sign as a character in the same line as a mathematical expre
 
 ## Further reading
 
-- [The MathJax website](http://mathjax.org)
-- [Getting started with writing and formatting on GitHub](/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github)
-- [GitHub Flavored Markdown Spec](https://github.github.com/gfm/)
+* [The MathJax website](http://mathjax.org)
+* [Getting started with writing and formatting on GitHub](/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github)
+* [GitHub Flavored Markdown Spec](https://github.github.com/gfm/)

@@ -5,7 +5,6 @@ intro: 'Follow this tutorial to write a CLI in Ruby that generates a user access
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - GitHub Apps
@@ -19,9 +18,9 @@ This tutorial demonstrates how to build a command line interface (CLI) backed by
 
 The CLI will have three commands:
 
-- `help`: Outputs the usage instructions.
-- `login`: Generates a user access token that the app can use to make API requests on behalf of the user.
-- `whoami`: Returns information about the logged in user.
+* `help`: Outputs the usage instructions.
+* `login`: Generates a user access token that the app can use to make API requests on behalf of the user.
+* `whoami`: Returns information about the logged in user.
 
 This tutorial uses Ruby, but you can write a CLI and use the device flow to generate a user access token with any programming language.
 
@@ -172,7 +171,7 @@ These steps lead you through building a CLI and using device flow to get a user 
 
 1. Optionally, check your progress:
 
-   `app_cli.rb` now looks like this. The order of the functions don't matter as long as the `main` function call is at the end of the file.
+   `app_cli.rb` now looks like this. The order of the functions doesn't matter as long as the `main` function call is at the end of the file.
 
    ```ruby copy
    #!/usr/bin/env ruby
@@ -218,7 +217,7 @@ The `login` command will run the device flow to get a user access token. For mor
    CLIENT_ID="YOUR_CLIENT_ID"
    ```
 
-1. Add the following `parse_response` function to `app_cli.rb`. This function parses a response from the {% data variables.product.company_short %} REST API. When the response status is `200 OK` or `201 Created`, the function returns the parsed response body. Otherwise, the function prints the response and body an exits the program.
+1. Add the following `parse_response` function to `app_cli.rb`. This function parses a response from the {% data variables.product.company_short %} REST API. When the response status is `200 OK` or `201 Created`, the function returns the parsed response body. Otherwise, the function prints the response and body and exits the program.
 
    ```ruby copy
    def parse_response(response)
@@ -356,7 +355,7 @@ The `login` command will run the device flow to get a user access token. For mor
 
 1. Optionally, check your progress:
 
-   `app_cli.rb` now looks something like this, where `YOUR_CLIENT_ID` is the client ID of your app. The order of the functions don't matter as long as the `main` function call is at the end of the file.
+   `app_cli.rb` now looks something like this, where `YOUR_CLIENT_ID` is the client ID of your app. The order of the functions doesn't matter as long as the `main` function call is at the end of the file.
 
    ```ruby copy
    #!/usr/bin/env ruby
@@ -491,7 +490,7 @@ Now that your app can generate a user access token, you can make API requests on
 
    ```ruby copy
    def whoami
-     uri = URI("{% data variables.product.api_url_code %}/user")
+     uri = URI("{% data variables.product.rest_url %}/user")
 
      begin
        token = File.read("./.token").strip
@@ -676,7 +675,7 @@ This is the full code example that was outlined in the previous section. Replace
    end
 
    def whoami
-     uri = URI("{% data variables.product.api_url_code %}/user")
+     uri = URI("{% data variables.product.rest_url %}/user")
 
      begin
        token = File.read("./.token").strip
@@ -749,7 +748,7 @@ This tutorial demonstrated how to write a CLI that uses the device flow to gener
 
 This tutorial generates a user access token and saves it in a local file. You should never commit this file or publicize the token.
 
-Depending on your device, you may choose different way to store the token. You should check the best practices for storing tokens on your device.
+Depending on your device, you may choose different ways to store the token. You should check the best practices for storing tokens on your device.
 
 For more information, see "[AUTOTITLE](/apps/creating-github-apps/setting-up-a-github-app/best-practices-for-creating-a-github-app)."
 

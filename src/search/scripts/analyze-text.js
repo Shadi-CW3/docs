@@ -8,7 +8,7 @@
 //
 // Example:
 //
-//    ./src/search/scripts/analyze-text.js my words to tokenize
+//    npm run analyze-text "my words" to tokenize
 //
 // [end-readme]
 
@@ -24,7 +24,7 @@ import { allVersions } from '#src/versions/lib/all-versions.js'
 dotenv.config()
 
 // Create an object that maps the "short name" of a version to
-// all information about it. E.g
+// all information about it. E.g.
 //
 //   {
 //    'ghes-3.5': {
@@ -134,17 +134,10 @@ async function analyzeVersion(client, texts, indexName, verbose = false) {
     console.log(`RAW TEXT: 〝${chalk.italic(text)}〞`)
     for (const analyzer of ['text_analyzer_explicit', 'text_analyzer', 'standard']) {
       console.log('ANALYZER:', chalk.bold(analyzer))
-      const response = await client.indices.analyze({
+      const { tokens } = await client.indices.analyze({
         index: indexName,
         body: { analyzer, text },
       })
-      if (response.statusCode !== 200) {
-        console.warn(response)
-        throw new Error(`${response.statusCode} on ${indexName}`)
-      }
-      const {
-        body: { tokens },
-      } = response
       const tokenWords = tokens.map((token) => token.token)
       console.log(tokenWords)
     }

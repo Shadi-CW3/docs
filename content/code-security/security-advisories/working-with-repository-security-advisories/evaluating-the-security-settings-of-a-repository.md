@@ -24,6 +24,8 @@ If you have admin permissions to the repository, and the repository is owned by 
 
  If a repository is private, you can only see the security settings if you have admin permissions to the repository or have been granted special security permissions covering the repository, for example, as an organization-wide security manager.
 
+If you would like to evaluate the security posture of repositories at scale, you can use the API to check whether or not some security settings are enabled for repositories, such as private vulnerability reporting. For more information, see "[AUTOTITLE](/rest/repos/repos#check-if-private-vulnerability-reporting-is-enabled-for-a-repository)."
+
 ## Suggesting a security policy for a repository
 
  If you do not have admin or security permissions for a public repository, you can still suggest a security policy to the repository maintainers if one doesn't already exist. The repository maintainers can then choose to accept or reject your suggestion. If the repository maintainers accept your suggestion, the security policy will be associated with the repository.
@@ -34,10 +36,10 @@ If you have admin permissions to the repository, and the repository is owned by 
 1. A SECURITY.md file will be created in the repository's default branch. The file will contain a template for a security policy. You can edit the file to add your suggested security policy.
 1. When you are done, click **Commit changes**.
 1. Fill out the **Commit changes** dialog.
-    - Under "Commit message", enter a commit message.
-    - Optionally, under "Extended description", describe the changes being made.
-    - Select "Create a new branch for this commit and start a pull request"
-    - Click **Commit changes**.
+    * Under "Commit message", enter a commit message.
+    * Optionally, under "Extended description", describe the changes being made.
+    * Select "Create a new branch for this commit and start a pull request"
+    * Click **Commit changes**.
 1. Click **Create pull request**.
 1. Optionally, leave a comment.
 1. Click **Create pull request**.

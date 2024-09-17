@@ -1,7 +1,7 @@
 ---
 title: Facilitating quick creation and resumption of codespaces
 shortTitle: Facilitating codespace creation
-intro: You can add a link to take people straight to a page for creating a codespace, with your choice of options preconfigured. Alternatively you can link to the "Resume codespace" page.
+intro: 'You can add a link to take people straight to a page for creating a codespace, with your choice of options preconfigured. Alternatively you can link to the "Resume codespace" page.'
 allowTitleToDifferFromFilename: true
 versions:
   fpt: '*'
@@ -21,7 +21,7 @@ You can make it easy for people to work on your repository in a codespace by pro
 
 ![Screenshot of an "Open in {% data variables.product.prodname_github_codespaces %}" badge on a README page.](/assets/images/help/codespaces/codespaces-badge-on-readme.png)
 
-The link to the codespace creation page can include specific configuration options to help people create an appropriate codespace. People who use the link will be able to choose different options, if they want, before creating the codespace. For information about the available options, see "[AUTOTITLE](/codespaces/developing-in-codespaces/creating-a-codespace-for-a-repository#creating-a-codespace-for-a-repository)."
+The link to the codespace creation page can include specific configuration options to help people create an appropriate codespace. People who use the link will be able to choose different options, if they want, before creating the codespace. For information about the available options, see "[AUTOTITLE](/codespaces/developing-in-a-codespace/creating-a-codespace-for-a-repository#creating-a-codespace-for-a-repository)."
 
 Alternatively, you can link to the "Resume codespace" page, which provides a quick way for people to open a codespace they were working on recently.
 
@@ -29,11 +29,11 @@ Alternatively, you can link to the "Resume codespace" page, which provides a qui
 
 You can use these URLs to link to the codespace creation page for your repository. Replace the text in uppercase letters.
 
-- Create a codespace for the default branch of the repository:
+* Create a codespace for the default branch of the repository:
   `https://codespaces.new/OWNER/REPO-NAME`
-- Create a codespace for a specific branch of the repository:
+* Create a codespace for a specific branch of the repository:
   `https://codespaces.new/OWNER/REPO-NAME/tree/BRANCH-NAME`
-- Create a codespace for the topic branch of a pull request:
+* Create a codespace for the topic branch of a pull request:
   `https://codespaces.new/OWNER/REPO-NAME/pull/PR-SHA`
 
 ### Configuring more options
@@ -70,8 +70,8 @@ For example, the URL `https://codespaces.new/octo-org/octo-repo?quickstart=1` op
 
 **Notes**:
 
-- If the `codespaces.new` URL already contains a query string, add `&quickstart=1` at the end of the query string.
-- This type of URL will always open a codespace in the {% data variables.product.prodname_vscode_shortname %} web client, even if this is not set as your default editor for {% data variables.product.prodname_github_codespaces %}.
+* If the `codespaces.new` URL already contains a query string, add `&quickstart=1` at the end of the query string.
+* This type of URL will always open a codespace in the {% data variables.product.prodname_vscode_shortname %} web client, even if this is not set as your default editor for {% data variables.product.prodname_github_codespaces %}.
 
 {% endnote %}
 

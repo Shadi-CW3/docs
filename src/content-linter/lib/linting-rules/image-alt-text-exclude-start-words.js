@@ -1,6 +1,6 @@
-import { addError, forEachInlineChild } from 'markdownlint-rule-helpers'
+import { addError } from 'markdownlint-rule-helpers'
 
-import { getRange } from '../helpers/utils.js'
+import { forEachInlineChild, getRange } from '../helpers/utils.js'
 
 const excludeStartWords = ['image', 'graphic']
 
@@ -9,11 +9,11 @@ const excludeStartWords = ['image', 'graphic']
   and should not begin with words like "image" or "graphic".
  */
 export const imageAltTextExcludeStartWords = {
-  names: ['GHD007', 'image-alt-text-exclude-words'],
-  description: 'Alternate text for images should not begin with words like "image" or "graphic".',
+  names: ['GHD031', 'image-alt-text-exclude-words'],
+  description: 'Alternate text for images should not begin with words like "image" or "graphic"',
   tags: ['accessibility', 'images'],
-  information: new URL('https://github.com/github/docs/blob/main/src/content-linter/README.md'),
-  function: function GHD007(params, onError) {
+  parser: 'markdownit',
+  function: (params, onError) => {
     forEachInlineChild(params, 'image', function forToken(token) {
       const imageAltText = token.content.trim()
 

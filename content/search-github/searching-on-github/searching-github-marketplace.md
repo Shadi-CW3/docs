@@ -16,8 +16,8 @@ shortTitle: Search GitHub Marketplace
 
 You can find apps and actions on {% data variables.product.prodname_marketplace %} in two ways:
 
-- Search from in {% data variables.product.prodname_marketplace %}.
-- Search across all of {% data variables.product.prodname_dotcom_the_website %} and then filter the results.
+* Search from in {% data variables.product.prodname_marketplace %}.
+* Search across all of {% data variables.product.prodname_dotcom_the_website %} and then filter the results.
 
 ## Searching in {% data variables.product.prodname_marketplace %}
 
@@ -31,13 +31,13 @@ Anytime you search across all of {% data variables.product.prodname_dotcom_the_w
 
 1. Navigate to https://github.com/search.
 1. Type any keywords and press **Enter**.
-1. In the left sidebar, click **Marketplace**.
-   ![Screenshot of the search results for 'linter'. The "Marketplace" option in the left-side menu is outlined in dark orange.](/assets/images/help/search/marketplace-left-side-navigation.png)
+1. To see all available filters for your search, in the "Filter by" sidebar, click **More**.
+1. To see results from {% data variables.product.prodname_marketplace %}, click **Marketplace**.
 
 ## Further reading
 
-- "[AUTOTITLE](/actions/learn-github-actions/finding-and-customizing-actions)"
-- "[AUTOTITLE](/apps/using-github-apps/installing-a-github-app-from-github-marketplace-for-your-personal-account)"
-- "[AUTOTITLE](/apps/using-github-apps/installing-a-github-app-from-github-marketplace-for-your-organizations)"
-- "[AUTOTITLE](/apps/oauth-apps/using-oauth-apps/installing-an-oauth-app-in-your-personal-account)"
-- "[AUTOTITLE](/apps/oauth-apps/using-oauth-apps/installing-an-oauth-app-in-your-organization)"
+* "[AUTOTITLE](/actions/learn-github-actions/finding-and-customizing-actions)"
+* "[AUTOTITLE](/apps/using-github-apps/installing-a-github-app-from-github-marketplace-for-your-personal-account)"
+* "[AUTOTITLE](/apps/using-github-apps/installing-a-github-app-from-github-marketplace-for-your-organizations)"
+* "[AUTOTITLE](/apps/oauth-apps/using-oauth-apps/installing-an-oauth-app-in-your-personal-account)"
+* "[AUTOTITLE](/apps/oauth-apps/using-oauth-apps/installing-an-oauth-app-in-your-organization)"

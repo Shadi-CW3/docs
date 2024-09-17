@@ -5,7 +5,6 @@ intro: 'Follow these best practices to improve the security and performance of y
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - GitHub Apps
@@ -23,7 +22,7 @@ When your {% data variables.product.prodname_github_app %} creates an installati
 
 Subscribe to webhook events instead of polling the API for data. This will help your {% data variables.product.prodname_github_app %} stay within the API rate limit. For more information, see "[AUTOTITLE](/apps/creating-github-apps/creating-github-apps/using-webhooks-with-github-apps)" and "[AUTOTITLE](/apps/creating-github-apps/guides/building-a-github-app-that-responds-to-webhook-events)."
 
-Consider using conditional requests to help you stay within the rate limit. For more information about conditional requests, see "[AUTOTITLE](/rest/overview/resources-in-the-rest-api#conditional-requests)."
+Consider using conditional requests to help you stay within the rate limit. For more information about conditional requests, see "[AUTOTITLE](/rest/guides/best-practices-for-using-the-rest-api)."
 
 If possible, consider using consolidated GraphQL queries instead of REST API requests to help you stay within rate limits. For more information, see "[AUTOTITLE](/rest/overview/about-githubs-apis)" and "[AUTOTITLE](/graphql)."
 
@@ -75,15 +74,27 @@ An installation access token is restricted based on the {% data variables.produc
 
 Your app should never use a {% data variables.product.pat_generic %} or {% data variables.product.company_short %} password to authenticate.
 
-## Validate organization access for every new authentication
+## Authorize thoroughly and durably
 
-When you use a user access token, you should track which organizations the token is authorized for. If an organization uses SAML SSO and a user has not performed SAML SSO, the user access token should not have access to that organization. You can use the `GET /user/installations` REST API endpoint to verify which organizations a user access token has access to. If the user is not authorized to access an organization, you should reject their access until they perform SAML SSO. For more information, see "[AUTOTITLE](/rest/apps/installations#list-app-installations-accessible-to-the-user-access-token)."
+After signing in a user, app developers must take additional steps to ensure that the user is meant to have access to the data in your system. Each sign in requires fresh checks around their memberships, access, and their current SSO status.
+
+### Use the durable, unique `id` to store the user
+
+{% data reusables.apps.best-practice-use-durable-id %}
+
+### Validate organization access for every new authentication
+
+{% data reusables.apps.best-practice-validate-org-access %}
+
+### Store user data with organizational and enterprise contexts
+
+{% data reusables.apps.best-practice-store-data-with-context %}
 
 ## Expire tokens
 
 {% data variables.product.company_short %} strongly encourages you to use user access tokens that expire. If you previously opted out of using user access tokens that expire but want to re-enable this feature, see "[AUTOTITLE](/apps/maintaining-github-apps/activating-optional-features-for-github-apps)."
 
-Installation access tokens expire after one hour, expiring user access tokens expire after eight hours, and refresh tokens expire after six months. However, you can also revoke tokens as soon as you no longer need them. For more information, see "[AUTOTITLE](/rest/apps/installations#revoke-an-installation-access-token)" to revoke an installation access token and "[AUTOTITLE](/rest/apps/oauth-applications#delete-an-app-token)" to revoke a user access token.
+Installation access tokens expire after one hour, expiring user access tokens expire after eight hours, and refresh tokens expire after six months. However, you can also revoke tokens as soon as you no longer need them. For more information, see "[`DELETE /installation/token`](/rest/apps/installations#revoke-an-installation-access-token)" to revoke an installation access token and "[`DELETE /applications/{client_id}/token`](/rest/apps/oauth-applications#delete-an-app-token)" to revoke a user access token.
 
 ## Cache tokens
 
@@ -95,7 +106,7 @@ You should have a plan in place so that you can handle any security breaches in 
 
 In the event that your app's private key or secret is compromised, you will need to generate a new key or secret, update your app to use the new key or secret, and delete your old key or secret.
 
-In the event that installation access tokens, user access tokens, or refresh tokens are compromised, you should immediately revoke these tokens. For more information, see "[AUTOTITLE](/rest/apps/installations#revoke-an-installation-access-token)" to revoke an installation access token and "[AUTOTITLE](/rest/apps/oauth-applications#delete-an-app-token)" to revoke a user access token.
+In the event that installation access tokens, user access tokens, or refresh tokens are compromised, you should immediately revoke these tokens. For more information, see "[`DELETE /installation/token`](/rest/apps/installations#revoke-an-installation-access-token)" to revoke an installation access token and "[`DELETE /applications/{client_id}/token`](/rest/apps/oauth-applications#delete-an-app-token)" to revoke a user access token.
 
 ## Conduct regular vulnerability scans
 
@@ -136,8 +147,8 @@ If your {% data variables.product.prodname_github_app %} is available to other u
 ## Further reading
 
 {% ifversion fpt or ghec %}
-- "[AUTOTITLE](/apps/publishing-apps-to-github-marketplace/creating-apps-for-github-marketplace/security-best-practices-for-apps)"
-- "[AUTOTITLE](/apps/publishing-apps-to-github-marketplace/creating-apps-for-github-marketplace/customer-experience-best-practices-for-apps)"
+* "[AUTOTITLE](/apps/publishing-apps-to-github-marketplace/creating-apps-for-github-marketplace/security-best-practices-for-apps)"
+* "[AUTOTITLE](/apps/publishing-apps-to-github-marketplace/creating-apps-for-github-marketplace/customer-experience-best-practices-for-apps)"
 {% endif %}
-- "[AUTOTITLE](/webhooks/using-webhooks/best-practices-for-using-webhooks)"
-- "[AUTOTITLE](/rest/guides/best-practices-for-integrators)"
+* "[AUTOTITLE](/webhooks/using-webhooks/best-practices-for-using-webhooks)"
+* "[AUTOTITLE](/rest/guides/best-practices-for-integrators)"

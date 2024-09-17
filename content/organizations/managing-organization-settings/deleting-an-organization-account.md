@@ -1,6 +1,6 @@
 ---
 title: Deleting an organization account
-intro: 'You can delete your organization account on {% data variables.location.product_location %} at any time.'
+intro: 'You can delete your organization account at any time.'
 permissions: Organization owners can delete an organization.
 redirect_from:
   - /articles/deleting-an-organization-account
@@ -8,7 +8,6 @@ redirect_from:
 versions:
   fpt: '*'
   ghes: '*'
-  ghae: '*'
   ghec: '*'
 topics:
   - Organizations
@@ -50,7 +49,7 @@ You can also archive an organization, instead of deleting it. Archiving an organ
 
 ## Backing up your organization content
 
-{% ifversion not ghes %} After you delete an organization, {% data variables.product.company_short %} **cannot restore your content**. Therefore, before{% else %}Before{% endif %} you delete your organization, make sure you have a copy of all repositories, wikis, issues, and project boards from the account.
+{% ifversion not ghes %} After you delete an organization, {% data variables.product.company_short %} **cannot restore your content**. Therefore, before{% else %}Before{% endif %} you delete your organization, make sure you have a copy of all repositories, wikis, issues, and projects from the account.
 
 {% ifversion ghes %}
 {% note %}
